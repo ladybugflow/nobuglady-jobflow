@@ -36,10 +36,10 @@ public class HistoryFlowDao {
 
 	@Autowired
 	private HistoryFlowMapper flowHistoryMapper;
-	
+
 	@Autowired
 	private PublishFlowMapper publishFlowMapper;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
@@ -49,20 +49,20 @@ public class HistoryFlowDao {
 	 * @param historyId
 	 * @return
 	 */
-    public HistoryFlowEntity selectByKey(String flowId, String historyId) {
-    	
-    	return flowHistoryMapper.selectByKey(flowId, historyId);
-    }
+	public HistoryFlowEntity selectByKey(String flowId, String historyId) {
+
+		return flowHistoryMapper.selectByKey(flowId, historyId);
+	}
 
 	/**
 	 * 
 	 * @param entity
 	 */
 	public void save(HistoryFlowEntity entity) {
-		
+
 		flowHistoryMapper.save(entity);
 	}
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -71,26 +71,26 @@ public class HistoryFlowDao {
 	 * @return
 	 */
 	public List<HistoryFlowEntity> selectAll() {
-		
-        return flowHistoryMapper.selectAll();
+
+		return flowHistoryMapper.selectAll();
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public List<HistoryFlowEntity> selectAllError() {
-		
-        return flowHistoryMapper.selectAllError(FlowStatus.COMPLETE);
+
+		return flowHistoryMapper.selectAllError(FlowStatus.COMPLETE);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public List<HistoryFlowEntity> selectTodayComplete() {
-		
-        return flowHistoryMapper.selectTodayComplete$CustomFunction(FlowStatus.COMPLETE);
+
+		return flowHistoryMapper.selectTodayComplete$CustomFunction(FlowStatus.COMPLETE);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class HistoryFlowDao {
 	 * @return
 	 */
 	public List<HistoryFlowEntity> selectRunningFlow() {
-		
+
 		return flowHistoryMapper.selectRunningFlow(FlowStatus.READY);
 	}
 
@@ -108,76 +108,73 @@ public class HistoryFlowDao {
 	 * @param historyId
 	 * @param status
 	 */
-	public void updateFlowStatus(
-			String flowId, 
-			String historyId, 
-			int status) {
-		
+	public void updateFlowStatus(String flowId, String historyId, int status) {
+
 		flowHistoryMapper.updateStatus(flowId, historyId, status, AuthHolder.getUser().email);
 	}
-	
+
 	/**
 	 * 
 	 * @param flowId
 	 * @return
 	 */
-    public String createHistory(String flowId) {
+	public String createHistory(String flowId) {
 
-    	PublishFlowEntity flowEntity = publishFlowMapper.selectByKey(flowId);
-    	
-    	HistoryFlowEntity flowHistoryEntity = new HistoryFlowEntity();
-    	flowHistoryEntity.setFlowId(flowId);
-    	flowHistoryEntity.setCategoryId(flowEntity.getCategoryId());
-    	flowHistoryEntity.setFlowName(flowEntity.getFlowName());
-    	flowHistoryEntity.setDisableFlag(flowEntity.getDisableFlag());
-    	flowHistoryEntity.setFlowDesc(flowEntity.getFlowDesc());
-    	flowHistoryEntity.setStartTime(new Date());
-    	flowHistoryEntity.setCreateUser(AuthHolder.getUser().email);
-    	flowHistoryEntity.setUpdateUser(AuthHolder.getUser().email);
-    	saveWithId(flowHistoryEntity);
-    	
-    	String historyId = flowHistoryEntity.getHistoryId();
-    	
-        /*
-         * insert history_node
-         */
-    	flowHistoryMapper.createHistoryNode(flowId, historyId, AuthHolder.getUser().email);
+		PublishFlowEntity flowEntity = publishFlowMapper.selectByKey(flowId);
 
-    	/*
-         * insert history_node_http
-         */
-    	flowHistoryMapper.createHistoryNodeHttp(flowId, historyId, AuthHolder.getUser().email);
-    	
-    	/*
-         * insert history_node_shell
-         */
-    	flowHistoryMapper.createHistoryNodeShell(flowId, historyId, AuthHolder.getUser().email);
-    	
-        /*
-         * insert history_node_roles
-         */
-    	flowHistoryMapper.createHistoryNodeRoles(flowId, historyId, AuthHolder.getUser().email);
-    	
-        /*
-         * insert history_edge
-         */
-    	flowHistoryMapper.createHistoryEdge(flowId, historyId, AuthHolder.getUser().email);
-    	
-        return historyId;
-   
-    }
+		HistoryFlowEntity flowHistoryEntity = new HistoryFlowEntity();
+		flowHistoryEntity.setFlowId(flowId);
+		flowHistoryEntity.setCategoryId(flowEntity.getCategoryId());
+		flowHistoryEntity.setFlowName(flowEntity.getFlowName());
+		flowHistoryEntity.setDisableFlag(flowEntity.getDisableFlag());
+		flowHistoryEntity.setFlowDesc(flowEntity.getFlowDesc());
+		flowHistoryEntity.setStartTime(new Date());
+		flowHistoryEntity.setCreateUser(AuthHolder.getUser().email);
+		flowHistoryEntity.setUpdateUser(AuthHolder.getUser().email);
+		saveWithId(flowHistoryEntity);
+
+		String historyId = flowHistoryEntity.getHistoryId();
+
+		/*
+		 * insert history_node
+		 */
+		flowHistoryMapper.createHistoryNode(flowId, historyId, AuthHolder.getUser().email);
+
+		/*
+		 * insert history_node_http
+		 */
+		flowHistoryMapper.createHistoryNodeHttp(flowId, historyId, AuthHolder.getUser().email);
+
+		/*
+		 * insert history_node_shell
+		 */
+		flowHistoryMapper.createHistoryNodeShell(flowId, historyId, AuthHolder.getUser().email);
+
+		/*
+		 * insert history_node_roles
+		 */
+		flowHistoryMapper.createHistoryNodeRoles(flowId, historyId, AuthHolder.getUser().email);
+
+		/*
+		 * insert history_edge
+		 */
+		flowHistoryMapper.createHistoryEdge(flowId, historyId, AuthHolder.getUser().email);
+
+		return historyId;
+
+	}
 
 	/**
 	 * 
 	 * @param flowHistoryEntity
 	 */
-    private synchronized void saveWithId(HistoryFlowEntity flowHistoryEntity) {
-    	
-    	int maxHistoryId = flowHistoryMapper.selectMaxHistoryId$CustomFunction();
-    	
-    	maxHistoryId ++;
-    	flowHistoryEntity.setHistoryId(String.valueOf(maxHistoryId));
-    	
-    	flowHistoryMapper.save(flowHistoryEntity);
+	private synchronized void saveWithId(HistoryFlowEntity flowHistoryEntity) {
+
+		int maxHistoryId = flowHistoryMapper.selectMaxHistoryId$CustomFunction();
+
+		maxHistoryId++;
+		flowHistoryEntity.setHistoryId(String.valueOf(maxHistoryId));
+
+		flowHistoryMapper.save(flowHistoryEntity);
 	}
 }

@@ -32,7 +32,6 @@ import io.github.nobuglady.jobflow.service.flowexecutor.NodeInf;
 @Component
 public class NodeDelegator {
 
-
 	@Autowired
 	private HistoryNodeDao historyNodeDao;
 
@@ -42,30 +41,30 @@ public class NodeDelegator {
 	@Autowired
 	private HistoryNodeShellDao historyNodeShellDao;
 
-    /**
-     *
-     * @param flowId
-     * @param nodeId
-     * @return
-     */
-    public NodeInf getNodeDelegator(String flowId, String nodeId, String historyId) {
+	/**
+	 *
+	 * @param flowId
+	 * @param nodeId
+	 * @return
+	 */
+	public NodeInf getNodeDelegator(String flowId, String nodeId, String historyId) {
 
-    	System.out.println("get node:"+flowId + "," + nodeId + "," + historyId);
-    	HistoryNodeEntity historyNodeEntity = historyNodeDao.selectByKey(flowId, nodeId, historyId);
-    	
-    	if(NodeExecuteType.NODE_EXECUTE_TYPE_HTTP == historyNodeEntity.getExecuteType()) {
-    		
-    		HistoryNodeHttpEntity historyNodeHttpEntity = historyNodeHttpDao.selectByKey(flowId,nodeId, historyId);
-    		return new NodeDelegatorHttp(historyNodeHttpEntity, historyNodeHttpDao);
-    		
-    	}else if(NodeExecuteType.NODE_EXECUTE_TYPE_SHELL == historyNodeEntity.getExecuteType()) {
-    		
-    		HistoryNodeShellEntity historyNodeShellEntity = historyNodeShellDao.selectByKey(flowId,nodeId, historyId);
-    		return new NodeDelegatorShell(historyNodeShellEntity, historyNodeShellDao);
-    		
-    	}else {
-    		
-    		return null;
-    	}
-    }
+		System.out.println("get node:" + flowId + "," + nodeId + "," + historyId);
+		HistoryNodeEntity historyNodeEntity = historyNodeDao.selectByKey(flowId, nodeId, historyId);
+
+		if (NodeExecuteType.NODE_EXECUTE_TYPE_HTTP == historyNodeEntity.getExecuteType()) {
+
+			HistoryNodeHttpEntity historyNodeHttpEntity = historyNodeHttpDao.selectByKey(flowId, nodeId, historyId);
+			return new NodeDelegatorHttp(historyNodeHttpEntity, historyNodeHttpDao);
+
+		} else if (NodeExecuteType.NODE_EXECUTE_TYPE_SHELL == historyNodeEntity.getExecuteType()) {
+
+			HistoryNodeShellEntity historyNodeShellEntity = historyNodeShellDao.selectByKey(flowId, nodeId, historyId);
+			return new NodeDelegatorShell(historyNodeShellEntity, historyNodeShellDao);
+
+		} else {
+
+			return null;
+		}
+	}
 }

@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +31,11 @@ public class HistoryEdgeDao {
 
 	@Autowired
 	private HistoryEdgeMapper edgeHistoryMapper;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -46,11 +45,9 @@ public class HistoryEdgeDao {
 	 * @param historyId
 	 * @return
 	 */
-	public List<HistoryEdgeEntity> selectByFlowHistoryId(
-			String flowId, 
-			String historyId) {
-		
-		return edgeHistoryMapper.selectByFlowHistoryId(flowId,historyId);
+	public List<HistoryEdgeEntity> selectByFlowHistoryId(String flowId, String historyId) {
+
+		return edgeHistoryMapper.selectByFlowHistoryId(flowId, historyId);
 	}
 
 }

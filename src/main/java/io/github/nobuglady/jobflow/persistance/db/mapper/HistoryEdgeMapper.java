@@ -30,15 +30,11 @@ public interface HistoryEdgeMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM history_edge "
-			+ " WHERE"
-			+ " flow_id = #{param1}"
-			+ " and history_id = #{param2}")
+	@Select("SELECT * FROM history_edge " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
 	public List<HistoryEdgeEntity> selectByFlowHistoryId(String flowId, String historyId);
-	
 
 }

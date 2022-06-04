@@ -30,14 +30,14 @@ import io.github.nobuglady.jobflow.util.StringUtil;
 public class WebSocketManager {
 
 	private static WebSocketManager instance = new WebSocketManager();
-	
+
 	private List<Session> sessionList = new ArrayList<Session>();
 	Map<String, String[]> sessionFlowHistoryMap = new HashMap<String, String[]>();
-	
+
 	private WebSocketManager() {
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -45,7 +45,7 @@ public class WebSocketManager {
 	public static WebSocketManager getInstance() {
 		return instance;
 	}
-	
+
 	/**
 	 * 
 	 * @param session
@@ -53,7 +53,7 @@ public class WebSocketManager {
 	public void saveSession(Session session) {
 		sessionList.add(session);
 	}
-	
+
 	/**
 	 * 
 	 * @param session
@@ -61,7 +61,7 @@ public class WebSocketManager {
 	public void removeSession(Session session) {
 		sessionList.remove(session);
 	}
-	
+
 	/**
 	 * 
 	 * @param session
@@ -81,67 +81,67 @@ public class WebSocketManager {
 	 * @param historyIdParam
 	 */
 	public void notifyFlowUpdate(String flowIdParam, String historyIdParam) {
-		for(Map.Entry<String, String[]> entry:sessionFlowHistoryMap.entrySet()) {
+		for (Map.Entry<String, String[]> entry : sessionFlowHistoryMap.entrySet()) {
 			String sessionId = entry.getKey();
 			String flowId = entry.getValue()[0];
 			String historyId = entry.getValue()[1];
-			
-			if(flowIdParam.equals(flowId) && historyIdParam.equals(historyId)) {
+
+			if (flowIdParam.equals(flowId) && historyIdParam.equals(historyId)) {
 				Session session = getSession(sessionId);
-				if(session != null && session.isOpen()) {
-					String message = "update#"+flowId+","+historyId;
-					System.out.println("send:"+message);
+				if (session != null && session.isOpen()) {
+					String message = "update#" + flowId + "," + historyId;
+					System.out.println("send:" + message);
 					try {
-						sendMessage(session,message);
-					} catch(Exception e) {
+						sendMessage(session, message);
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param flowIdParam
 	 * @param historyIdParam
 	 */
 	public void notifyFlowComplete(String flowIdParam, String historyIdParam) {
-		for(Map.Entry<String, String[]> entry:sessionFlowHistoryMap.entrySet()) {
+		for (Map.Entry<String, String[]> entry : sessionFlowHistoryMap.entrySet()) {
 			String sessionId = entry.getKey();
 			String flowId = entry.getValue()[0];
 			String historyId = entry.getValue()[1];
-			
-			if(flowIdParam.equals(flowId) && historyIdParam.equals(historyId)) {
+
+			if (flowIdParam.equals(flowId) && historyIdParam.equals(historyId)) {
 				Session session = getSession(sessionId);
-				if(session != null && session.isOpen()) {
-					String message = "complete#"+flowId+","+historyId;
-					System.out.println("send:"+message);
+				if (session != null && session.isOpen()) {
+					String message = "complete#" + flowId + "," + historyId;
+					System.out.println("send:" + message);
 					try {
-						sendMessage(session,message);
-					} catch(Exception e) {
+						sendMessage(session, message);
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param sessionId
 	 * @return
 	 */
 	private Session getSession(String sessionId) {
-		
-		for(Session session:sessionList) {
-			if(session.getId().equals(sessionId)) {
+
+		for (Session session : sessionList) {
+			if (session.getId().equals(sessionId)) {
 				return session;
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -152,10 +152,10 @@ public class WebSocketManager {
 	 * @param historyId
 	 */
 	public void updateFlowHistory(Session session, String flowId, String historyId) {
-		if(StringUtil.isEmpty(flowId) || StringUtil.isEmpty(historyId)) {
+		if (StringUtil.isEmpty(flowId) || StringUtil.isEmpty(historyId)) {
 			sessionFlowHistoryMap.remove(session.getId());
-		}else {
-			sessionFlowHistoryMap.put(session.getId(), new String[] {flowId,historyId});
+		} else {
+			sessionFlowHistoryMap.put(session.getId(), new String[] { flowId, historyId });
 		}
 	}
 }

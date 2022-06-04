@@ -21,18 +21,18 @@ public class Const {
 
 	public static final int FLAG_ON = 1;
 	public static final int FLAG_OFF = 0;
-	
+
 	public static final String FLAG_ON_STR = "1";
 	public static final String FLAG_OFF_STR = "0";
-	
+
 	public static final String SHELL_SUCCESS_CODE = "0";
 	public static final String HTTP_SUCCESS_CODE = "200";
-	
+
 	public static final String USER_SYS = "sys";
 	public static final String STR_ON = "on";
-	
+
 	public static final int LOGIN_FAILED = 1;
 	public static final int LOGIN_SUCCESS = 0;
-	
+
 	public static final String LOG_ROOT_DIR = "/tmp/";
 }

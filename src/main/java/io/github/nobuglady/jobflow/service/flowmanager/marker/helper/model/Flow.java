@@ -33,42 +33,53 @@ public class Flow {
 	private Map<String, List<HistoryEdgeEntity>> edgesMap = new HashMap<String, List<HistoryEdgeEntity>>();
 	private Map<String, List<HistoryEdgeEntity>> edgesBackMap = new HashMap<String, List<HistoryEdgeEntity>>();
 	private Map<String, HistoryNodeEntity> nodeMap = new HashMap<String, HistoryNodeEntity>();
-	
+
 	public String getFlowId() {
 		return flowId;
 	}
+
 	public void setFlowId(String flowId) {
 		this.flowId = flowId;
 	}
+
 	public String getHistoryId() {
 		return historyId;
 	}
+
 	public void setHistoryId(String historyId) {
 		this.historyId = historyId;
 	}
+
 	public int getStatus() {
 		return status;
 	}
+
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
 	public Map<String, List<HistoryEdgeEntity>> getEdgesMap() {
 		return edgesMap;
 	}
+
 	public void setEdgesMap(Map<String, List<HistoryEdgeEntity>> edgesMap) {
 		this.edgesMap = edgesMap;
 	}
+
 	public Map<String, List<HistoryEdgeEntity>> getEdgesBackMap() {
 		return edgesBackMap;
 	}
+
 	public void setEdgesBackMap(Map<String, List<HistoryEdgeEntity>> edgesBackMap) {
 		this.edgesBackMap = edgesBackMap;
 	}
+
 	public Map<String, HistoryNodeEntity> getNodeMap() {
 		return nodeMap;
 	}
+
 	public void setNodeMap(Map<String, HistoryNodeEntity> nodeMap) {
 		this.nodeMap = nodeMap;
 	}
-	
+
 }

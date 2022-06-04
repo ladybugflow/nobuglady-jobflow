@@ -58,7 +58,6 @@ public class FlowStaticController {
 	@Autowired
 	private FlowStaticBusiness flowBusiness;
 
-	
 	///////////////////////////////////////
 	// flow
 	///////////////////////////////////////
@@ -67,18 +66,17 @@ public class FlowStaticController {
 	 * @param flowid
 	 * @return
 	 */
-	@RequestMapping(value="/request_flow_static", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_flow_static", method = RequestMethod.POST)
 	@ResponseBody
-	public FlowStaticResponseDto requestFlowStatic(
-			@RequestParam(value="flowid") String flowid) {
-		
+	public FlowStaticResponseDto requestFlowStatic(@RequestParam(value = "flowid") String flowid) {
+
 		FlowStaticRequestDto requestDto = new FlowStaticRequestDto();
 		FlowStaticResponseDto responseDto = new FlowStaticResponseDto();
-		
+
 		requestDto.flowId = flowid;
-		
+
 		flowBusiness.requestFlowStatic(requestDto, responseDto);
-		
+
 		return responseDto;
 	}
 
@@ -90,38 +88,35 @@ public class FlowStaticController {
 	 */
 	@RequestMapping(value = "/request_flow_save_on_off", method = RequestMethod.POST)
 	@ResponseBody
-	public FlowSaveOnOffResponseDto requestFlowSaveOnOff(
-			@RequestParam(value = "flowId") String flowId,
+	public FlowSaveOnOffResponseDto requestFlowSaveOnOff(@RequestParam(value = "flowId") String flowId,
 			@RequestParam(value = "onOff") String onOff) {
 
 		FlowSaveOnOffRequestDto requestDto = new FlowSaveOnOffRequestDto();
 		FlowSaveOnOffResponseDto responseDto = new FlowSaveOnOffResponseDto();
-		
+
 		requestDto.flowId = flowId;
 		requestDto.onOff = onOff;
 
 		flowBusiness.requestFlowSaveOnOff(requestDto, responseDto);
-		
+
 		return responseDto;
 	}
-
 
 	/**
 	 * 
 	 * @param reqDto
 	 * @return
 	 */
-	@RequestMapping(value="/request_flow_save", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_flow_save", method = RequestMethod.POST)
 	@ResponseBody
-	public FlowSaveResponseDto requestFlowSave(
-			@RequestBody ControllerFlowSaveRequestDto reqDto) {
+	public FlowSaveResponseDto requestFlowSave(@RequestBody ControllerFlowSaveRequestDto reqDto) {
 
 		FlowSaveRequestDto requestDto = new FlowSaveRequestDto();
 		FlowSaveResponseDto responseDto = new FlowSaveResponseDto();
 		requestDto.flowid = reqDto.flowid;
 		requestDto.nodes = new ArrayList<Node>();
 		requestDto.edges = new ArrayList<Edge>();
-		for(ControllerFlowSaveNode node:reqDto.nodes) {
+		for (ControllerFlowSaveNode node : reqDto.nodes) {
 			Node newNode = new Node();
 			newNode.id = node.id;
 			newNode.label = node.label;
@@ -129,7 +124,7 @@ public class FlowStaticController {
 			newNode.layoutY = node.layoutY;
 			requestDto.nodes.add(newNode);
 		}
-		for(ControllerFlowSaveEdge edge:reqDto.edges) {
+		for (ControllerFlowSaveEdge edge : reqDto.edges) {
 			Edge newEdge = new Edge();
 			newEdge.id = edge.id;
 			newEdge.from = edge.from;
@@ -137,10 +132,10 @@ public class FlowStaticController {
 			newEdge.arrows = edge.arrows;
 			requestDto.edges.add(newEdge);
 		}
-		
+
 		flowBusiness.requestFlowSave(requestDto, responseDto);
 		return responseDto;
-		
+
 	}
 
 	/**
@@ -148,17 +143,17 @@ public class FlowStaticController {
 	 * @param flowId
 	 * @return
 	 */
-	@RequestMapping(value="/request_flow_publish", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_flow_publish", method = RequestMethod.POST)
 	@ResponseBody
-	public FlowPublishResponseDto requestPublishFlow(@RequestParam(value="flowId") String flowId) {
-		
+	public FlowPublishResponseDto requestPublishFlow(@RequestParam(value = "flowId") String flowId) {
+
 		FlowPublishRequestDto requestDto = new FlowPublishRequestDto();
 		FlowPublishResponseDto responseDto = new FlowPublishResponseDto();
 		requestDto.flowId = flowId;
-		
+
 		flowBusiness.requestFlowPublish(requestDto, responseDto);
 		return responseDto;
-		
+
 	}
 
 	///////////////////////////////////////
@@ -170,11 +165,10 @@ public class FlowStaticController {
 	 * @param nodeid
 	 * @return
 	 */
-	@RequestMapping(value="/request_node_info", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_node_info", method = RequestMethod.POST)
 	@ResponseBody
-	public NodeInfoResponseDto requestNodeInfo(
-			@RequestParam(value="flowid") String flowid,
-			@RequestParam(value="nodeid") String nodeid) {
+	public NodeInfoResponseDto requestNodeInfo(@RequestParam(value = "flowid") String flowid,
+			@RequestParam(value = "nodeid") String nodeid) {
 
 		NodeInfoRequestDto requestDto = new NodeInfoRequestDto();
 		NodeInfoResponseDto responseDto = new NodeInfoResponseDto();
@@ -182,7 +176,7 @@ public class FlowStaticController {
 		requestDto.nodeId = nodeid;
 
 		flowBusiness.requestNodeInfo(requestDto, responseDto);
-		
+
 		return responseDto;
 	}
 
@@ -195,20 +189,18 @@ public class FlowStaticController {
 	 */
 	@RequestMapping(value = "/request_node_save_on_off", method = RequestMethod.POST)
 	@ResponseBody
-	public NodeSaveOnOffResponseDto requestNodeSaveOnOff(
-			@RequestParam(value = "flowId") String flowId,
-			@RequestParam(value = "nodeId") String nodeId,
-			@RequestParam(value = "onOff") String onOff) {
+	public NodeSaveOnOffResponseDto requestNodeSaveOnOff(@RequestParam(value = "flowId") String flowId,
+			@RequestParam(value = "nodeId") String nodeId, @RequestParam(value = "onOff") String onOff) {
 
 		NodeSaveOnOffRequestDto requestDto = new NodeSaveOnOffRequestDto();
 		NodeSaveOnOffResponseDto responseDto = new NodeSaveOnOffResponseDto();
-		
+
 		requestDto.flowId = flowId;
 		requestDto.nodeId = nodeId;
 		requestDto.onOff = onOff;
 
 		flowBusiness.requestNodeSaveOnOff(requestDto, responseDto);
-		
+
 		return responseDto;
 	}
 
@@ -233,32 +225,25 @@ public class FlowStaticController {
 	 * @param roles
 	 * @return
 	 */
-	@RequestMapping(value="/request_node_save", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_node_save", method = RequestMethod.POST)
 	@ResponseBody
-	public NodeSaveResponseDto requestNodeSave(
-			@RequestParam(value="flowid") String flowid,
-			@RequestParam(value="nodeid") String nodeid,
-			@RequestParam(value="node_type") String node_type,
-			@RequestParam(value="cron") String cron,
-			@RequestParam(value="start_type") String start_type,
-			@RequestParam(value="execute_type") String execute_type,
-			@RequestParam(value="shell_success_code") String shell_success_code,
-			@RequestParam(value="shell_error_type") String shell_error_type,
-			@RequestParam(value="shell_sync_flag") String shell_sync_flag,
-			@RequestParam(value="shell_location") String shell_location,
-			@RequestParam(value="noderefname") String noderefname,
-			@RequestParam(value="nodename") String nodename,
-			@RequestParam(value="layout_x") String layoutX,
-			@RequestParam(value="layout_y") String layoutY,
-			@RequestParam(value="http_success_code") String http_success_code,
-			@RequestParam(value="http_error_type") String http_error_type,
-			@RequestParam(value="http_sync_flag") String http_sync_flag,
-			@RequestParam(value="location") String location,
-			@RequestParam(value="http_method") String http_method,
-			@RequestParam(value="http_content_type") String http_content_type,
-			@RequestParam(value="http_header") String http_header,
-			@RequestParam(value="http_body") String http_body,
-			@RequestParam(value="roles") String roles) {
+	public NodeSaveResponseDto requestNodeSave(@RequestParam(value = "flowid") String flowid,
+			@RequestParam(value = "nodeid") String nodeid, @RequestParam(value = "node_type") String node_type,
+			@RequestParam(value = "cron") String cron, @RequestParam(value = "start_type") String start_type,
+			@RequestParam(value = "execute_type") String execute_type,
+			@RequestParam(value = "shell_success_code") String shell_success_code,
+			@RequestParam(value = "shell_error_type") String shell_error_type,
+			@RequestParam(value = "shell_sync_flag") String shell_sync_flag,
+			@RequestParam(value = "shell_location") String shell_location,
+			@RequestParam(value = "noderefname") String noderefname, @RequestParam(value = "nodename") String nodename,
+			@RequestParam(value = "layout_x") String layoutX, @RequestParam(value = "layout_y") String layoutY,
+			@RequestParam(value = "http_success_code") String http_success_code,
+			@RequestParam(value = "http_error_type") String http_error_type,
+			@RequestParam(value = "http_sync_flag") String http_sync_flag,
+			@RequestParam(value = "location") String location, @RequestParam(value = "http_method") String http_method,
+			@RequestParam(value = "http_content_type") String http_content_type,
+			@RequestParam(value = "http_header") String http_header,
+			@RequestParam(value = "http_body") String http_body, @RequestParam(value = "roles") String roles) {
 
 		NodeSaveRequestDto requestDto = new NodeSaveRequestDto();
 		NodeSaveResponseDto responseDto = new NodeSaveResponseDto();
@@ -288,7 +273,7 @@ public class FlowStaticController {
 
 		flowBusiness.requestNodeSave(requestDto, responseDto);
 		return responseDto;
-		
+
 	}
 
 	///////////////////////////////////////
@@ -302,26 +287,24 @@ public class FlowStaticController {
 	 * @param to
 	 * @return
 	 */
-	@RequestMapping(value="/request_edge_info", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_edge_info", method = RequestMethod.POST)
 	@ResponseBody
-	public EdgeInfoResponseDto requestEdgeInfo(@RequestParam(value="flowid") String flowid,
-			@RequestParam(value="edgeid") String edgeid,
-			@RequestParam(value="from") String from,
-			@RequestParam(value="to") String to) {
+	public EdgeInfoResponseDto requestEdgeInfo(@RequestParam(value = "flowid") String flowid,
+			@RequestParam(value = "edgeid") String edgeid, @RequestParam(value = "from") String from,
+			@RequestParam(value = "to") String to) {
 
 		EdgeInfoRequestDto requestDto = new EdgeInfoRequestDto();
 		EdgeInfoResponseDto responseDto = new EdgeInfoResponseDto();
-		
+
 		requestDto.flowId = flowid;
 		requestDto.edgeId = edgeid;
 		requestDto.from = from;
 		requestDto.to = to;
-		
+
 		flowBusiness.requestEdgeInfo(requestDto, responseDto);
-		
+
 		return responseDto;
 	}
-	
 
 	/**
 	 * 
@@ -331,14 +314,11 @@ public class FlowStaticController {
 	 * @param condition
 	 * @return
 	 */
-	@RequestMapping(value="/request_edge_save", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_edge_save", method = RequestMethod.POST)
 	@ResponseBody
-	public EdgeSaveResponseDto requestEdgeSave(
-			@RequestParam(value="flowid") String flowid,
-			@RequestParam(value="edgeid") String edgeid,
-			@RequestParam(value="from") String from,
-			@RequestParam(value="to") String to,
-			@RequestParam(value="condition") String condition) {
+	public EdgeSaveResponseDto requestEdgeSave(@RequestParam(value = "flowid") String flowid,
+			@RequestParam(value = "edgeid") String edgeid, @RequestParam(value = "from") String from,
+			@RequestParam(value = "to") String to, @RequestParam(value = "condition") String condition) {
 
 		EdgeSaveRequestDto requestDto = new EdgeSaveRequestDto();
 		EdgeSaveResponseDto responseDto = new EdgeSaveResponseDto();
@@ -350,7 +330,7 @@ public class FlowStaticController {
 
 		flowBusiness.requestEdgeSave(requestDto, responseDto);
 		return responseDto;
-		
+
 	}
-	
+
 }

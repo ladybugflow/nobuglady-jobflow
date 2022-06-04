@@ -31,11 +31,11 @@ public class PublishFlowDao {
 
 	@Autowired
 	private PublishFlowMapper publishFlowMapper;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -44,7 +44,7 @@ public class PublishFlowDao {
 	 * @return
 	 */
 	public List<FlowPublishCatagoryEntity> selectFlowPublishCatagoryList() {
-		
+
 		return publishFlowMapper.selectFlowPublishCatagoryList();
 	}
 }

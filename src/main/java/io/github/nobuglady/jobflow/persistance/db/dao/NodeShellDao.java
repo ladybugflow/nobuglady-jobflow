@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +31,7 @@ public class NodeShellDao {
 
 	@Autowired
 	private NodeShellMapper nodeShellMapper;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
@@ -43,8 +42,8 @@ public class NodeShellDao {
 	 * @return
 	 */
 	public NodeShellEntity selectByKey(String flowId, String nodeId) {
-		
-        return nodeShellMapper.selectByKey(flowId, nodeId);
+
+		return nodeShellMapper.selectByKey(flowId, nodeId);
 	}
 
 	/**
@@ -62,7 +61,7 @@ public class NodeShellDao {
 	public void update(NodeShellEntity entity) {
 		nodeShellMapper.update(entity);
 	}
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -75,20 +74,15 @@ public class NodeShellDao {
 	 * @param syncFlag
 	 * @param shellLocation
 	 */
-	public void saveOrUpdateNode(
-			String flowId, 
-			String nodeId, 
-			String successCode, 
-			String errorType, 
-			String syncFlag,
+	public void saveOrUpdateNode(String flowId, String nodeId, String successCode, String errorType, String syncFlag,
 			String shellLocation) {
 
 		NodeShellEntity nodeShellEntity = nodeShellMapper.selectByKey(flowId, nodeId);
-		
+
 		/*
 		 * save or update nodes
 		 */
-		if(nodeShellEntity != null) {
+		if (nodeShellEntity != null) {
 			nodeShellEntity.setFlowId(flowId);
 			nodeShellEntity.setNodeId(nodeId);
 			nodeShellEntity.setSuccessCode(successCode);
@@ -111,8 +105,7 @@ public class NodeShellDao {
 			nodeShellEntity.setUpdateUser(AuthHolder.getUser().email);
 			nodeShellMapper.save(nodeShellEntity);
 		}
-		
+
 	}
 
-	
 }

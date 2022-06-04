@@ -25,12 +25,12 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isEmpty(String str) {
-		if(str == null || str.length() == 0) {
+		if (str == null || str.length() == 0) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @param str
@@ -39,7 +39,7 @@ public class StringUtil {
 	public static boolean isNotEmpty(String str) {
 		return !isEmpty(str);
 	}
-	
+
 	/**
 	 * 
 	 * @param src
@@ -48,7 +48,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String padding(long src, String paddingStr, int length) {
-		int iSrc = (int)src;
-		return String.format("%"+paddingStr+length+"d", iSrc);
+		int iSrc = (int) src;
+		return String.format("%" + paddingStr + length + "d", iSrc);
 	}
 }

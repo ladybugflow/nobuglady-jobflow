@@ -42,156 +42,158 @@ public class NodeRunner implements Runnable {
 
 	private String flowId;
 	private String historyId;
-    private String nodeId;
+	private String nodeId;
 
-    private String nodeName;
-    
-    private HistoryFlowDao historyFlowDao;
-    private HistoryNodeDao historyNodeDao;
-    private NodeDelegator nodeDelegator;
-    
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @param nodeId
-     * @param historyFlowDao
-     * @param historyNodeDao
-     * @param nodeDelegator
-     */
-    public NodeRunner(
-    		String flowId, 
-    		String historyId, 
-    		String nodeId,
-    		HistoryFlowDao historyFlowDao,
-    		HistoryNodeDao historyNodeDao,
-    		NodeDelegator nodeDelegator) {
-    	
-    	this.flowId = flowId;
-    	this.historyId = historyId;
-        this.nodeId = nodeId;
-        this.historyFlowDao = historyFlowDao;
-        this.historyNodeDao = historyNodeDao;
-        this.nodeDelegator = nodeDelegator;
-    }
+	private String nodeName;
 
-    /**
-     * 
-     */
-    public void run() {
+	private HistoryFlowDao historyFlowDao;
+	private HistoryNodeDao historyNodeDao;
+	private NodeDelegator nodeDelegator;
 
-    	UserEntity userEntity = new UserEntity();
-    	userEntity.setEmail(Const.USER_SYS);
-    	
-    	AuthHolder.setUser(userEntity);
-    	
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @param nodeId
+	 * @param historyFlowDao
+	 * @param historyNodeDao
+	 * @param nodeDelegator
+	 */
+	public NodeRunner(String flowId, String historyId, String nodeId, HistoryFlowDao historyFlowDao,
+			HistoryNodeDao historyNodeDao, NodeDelegator nodeDelegator) {
+
+		this.flowId = flowId;
+		this.historyId = historyId;
+		this.nodeId = nodeId;
+		this.historyFlowDao = historyFlowDao;
+		this.historyNodeDao = historyNodeDao;
+		this.nodeDelegator = nodeDelegator;
+	}
+
+	/**
+	 * 
+	 */
+	public void run() {
+
+		UserEntity userEntity = new UserEntity();
+		userEntity.setEmail(Const.USER_SYS);
+
+		AuthHolder.setUser(userEntity);
+
 		// start log
-		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(flowId,historyId);
+		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(flowId, historyId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
-		
-		consoleLogger.info("-------------------------------------------------------------------");
-		consoleLogger.info("[FLOW]"+flowId+",[HISTORY]"+historyId+",[NODE]"+nodeId+"");
-		consoleLogger.info("-------------------------------------------------------------------");
-        try {
 
-            /*
-             * Get node instance
-             */
+		consoleLogger.info("-------------------------------------------------------------------");
+		consoleLogger.info("[FLOW]" + flowId + ",[HISTORY]" + historyId + ",[NODE]" + nodeId + "");
+		consoleLogger.info("-------------------------------------------------------------------");
+		try {
+
+			/*
+			 * Get node instance
+			 */
 			HistoryNodeEntity historyNodeEntity = historyNodeDao.selectByKey(flowId, nodeId, historyId);
 			nodeName = historyNodeEntity.getNodeName();
-			
-        	HistoryFlowEntity flowEntity = historyFlowDao.selectByKey(flowId,historyId);
-        	String flowId = flowEntity.getFlowId();
-        	
-            /*
-             * check node type
-             */
-			if(NodeType.NODE_TYPE_START == DataUtil.getNodeType(historyNodeEntity.getNodeType())) {
-				
-				historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_SUCCESS);
+
+			HistoryFlowEntity flowEntity = historyFlowDao.selectByKey(flowId, historyId);
+			String flowId = flowEntity.getFlowId();
+
+			/*
+			 * check node type
+			 */
+			if (NodeType.NODE_TYPE_START == DataUtil.getNodeType(historyNodeEntity.getNodeType())) {
+
+				historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+						NodeStatusDetail.COMPLETE_SUCCESS);
 				CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
 			} else {
 
-				if(NodeStatus.READY == historyNodeEntity.getNodeStatus()) {
-					
+				if (NodeStatus.READY == historyNodeEntity.getNodeStatus()) {
+
 					consoleLogger.info(sdf.format(new Date()) + " [NODE OPENING]" + historyNodeEntity.getNodeName());
 					historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.OPENNING);
-					
+
 					/*
-					 *  check node start type
+					 * check node start type
 					 */
-					if(NodeStartType.NODE_START_TYPE_WAIT_REQUEST == DataUtil.getNodeStartType(historyNodeEntity.getStartType())) {
-						
+					if (NodeStartType.NODE_START_TYPE_WAIT_REQUEST == DataUtil
+							.getNodeStartType(historyNodeEntity.getStartType())) {
+
 						consoleLogger.info(sdf.format(new Date()) + " [NODE OPENED]" + historyNodeEntity.getNodeName());
-						
-					}else {
-						
+
+					} else {
+
 						String returnValue = null;
-						
+
 						// OPENINGÅ®CLOSED
-			        	historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.CLOSED);
-			        	consoleLogger.info(sdf.format(new Date()) + " [NODE CLOSED]" + historyNodeEntity.getNodeName());
-			        	
+						historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.CLOSED);
+						consoleLogger.info(sdf.format(new Date()) + " [NODE CLOSED]" + historyNodeEntity.getNodeName());
+
 						/*
-						 *  check node execute type
+						 * check node execute type
 						 */
-						if(NodeExecuteType.NODE_EXECUTE_TYPE_NONE == DataUtil.getNodeExecuteType(historyNodeEntity.getExecuteType())) {
-							
-							historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_SUCCESS);
-				            
-						}else {
+						if (NodeExecuteType.NODE_EXECUTE_TYPE_NONE == DataUtil
+								.getNodeExecuteType(historyNodeEntity.getExecuteType())) {
+
+							historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+									NodeStatusDetail.COMPLETE_SUCCESS);
+
+						} else {
 
 							historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.READY_RUN);
 							historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.RUNNING);
-							
-							NodeInf nodeInf = nodeDelegator.getNodeDelegator(flowId,nodeId,historyId);
-				        	if(nodeInf != null){
-								consoleLogger.info(sdf.format(new Date()) + " [NODE RUNNING]" + historyNodeEntity.getNodeName());
-					            returnValue = nodeInf.execute();
-				        	}
-				        	
-				        	// RUNNINGÅ®COMPLETE
-				        	historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_SUCCESS);
+
+							NodeInf nodeInf = nodeDelegator.getNodeDelegator(flowId, nodeId, historyId);
+							if (nodeInf != null) {
+								consoleLogger.info(
+										sdf.format(new Date()) + " [NODE RUNNING]" + historyNodeEntity.getNodeName());
+								returnValue = nodeInf.execute();
+							}
+
+							// RUNNINGÅ®COMPLETE
+							historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+									NodeStatusDetail.COMPLETE_SUCCESS);
 
 						}
-						
-			        	CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
-			        	consoleLogger.info(sdf.format(new Date()) + " [NODE COMPLETE]["+returnValue+"]" + historyNodeEntity.getNodeName());
+
+						CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
+						consoleLogger.info(sdf.format(new Date()) + " [NODE COMPLETE][" + returnValue + "]"
+								+ historyNodeEntity.getNodeName());
 					}
 				}
 			}
 
-        } catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 
-        	consoleLogger.error(sdf.format(new Date()) + " [NODE INTERRUPTED]" + nodeName, e);
-            
-            historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_CANCEL);
-            
-            CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
+			consoleLogger.error(sdf.format(new Date()) + " [NODE INTERRUPTED]" + nodeName, e);
 
+			historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+					NodeStatusDetail.COMPLETE_CANCEL);
 
-        } catch (CancellationException e) {
+			CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
 
-        	consoleLogger.error(sdf.format(new Date()) + " [NODE CANCEL]" + nodeName, e);
-            
-            historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_CANCEL);
-            
-            CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
-            
-            
-        } catch (Throwable e) {
-            e.printStackTrace();
-            consoleLogger.error(sdf.format(new Date()) + " [NODE ERROR]" + nodeName, e);
-            
-            historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_ERROR);
-            
-            CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
-            
+		} catch (CancellationException e) {
 
-        } finally {
+			consoleLogger.error(sdf.format(new Date()) + " [NODE CANCEL]" + nodeName, e);
 
-        }
+			historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+					NodeStatusDetail.COMPLETE_CANCEL);
 
-    }
+			CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
+
+		} catch (Throwable e) {
+			e.printStackTrace();
+			consoleLogger.error(sdf.format(new Date()) + " [NODE ERROR]" + nodeName, e);
+
+			historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+					NodeStatusDetail.COMPLETE_ERROR);
+
+			CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
+
+		} finally {
+
+		}
+
+	}
 
 }

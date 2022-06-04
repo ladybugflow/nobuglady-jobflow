@@ -30,52 +30,67 @@ public class CategoryEntity {
 	private String updateUser;
 	private Date createTime;
 	private Date updateTime;
-	
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getCategoryName() {
 		return categoryName;
 	}
+
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+
 	public String getCategoryType() {
 		return categoryType;
 	}
+
 	public void setCategoryType(String categoryType) {
 		this.categoryType = categoryType;
 	}
+
 	public String getParent() {
 		return parent;
 	}
+
 	public void setParent(String parent) {
 		this.parent = parent;
 	}
+
 	public String getCreateUser() {
 		return createUser;
 	}
+
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
 	}
+
 	public String getUpdateUser() {
 		return updateUser;
 	}
+
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
+
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}

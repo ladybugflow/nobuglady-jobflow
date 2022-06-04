@@ -35,7 +35,6 @@ public class InstanceListController {
 	@Autowired
 	private InstanceListBusiness flowBusiness;
 
-	
 	///////////////////////////////////////
 	// flow
 	///////////////////////////////////////
@@ -43,21 +42,21 @@ public class InstanceListController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value="/request_instance_list", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_instance_list", method = RequestMethod.POST)
 	@ResponseBody
 	public List<HistoryFlowEntityVo> requestInstanceList() {
-		
+
 		return BeanUtil.copyList(flowBusiness.requestInstanceList(), HistoryFlowEntityVo.class);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value="/request_processing_instance_list", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_processing_instance_list", method = RequestMethod.POST)
 	@ResponseBody
 	public List<HistoryFlowEntityVo> requestProcessingInstanceList() {
-		
+
 		return BeanUtil.copyList(flowBusiness.requestProcessingInstanceList(), HistoryFlowEntityVo.class);
 	}
 
@@ -65,21 +64,21 @@ public class InstanceListController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value="/request_error_instance_list", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_error_instance_list", method = RequestMethod.POST)
 	@ResponseBody
 	public List<HistoryFlowEntityVo> requestErrorInstanceList() {
-		
+
 		return BeanUtil.copyList(flowBusiness.requestErrorInstanceList(), HistoryFlowEntityVo.class);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value="/request_complete_instance_list", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_complete_instance_list", method = RequestMethod.POST)
 	@ResponseBody
 	public List<HistoryFlowEntityVo> requestCompleteInstanceList() {
-		
+
 		return BeanUtil.copyList(flowBusiness.requestCompleteInstanceList(), HistoryFlowEntityVo.class);
 	}
 }

@@ -37,33 +37,33 @@ public class LoginController {
 
 	@Autowired
 	private LoginBusiness loginBusiness;
-	
+
 	/**
 	 * 
 	 * @param requestDto
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public WebLoginResponseDto login(@RequestBody WebLoginRequestDto requestDto, HttpSession session) {
-		
+
 		WebLoginResponseDto responseDto = new WebLoginResponseDto();
-		
+
 		responseDto.result = loginBusiness.login(session, requestDto.username, requestDto.password);
-		
+
 		return responseDto;
 	}
-	
+
 	/**
 	 * 
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="/menu",method=RequestMethod.POST)
+	@RequestMapping(value = "/menu", method = RequestMethod.POST)
 	@ResponseBody
 	public String getMenu(HttpSession session) {
-		
+
 		return AuthHolder.getUserMenu();
 	}
 }

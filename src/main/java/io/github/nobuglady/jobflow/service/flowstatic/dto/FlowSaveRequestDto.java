@@ -24,5 +24,5 @@ public class FlowSaveRequestDto {
 	public String flowid;
 	public List<Node> nodes;
 	public List<Edge> edges;
-	
+
 }

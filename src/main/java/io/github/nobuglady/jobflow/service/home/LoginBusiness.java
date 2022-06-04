@@ -34,7 +34,7 @@ public class LoginBusiness {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	/**
 	 * 
 	 * @param session
@@ -43,12 +43,12 @@ public class LoginBusiness {
 	 * @return
 	 */
 	public int login(HttpSession session, String email, String password) {
-		
+
 		UserEntity userEntity = userDao.getByEmailPassword(email, password);
-		
-		if(userEntity == null) {
+
+		if (userEntity == null) {
 			return Const.LOGIN_FAILED;
-		}else {
+		} else {
 			AuthHolder.saveUser(session, userEntity);
 			return Const.LOGIN_SUCCESS;
 		}

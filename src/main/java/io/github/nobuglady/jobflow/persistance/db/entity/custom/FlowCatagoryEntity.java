@@ -20,42 +20,51 @@ import java.util.Date;
  *
  */
 public class FlowCatagoryEntity {
-	
+
 	public String flowId;
 	public String categoryId;
 	public String flowName;
 	public int disableFlag;
 	public Date updateTime;
-	
+
 	public String getFlowId() {
 		return flowId;
 	}
+
 	public void setFlowId(String flowId) {
 		this.flowId = flowId;
 	}
+
 	public String getCategoryId() {
 		return categoryId;
 	}
+
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
+
 	public String getFlowName() {
 		return flowName;
 	}
+
 	public void setFlowName(String flowName) {
 		this.flowName = flowName;
 	}
+
 	public int getDisableFlag() {
 		return disableFlag;
 	}
+
 	public void setDisableFlag(int disableFlag) {
 		this.disableFlag = disableFlag;
 	}
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
+
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+
 }

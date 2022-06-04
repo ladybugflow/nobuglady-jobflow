@@ -48,52 +48,52 @@ public class FlowListBusiness {
 
 	@Autowired
 	private NodeDao nodeDao;
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public List<FlowListResponseDto> requestFlowList() {
-		
+
 		List<FlowListResponseDto> resultList = new ArrayList<>();
-		
+
 		List<FlowCatagoryEntity> entityList = flowDao.selectFlowCatagoryList();
-		if(entityList != null) {
-			for(FlowCatagoryEntity entity:entityList) {
-				
+		if (entityList != null) {
+			for (FlowCatagoryEntity entity : entityList) {
+
 				List<NodeEntity> nodeEntityList = nodeDao.selectStartByFlowId(entity.getFlowId());
-				
+
 				NodeEntity nodeStartEntity = null;
-				if(nodeEntityList != null && nodeEntityList.size() > 0) {
+				if (nodeEntityList != null && nodeEntityList.size() > 0) {
 					nodeStartEntity = nodeEntityList.get(0);
 				}
-				
+
 				FlowListResponseDto responseDto = new FlowListResponseDto();
-				
+
 				responseDto.flow_id = entity.getFlowId();
 				responseDto.file_id = entity.getCategoryId();
 				responseDto.flow_name = entity.getFlowName();
 				responseDto.disable_flag = entity.getDisableFlag();
 				responseDto.update_time = entity.getUpdateTime();
-				
-				if(nodeStartEntity != null) {
+
+				if (nodeStartEntity != null) {
 					responseDto.flow_start_type = nodeStartEntity.getStartType();
 					responseDto.cron = nodeStartEntity.getStartCron();
-					
-					if(DataUtil.getNodeStartType(nodeStartEntity.getStartType()) == NodeStartType.NODE_START_TYPE_TIMER
-							&& StringUtil.isNotEmpty(nodeStartEntity.getStartCron())) {
-				        CronExpression cronTrigger = CronExpression.parse(nodeStartEntity.getStartCron());
 
-				        LocalDateTime next = cronTrigger.next(LocalDateTime.now());
-				        responseDto.nextStartTime = next.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+					if (DataUtil.getNodeStartType(nodeStartEntity.getStartType()) == NodeStartType.NODE_START_TYPE_TIMER
+							&& StringUtil.isNotEmpty(nodeStartEntity.getStartCron())) {
+						CronExpression cronTrigger = CronExpression.parse(nodeStartEntity.getStartCron());
+
+						LocalDateTime next = cronTrigger.next(LocalDateTime.now());
+						responseDto.nextStartTime = next.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
 					}
 				}
-				
+
 				resultList.add(responseDto);
-				
+
 			}
 		}
-		
+
 		return resultList;
 	}
 
@@ -107,7 +107,7 @@ public class FlowListBusiness {
 
 		// check flow
 		FlowEntity flowEntity = flowDao.selectByKey(flowId);
-		if(flowEntity == null) {
+		if (flowEntity == null) {
 			flowEntity = new FlowEntity();
 			flowEntity.setCategoryId(flowId);
 			flowEntity.setFlowId(flowId);
@@ -116,27 +116,26 @@ public class FlowListBusiness {
 			flowEntity.setUpdateUser(AuthHolder.getUser().email);
 
 			flowDao.save(flowEntity);
-			
-			NodeEntity nodeEntity = new NodeEntity();
-        	nodeEntity.setFlowId(flowEntity.getFlowId());
-        	nodeEntity.setNodeId("start");
-        	nodeEntity.setNodeName("start");
-        	nodeEntity.setRefName("start");
-        	nodeEntity.setDisableFlag(Const.FLAG_OFF);
-        	nodeEntity.setLayoutX("0");
-        	nodeEntity.setLayoutY("0");
-        	nodeEntity.setStartType(NodeStartType.NODE_START_TYPE_DEFAULT);
-        	nodeEntity.setNodeType(NodeType.NODE_TYPE_START);
-        	nodeEntity.setExecuteType(NodeExecuteType.NODE_EXECUTE_TYPE_NONE);
-        	nodeEntity.setSkipFlag(Const.FLAG_OFF);
-        	nodeEntity.setDisableFlag(Const.FLAG_OFF);
-        	nodeEntity.setCreateUser(AuthHolder.getUser().email);
-        	nodeEntity.setUpdateUser(AuthHolder.getUser().email);
 
-        	nodeDao.save(nodeEntity);
+			NodeEntity nodeEntity = new NodeEntity();
+			nodeEntity.setFlowId(flowEntity.getFlowId());
+			nodeEntity.setNodeId("start");
+			nodeEntity.setNodeName("start");
+			nodeEntity.setRefName("start");
+			nodeEntity.setDisableFlag(Const.FLAG_OFF);
+			nodeEntity.setLayoutX("0");
+			nodeEntity.setLayoutY("0");
+			nodeEntity.setStartType(NodeStartType.NODE_START_TYPE_DEFAULT);
+			nodeEntity.setNodeType(NodeType.NODE_TYPE_START);
+			nodeEntity.setExecuteType(NodeExecuteType.NODE_EXECUTE_TYPE_NONE);
+			nodeEntity.setSkipFlag(Const.FLAG_OFF);
+			nodeEntity.setDisableFlag(Const.FLAG_OFF);
+			nodeEntity.setCreateUser(AuthHolder.getUser().email);
+			nodeEntity.setUpdateUser(AuthHolder.getUser().email);
+
+			nodeDao.save(nodeEntity);
 		}
 	}
-
 
 	///////////////////////////////////////
 	// help function

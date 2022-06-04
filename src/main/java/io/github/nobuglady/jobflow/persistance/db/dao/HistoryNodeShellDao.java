@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +29,7 @@ public class HistoryNodeShellDao {
 
 	@Autowired
 	private HistoryNodeShellMapper historyNodeShellMapper;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
@@ -42,12 +41,12 @@ public class HistoryNodeShellDao {
 	 * @return
 	 */
 	public HistoryNodeShellEntity selectByKey(String flowId, String nodeId, String historyId) {
-		
-        return historyNodeShellMapper.selectByKey(flowId, nodeId, historyId);
+
+		return historyNodeShellMapper.selectByKey(flowId, nodeId, historyId);
 	}
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	
+
 }

@@ -19,29 +19,28 @@ package io.github.nobuglady.jobflow.constant;
  */
 public class NodeStatus {
 
-    /** node condition skip */
-    public static final int SKIPED = 999;
-    /** node wait */
-    public static final int WAIT = 0;
-    /** node ready */
-    public static final int READY = 2;
-    /** node arrived */
-    public static final int ARRIVED = 4;
-    
-    /** node opened */
-    public static final int OPENNING = 10;
-    /** node closed */
-    public static final int CLOSED = 12;
+	/** node condition skip */
+	public static final int SKIPED = 999;
+	/** node wait */
+	public static final int WAIT = 0;
+	/** node ready */
+	public static final int READY = 2;
+	/** node arrived */
+	public static final int ARRIVED = 4;
 
-    /** node starting */
-    public static final int READY_RUN = 20;
-    /** node running */
-    public static final int RUNNING = 21;
-    /** node complete */
-    public static final int COMPLETE = 22;
-    
-    /** node closed */
-    public static final int GO = 100;
-    
+	/** node opened */
+	public static final int OPENNING = 10;
+	/** node closed */
+	public static final int CLOSED = 12;
+
+	/** node starting */
+	public static final int READY_RUN = 20;
+	/** node running */
+	public static final int RUNNING = 21;
+	/** node complete */
+	public static final int COMPLETE = 22;
+
+	/** node closed */
+	public static final int GO = 100;
 
 }

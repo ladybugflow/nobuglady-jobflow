@@ -35,61 +35,62 @@ import io.github.nobuglady.jobflow.service.flowmanager.FlowManager;
  * @author NoBugLady
  *
  */
-public class FlowTimerTriger implements Runnable{
+public class FlowTimerTriger implements Runnable {
 
 	private PublishNodeDao publishNodeDao;
-	
+
 	private FlowManager flowManager;
-	
+
 	private ThreadPoolTaskScheduler taskScheduler;
-	
+
 	private static Set<String> scheduledFlowIdSet = new HashSet<String>();
-	
+
 	/**
 	 * 
 	 * @param historyNodeDao
 	 */
-	public FlowTimerTriger(PublishNodeDao publishNodeDao, FlowManager flowManager, ThreadPoolTaskScheduler taskScheduler) {
+	public FlowTimerTriger(PublishNodeDao publishNodeDao, FlowManager flowManager,
+			ThreadPoolTaskScheduler taskScheduler) {
 		taskScheduler.initialize();
-		
+
 		this.publishNodeDao = publishNodeDao;
 		this.flowManager = flowManager;
 		this.taskScheduler = taskScheduler;
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Override
 	public void run() {
-		
-    	UserEntity userEntity = new UserEntity();
-    	userEntity.setEmail(Const.USER_SYS);
-    	
-    	AuthHolder.setUser(userEntity);
-    	
-		while(true) {
+
+		UserEntity userEntity = new UserEntity();
+		userEntity.setEmail(Const.USER_SYS);
+
+		AuthHolder.setUser(userEntity);
+
+		while (true) {
 			try {
 
 				System.out.println("check flow.");
-				
+
 				// check flow
 				List<PublishNodeEntity> publishNodeList = publishNodeDao.selectAllCronNode();
-				
+
 				// add to start list
-				if(publishNodeList != null) {
-					for(PublishNodeEntity historyNodeEntity:publishNodeList) {
-						if(scheduledFlowIdSet.add(historyNodeEntity.getFlowId())) {
+				if (publishNodeList != null) {
+					for (PublishNodeEntity historyNodeEntity : publishNodeList) {
+						if (scheduledFlowIdSet.add(historyNodeEntity.getFlowId())) {
 							register(historyNodeEntity.getStartCron(), historyNodeEntity.getFlowId());
 						} else {
-							System.out.println("already scheduled:"+historyNodeEntity.getFlowId());
+							System.out.println("already scheduled:" + historyNodeEntity.getFlowId());
 						}
-						
+
 					}
 				}
-				
-				Thread.sleep(1000*60);
-				
+
+				Thread.sleep(1000 * 60);
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				break;
@@ -97,39 +98,40 @@ public class FlowTimerTriger implements Runnable{
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @param cron
 	 * @param flowId
 	 * @return
 	 */
-    private ScheduledFuture<?> register(String cron, String flowId) {
+	private ScheduledFuture<?> register(String cron, String flowId) {
 
-        if(!CronExpression.isValidExpression(cron)) {
-        	System.out.println("not a valied expression:"+cron);
-        	return null;
-        }
+		if (!CronExpression.isValidExpression(cron)) {
+			System.out.println("not a valied expression:" + cron);
+			return null;
+		}
 
-        CronExpression exp = CronExpression.parse(cron);
-        LocalDateTime nextTime = exp.next(LocalDateTime.now());
-        
-        if (nextTime != null) {
-            System.out.println("["+flowId+"] next execute time:"+nextTime.format(DateTimeFormatter.ofPattern ("yyyy/MM/dd HH:mm:ss")));
-        }
+		CronExpression exp = CronExpression.parse(cron);
+		LocalDateTime nextTime = exp.next(LocalDateTime.now());
 
-        return taskScheduler.schedule(new Runnable() {
-            @Override
-            public void run() {
+		if (nextTime != null) {
+			System.out.println("[" + flowId + "] next execute time:"
+					+ nextTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
+		}
 
-            	UserEntity userEntity = new UserEntity();
-            	userEntity.setEmail(Const.USER_SYS);
-            	
-            	AuthHolder.setUser(userEntity);
-            	
-            	flowManager.startFlow(flowId);
-            }
-        }, new CronTrigger(cron));
-    }
+		return taskScheduler.schedule(new Runnable() {
+			@Override
+			public void run() {
+
+				UserEntity userEntity = new UserEntity();
+				userEntity.setEmail(Const.USER_SYS);
+
+				AuthHolder.setUser(userEntity);
+
+				flowManager.startFlow(flowId);
+			}
+		}, new CronTrigger(cron));
+	}
 
 }

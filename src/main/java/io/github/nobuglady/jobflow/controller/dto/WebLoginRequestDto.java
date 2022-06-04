@@ -22,5 +22,5 @@ public class WebLoginRequestDto {
 
 	public String username;
 	public String password;
-	
+
 }

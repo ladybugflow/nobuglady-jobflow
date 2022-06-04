@@ -41,29 +41,29 @@ import io.github.nobuglady.jobflow.constant.Const;
 public class ConsoleLogger {
 
 	private static Map<String, ConsoleLogger> instanceMap = new HashMap<>();
-	
+
 //	private String flowId;
 //	private String historyId;
-	
+
 	File logFile;
 	private PrintWriter pw;
-	
+
 	/**
 	 * constructor
 	 */
 	private ConsoleLogger(String flowId, String historyId) {
-		
+
 //		this.flowId = flowId;
 //		this.historyId = historyId;
-		
-		File dir = new File(Const.LOG_ROOT_DIR+flowId+"/");
+
+		File dir = new File(Const.LOG_ROOT_DIR + flowId + "/");
 		dir.mkdirs();
-		
-		logFile = new File(Const.LOG_ROOT_DIR+flowId+"/"+historyId+".log");
-		
-		if(!logFile.exists()) {
+
+		logFile = new File(Const.LOG_ROOT_DIR + flowId + "/" + historyId + ".log");
+
+		if (!logFile.exists()) {
 			try {
-				System.out.println("create new file"+logFile.toString());
+				System.out.println("create new file" + logFile.toString());
 				logFile.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -71,43 +71,42 @@ public class ConsoleLogger {
 		}
 
 		try {
-			FileOutputStream fos = new FileOutputStream(logFile,true);
-			OutputStreamWriter osw = new OutputStreamWriter(fos,Charset.forName("UTF-8"));
-			pw = new PrintWriter(osw,true);
+			FileOutputStream fos = new FileOutputStream(logFile, true);
+			OutputStreamWriter osw = new OutputStreamWriter(fos, Charset.forName("UTF-8"));
+			pw = new PrintWriter(osw, true);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		
-		
+
 		Resource resource = new ClassPathResource("/application.properties");
 		Integer logSize = 64;
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(resource);
 			logSize = Integer.parseInt(props.getOrDefault("log.size", 64).toString());
-			System.out.println("log size:"+logSize);
+			System.out.println("log size:" + logSize);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	/**
 	 * get instance
 	 * 
 	 * @param method method
-	 * @param path path
+	 * @param path   path
 	 * @return instance
 	 */
 	public static synchronized ConsoleLogger getInstance(String flowId, String historyId) {
-		String instanceId = flowId+","+historyId;
+		String instanceId = flowId + "," + historyId;
 		ConsoleLogger instance = instanceMap.get(instanceId);
-		if(instance == null) {
-			instance = new ConsoleLogger(flowId,historyId);
+		if (instance == null) {
+			instance = new ConsoleLogger(flowId, historyId);
 			instanceMap.put(instanceId, instance);
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * info
 	 * 
@@ -116,7 +115,7 @@ public class ConsoleLogger {
 	public void info(String message) {
 		pw.println(message);
 	}
-	
+
 	/**
 	 * error
 	 * 
@@ -126,20 +125,20 @@ public class ConsoleLogger {
 		pw.println(message);
 		pw.println(e.getMessage());
 	}
-	
+
 	/**
 	 * get message list
 	 * 
 	 * @return message list
 	 */
-	public List<String> getMessages(){
-		
+	public List<String> getMessages() {
+
 		try {
 			return Files.readAllLines(logFile.toPath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return new ArrayList<>();
 	}
 
@@ -147,7 +146,7 @@ public class ConsoleLogger {
 	 * clear log
 	 */
 	public void clear() {
-		System.out.println("clear log:"+logFile.toString());
+		System.out.println("clear log:" + logFile.toString());
 		logFile.delete();
 	}
 

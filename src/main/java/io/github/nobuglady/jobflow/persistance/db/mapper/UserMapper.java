@@ -28,18 +28,10 @@ public interface UserMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("select "
-			+ " * "
-			+ " from "
-			+ " tuser"
-			+ " where"
-			+ " email = #{param1}"
-			+ " and passwd = #{param2}"
-			+ " ")
+	@Select("select " + " * " + " from " + " tuser" + " where" + " email = #{param1}" + " and passwd = #{param2}" + " ")
 	public UserEntity getByEmailPassword(String email, String password);
 }

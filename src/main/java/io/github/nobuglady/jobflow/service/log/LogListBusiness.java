@@ -35,13 +35,13 @@ public class LogListBusiness {
 	 * @return
 	 */
 	public List<LogFolderDto> requestLogList() {
-		
+
 		File root = new File(Const.LOG_ROOT_DIR);
 		File[] files = root.listFiles();
-		
+
 		List<LogFolderDto> resultList = new ArrayList<>();
-		if(files != null) {
-			for(File file:files) {
+		if (files != null) {
+			for (File file : files) {
 				LogFolderDto logFolderDto = new LogFolderDto();
 				logFolderDto.flowId = file.getName();
 				resultList.add(logFolderDto);
@@ -57,13 +57,13 @@ public class LogListBusiness {
 	 * @return
 	 */
 	public List<LogFileDto> requestLogListFile(String flowId) {
-		
+
 		File root = new File(Const.LOG_ROOT_DIR + flowId);
 		File[] files = root.listFiles();
-		
+
 		List<LogFileDto> resultList = new ArrayList<>();
-		if(files != null) {
-			for(File file:files) {
+		if (files != null) {
+			for (File file : files) {
 				LogFileDto logFolderDto = new LogFileDto();
 				logFolderDto.flowId = flowId;
 				logFolderDto.fileId = file.getName();
@@ -79,12 +79,12 @@ public class LogListBusiness {
 	 * @param fileId
 	 */
 	public File requestLogListFileDownload(String flowId, String fileId) {
-		
+
 		File file = new File(Const.LOG_ROOT_DIR + flowId + "/" + fileId);
-		if(file.exists()) {
+		if (file.exists()) {
 			return file;
 		}
-		
+
 		return null;
 	}
 
@@ -96,7 +96,7 @@ public class LogListBusiness {
 	public void requestLogListFileDelete(String flowId, String fileId) {
 
 		File file = new File(Const.LOG_ROOT_DIR + flowId + "/" + fileId);
-		if(file.exists()) {
+		if (file.exists()) {
 			file.delete();
 		}
 	}

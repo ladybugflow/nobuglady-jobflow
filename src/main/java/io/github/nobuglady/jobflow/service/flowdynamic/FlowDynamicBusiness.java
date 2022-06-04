@@ -55,13 +55,13 @@ public class FlowDynamicBusiness {
 
 	@Autowired
 	private HistoryFlowDao flowHistoryDao;
-	
+
 	@Autowired
 	private HistoryNodeDao nodeHistoryDao;
-	
+
 	@Autowired
 	private HistoryEdgeDao edgeHistoryDao;
-	
+
 	@Autowired
 	private FlowManager flowManager;
 
@@ -73,62 +73,60 @@ public class FlowDynamicBusiness {
 	 * @param requestDto
 	 * @param responseDto
 	 */
-	public void requestFlowDynamic(
-			FlowDynamicRequestDto requestDto, 
-			FlowDynamicResponseDto responseDto) {
-		
+	public void requestFlowDynamic(FlowDynamicRequestDto requestDto, FlowDynamicResponseDto responseDto) {
+
 		String flowId = requestDto.flowId;
 		String historyId = requestDto.historyId;
 
 		/*
 		 * flow
 		 */
-    	HistoryFlowEntity flowEntity = flowHistoryDao.selectByKey(flowId,historyId);
-    	
-        FlowDto nodeFlowDto = new FlowDto();
-        nodeFlowDto.updateTime = DateUtil.dateToString(flowEntity.getUpdateTime(), DateUtil.FMT_YYYYMMDD_HHMMSS);
+		HistoryFlowEntity flowEntity = flowHistoryDao.selectByKey(flowId, historyId);
 
-        /*
-         * node
-         */
-        List<HistoryNodeEntity> nodeEntityList = nodeHistoryDao.selectByFlowHistoryId(flowId,historyId);
-        for (HistoryNodeEntity item : nodeEntityList) {
-        	
-            NodeDto nodeNodeDto = new NodeDto();
-            nodeNodeDto.id = item.getNodeId();
-            nodeNodeDto.label = item.getNodeName();
-            nodeNodeDto.layoutX = item.getLayoutX();
-            nodeNodeDto.layoutY = item.getLayoutY();
-            nodeNodeDto.status = item.getNodeStatus();
-            nodeNodeDto.status_detail = item.getNodeStatusDetail();
-            
-            nodeNodeDto.disabled = DataUtil.getDisabedFlag(item.getDisableFlag());
-            nodeNodeDto.type = DataUtil.getNodeType(item.getNodeType());
+		FlowDto nodeFlowDto = new FlowDto();
+		nodeFlowDto.updateTime = DateUtil.dateToString(flowEntity.getUpdateTime(), DateUtil.FMT_YYYYMMDD_HHMMSS);
 
-            nodeFlowDto.nodes.add(nodeNodeDto);
-        }
+		/*
+		 * node
+		 */
+		List<HistoryNodeEntity> nodeEntityList = nodeHistoryDao.selectByFlowHistoryId(flowId, historyId);
+		for (HistoryNodeEntity item : nodeEntityList) {
 
-        /*
-         * edge
-         */
-        List<HistoryEdgeEntity> edgeEntityList = edgeHistoryDao.selectByFlowHistoryId(flowId,historyId);
-        for (HistoryEdgeEntity item : edgeEntityList) {
-            	
-            EdgeDto nodeEdgeDto = new EdgeDto();
-            nodeEdgeDto.id = item.getEdgeId();
-            nodeEdgeDto.from = item.getFromNodeId();
-            nodeEdgeDto.to = item.getToNodeId();
+			NodeDto nodeNodeDto = new NodeDto();
+			nodeNodeDto.id = item.getNodeId();
+			nodeNodeDto.label = item.getNodeName();
+			nodeNodeDto.layoutX = item.getLayoutX();
+			nodeNodeDto.layoutY = item.getLayoutY();
+			nodeNodeDto.status = item.getNodeStatus();
+			nodeNodeDto.status_detail = item.getNodeStatusDetail();
 
-            nodeFlowDto.edges.add(nodeEdgeDto);
-        }
+			nodeNodeDto.disabled = DataUtil.getDisabedFlag(item.getDisableFlag());
+			nodeNodeDto.type = DataUtil.getNodeType(item.getNodeType());
 
-        /*
-         * convert flow to json
-         */
+			nodeFlowDto.nodes.add(nodeNodeDto);
+		}
+
+		/*
+		 * edge
+		 */
+		List<HistoryEdgeEntity> edgeEntityList = edgeHistoryDao.selectByFlowHistoryId(flowId, historyId);
+		for (HistoryEdgeEntity item : edgeEntityList) {
+
+			EdgeDto nodeEdgeDto = new EdgeDto();
+			nodeEdgeDto.id = item.getEdgeId();
+			nodeEdgeDto.from = item.getFromNodeId();
+			nodeEdgeDto.to = item.getToNodeId();
+
+			nodeFlowDto.edges.add(nodeEdgeDto);
+		}
+
+		/*
+		 * convert flow to json
+		 */
 		responseDto.flowData = nodeFlowDto.toJson();
 		HistoryFlowEntity flowHistoryEntity = flowHistoryDao.selectByKey(requestDto.flowId, requestDto.historyId);
 		responseDto.disable_flag = DataUtil.getDisabedFlag(flowHistoryEntity.getDisableFlag());
-		
+
 	}
 
 	/**
@@ -137,7 +135,7 @@ public class FlowDynamicBusiness {
 	 * @param responseDto
 	 */
 	public void requestStartFlow(StartFlowRequestDto requestDto, StartFlowResponseDto responseDto) {
-		
+
 		String historyId = flowManager.startFlow(requestDto.flowId);
 		HistoryFlowEntity flowHistoryEntity = flowHistoryDao.selectByKey(requestDto.flowId, historyId);
 		responseDto.instanceId = historyId;
@@ -152,7 +150,7 @@ public class FlowDynamicBusiness {
 	 * @param responseDto
 	 */
 	public void requestReStartFlow(ReStartFlowRequestDto requestDto, ReStartFlowResponseDto responseDto) {
-		
+
 		String historyId = flowManager.reStartFlow(requestDto.flowId, requestDto.historyId);
 		HistoryFlowEntity flowHistoryEntity = flowHistoryDao.selectByKey(requestDto.flowId, historyId);
 		responseDto.instanceId = historyId;
@@ -167,9 +165,10 @@ public class FlowDynamicBusiness {
 	 * @param responseDto
 	 */
 	public void requestStartNode(StartNodeRequestDto requestDto, StartNodeResponseDto responseDto) {
-		
-		String historyId = flowManager.startNode(requestDto.flowId,requestDto.nodeId);
-		HistoryNodeEntity nodeHistoryEntity = nodeHistoryDao.selectByKey(requestDto.flowId, requestDto.nodeId, historyId);
+
+		String historyId = flowManager.startNode(requestDto.flowId, requestDto.nodeId);
+		HistoryNodeEntity nodeHistoryEntity = nodeHistoryDao.selectByKey(requestDto.flowId, requestDto.nodeId,
+				historyId);
 		responseDto.instanceId = historyId;
 		responseDto.flow_id = nodeHistoryEntity.getFlowId();
 		responseDto.node_id = nodeHistoryEntity.getNodeId();
@@ -183,61 +182,63 @@ public class FlowDynamicBusiness {
 	 * @param responseDto
 	 */
 	public void requestReStartNode(ReStartNodeRequestDto requestDto, ReStartNodeResponseDto responseDto) {
-		
+
 		String historyId = flowManager.reStartNode(requestDto.flowId, requestDto.instanceId, requestDto.nodeId);
-		HistoryNodeEntity nodeHistoryEntity = nodeHistoryDao.selectByKey(requestDto.flowId, requestDto.nodeId, historyId);
+		HistoryNodeEntity nodeHistoryEntity = nodeHistoryDao.selectByKey(requestDto.flowId, requestDto.nodeId,
+				historyId);
 		responseDto.instanceId = historyId;
 		responseDto.flow_id = nodeHistoryEntity.getFlowId();
 		responseDto.node_id = nodeHistoryEntity.getNodeId();
 		responseDto.start_time = nodeHistoryEntity.getStartTime();
 		responseDto.create_time = nodeHistoryEntity.getCreateTime();
 	}
-	
+
 	///////////////////////////////////////
 	// log
 	///////////////////////////////////////
 	/**
 	 * refresh log
 	 * 
-	 * @param requestDto request dto
+	 * @param requestDto  request dto
 	 * @param responseDto response dto
 	 */
 	public void refreshLog(LogRefreshRequestDto requestDto, LogRefreshResponseDto responseDto) {
-		
+
 		List<String> messageList = ConsoleLogger.getInstance(requestDto.flowId, requestDto.historyId).getMessages();
 		StringBuffer logMsg = new StringBuffer();
-		
-		for(String message:messageList) {
+
+		for (String message : messageList) {
 			logMsg.append(message);
 			logMsg.append("\n");
 		}
-		
+
 		responseDto.logs = logMsg.toString();
 	}
 
 	/**
 	 * clear log
 	 * 
-	 * @param requestDto request dto
+	 * @param requestDto  request dto
 	 * @param responseDto response dto
 	 */
 	public void clearLog(LogClearRequestDto requestDto, LogClearResponseDto responseDto) {
-		
+
 		ConsoleLogger.getInstance(requestDto.flowId, requestDto.historyId).clear();
-		
+
 		responseDto.logs = "";
 	}
-	
+
 	///////////////////////////////////////
 	// other
 	///////////////////////////////////////
 
 	public void initFlowOnStartup() {
-		
+
 		List<HistoryFlowEntity> historyFlowEntityList = flowHistoryDao.selectRunningFlow();
-		if(historyFlowEntityList != null) {
-			for(HistoryFlowEntity historyFlowEntity:historyFlowEntityList) {
-				flowManager.recoveryFlow(historyFlowEntity.getFlowId(), String.valueOf(historyFlowEntity.getHistoryId()));
+		if (historyFlowEntityList != null) {
+			for (HistoryFlowEntity historyFlowEntity : historyFlowEntityList) {
+				flowManager.recoveryFlow(historyFlowEntity.getFlowId(),
+						String.valueOf(historyFlowEntity.getHistoryId()));
 			}
 		}
 	}

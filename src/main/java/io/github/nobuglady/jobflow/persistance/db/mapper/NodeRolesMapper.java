@@ -32,42 +32,18 @@ public interface NodeRolesMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Insert("insert into node_roles"
-			+ " ("
-			+ "flow_id,"
-			+ "node_id,"
-			+ "roles_id,"
-	    	+ "create_user, "
-	    	+ "update_user, "
-			+ "create_time,"
-			+ "update_time"
-			+ " )"
-			+ " values"
-			+ " ("
-			+ "#{flowId},"
-			+ "#{nodeId},"
-			+ "#{rolesId},"
-			+ "#{createUser},"
-			+ "#{updateUser},"
-			+ "now(),"
-			+ "now()"
-			+ " ) ")
+	@Insert("insert into node_roles" + " (" + "flow_id," + "node_id," + "roles_id," + "create_user, " + "update_user, "
+			+ "create_time," + "update_time" + " )" + " values" + " (" + "#{flowId}," + "#{nodeId}," + "#{rolesId},"
+			+ "#{createUser}," + "#{updateUser}," + "now()," + "now()" + " ) ")
 	public void save(NodeRolesEntity entity);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM node_roles "
-			+ " WHERE"
-			+ " flow_id = #{param1}"
-			+ " and node_id = #{param2}")
+	@Select("SELECT * FROM node_roles " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
 	public List<NodeRolesEntity> selectList(String flowId, String nodeId);
 
-	@Update("delete FROM node_roles "
-			+ " WHERE"
-			+ " flow_id = #{param1}"
-			+ " and node_id = #{param2}")
+	@Update("delete FROM node_roles " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
 	public void deleteRoles(String flowId, String nodeId);
-
 
 }

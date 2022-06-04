@@ -36,7 +36,6 @@ public class FlowListController {
 	@Autowired
 	private FlowListBusiness flowBusiness;
 
-	
 	///////////////////////////////////////
 	// flow
 	///////////////////////////////////////
@@ -45,27 +44,26 @@ public class FlowListController {
 	 * @param flowid
 	 * @return
 	 */
-	@RequestMapping(value="/request_flow_list", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_flow_list", method = RequestMethod.POST)
 	@ResponseBody
 	public List<FlowListResponseDto> requestPublishList() {
-		
+
 		return flowBusiness.requestFlowList();
 	}
-	
+
 	/**
 	 * 
 	 * @param flowId
 	 * @param flowName
 	 * @return
 	 */
-	@RequestMapping(value="/request_create_flow", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_create_flow", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResponse requestCreateFlow(
-			@RequestParam(value="flowId") String flowId,
-			@RequestParam(value="flowName") String flowName) {
-		
+	public CommonResponse requestCreateFlow(@RequestParam(value = "flowId") String flowId,
+			@RequestParam(value = "flowName") String flowName) {
+
 		flowBusiness.requestCreateFlow(flowId, flowName);
-		
+
 		return new CommonResponse();
 	}
 }

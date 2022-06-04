@@ -36,7 +36,7 @@ public class InstanceListBusiness {
 	 * @return
 	 */
 	public List<HistoryFlowEntity> requestInstanceList() {
-		
+
 		return flowHistoryDao.selectAll();
 	}
 
@@ -45,7 +45,7 @@ public class InstanceListBusiness {
 	 * @return
 	 */
 	public List<HistoryFlowEntity> requestProcessingInstanceList() {
-		
+
 		return flowHistoryDao.selectRunningFlow();
 	}
 
@@ -54,7 +54,7 @@ public class InstanceListBusiness {
 	 * @return
 	 */
 	public List<HistoryFlowEntity> requestErrorInstanceList() {
-		
+
 		return flowHistoryDao.selectAllError();
 	}
 
@@ -63,7 +63,7 @@ public class InstanceListBusiness {
 	 * @return
 	 */
 	public List<HistoryFlowEntity> requestCompleteInstanceList() {
-		
+
 		return flowHistoryDao.selectTodayComplete();
 	}
 

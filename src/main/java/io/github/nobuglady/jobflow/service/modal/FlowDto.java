@@ -29,57 +29,57 @@ import io.github.nobuglady.jobflow.util.StringUtil;
 public class FlowDto {
 
 	public String updateTime;
-	
+
 	public List<NodeDto> nodes = new ArrayList<NodeDto>();
-	public List<EdgeDto> edges = new ArrayList<EdgeDto>(); 
-	
+	public List<EdgeDto> edges = new ArrayList<EdgeDto>();
+
 	public String toJson() {
-		
+
 		EdgeDto startEdge = null;
-		for(EdgeDto edge:edges) {
-			if(edge.from.equals("start")) {
+		for (EdgeDto edge : edges) {
+			if (edge.from.equals("start")) {
 				startEdge = edge;
 				break;
 			}
 		}
-		
-		if(startEdge != null) {
+
+		if (startEdge != null) {
 			edges.remove(startEdge);
 			edges.add(0, startEdge);
 		}
-		
+
 		StringBuffer json = new StringBuffer();
 		json.append("{");
-		json.append("\"updateTime\":\""+updateTime+"\",");
+		json.append("\"updateTime\":\"" + updateTime + "\",");
 		json.append("\"nodes\":[");
-		
-		for(NodeDto jobNodeDto:nodes) {
+
+		for (NodeDto jobNodeDto : nodes) {
 			json.append("{");
 			// id
-			json.append("\"id\": \""+jobNodeDto.id+"\",");
+			json.append("\"id\": \"" + jobNodeDto.id + "\",");
 			// position
-			if(StringUtil.isNotEmpty(jobNodeDto.layoutX)) {
-				json.append( "\"x\": "+jobNodeDto.layoutX+", ");
-				json.append( "\"layoutX\": "+jobNodeDto.layoutX+", ");
+			if (StringUtil.isNotEmpty(jobNodeDto.layoutX)) {
+				json.append("\"x\": " + jobNodeDto.layoutX + ", ");
+				json.append("\"layoutX\": " + jobNodeDto.layoutX + ", ");
 			}
-			if(StringUtil.isNotEmpty(jobNodeDto.layoutY)) {
-				json.append( "\"y\": "+jobNodeDto.layoutY+", ");
-				json.append( "\"layoutY\": "+jobNodeDto.layoutY+", ");
+			if (StringUtil.isNotEmpty(jobNodeDto.layoutY)) {
+				json.append("\"y\": " + jobNodeDto.layoutY + ", ");
+				json.append("\"layoutY\": " + jobNodeDto.layoutY + ", ");
 			}
 			// label
-			json.append( "\"label\": \""+jobNodeDto.label+"\" ");
-			
+			json.append("\"label\": \"" + jobNodeDto.label + "\" ");
+
 			// color
-			if(jobNodeDto.type == NodeType.NODE_TYPE_START) {
+			if (jobNodeDto.type == NodeType.NODE_TYPE_START) {
 				json.append(",");
 				json.append("\"color\": \"#ed674c\"");
-			}else {
+			} else {
 
-				if(Const.FLAG_ON == jobNodeDto.disabled) {
+				if (Const.FLAG_ON == jobNodeDto.disabled) {
 					json.append(",");
 					json.append("\"color\": \"#999999\"");
-				}else {
-					if(NodeStatus.GO == jobNodeDto.status) {
+				} else {
+					if (NodeStatus.GO == jobNodeDto.status) {
 						json.append(",");
 						json.append("\"color\": \"#6fe13f\"");
 					}
@@ -87,55 +87,54 @@ public class FlowDto {
 //						json.append(",");
 //						json.append("\"color\": \"#FF0000\"");
 //					}
-					else if(NodeStatus.OPENNING == jobNodeDto.status) {
+					else if (NodeStatus.OPENNING == jobNodeDto.status) {
 						json.append(",");
 						json.append("\"color\": \"#008b8b\"");
-					}else if(NodeStatus.WAIT == jobNodeDto.status) {
+					} else if (NodeStatus.WAIT == jobNodeDto.status) {
 //						json.append(",");
 //						json.append("\"color\": \"#FF0000\"");
-					}else if(NodeStatus.COMPLETE == jobNodeDto.status){
-						if(NodeStatusDetail.COMPLETE_ERROR == jobNodeDto.status_detail) {
+					} else if (NodeStatus.COMPLETE == jobNodeDto.status) {
+						if (NodeStatusDetail.COMPLETE_ERROR == jobNodeDto.status_detail) {
 							json.append(",");
 							json.append("\"color\": \"#FF0000\"");
-						}else {
+						} else {
 							json.append(",");
 							json.append("\"color\": \"#FFFF00\"");
 						}
-					}else {
+					} else {
 						json.append(",");
 						json.append("\"color\": \"#FFFF00\"");
 					}
 				}
 
 			}
-			
-			
+
 			json.append("}");
 			json.append(",");
 		}
-		
-		if(nodes.size()>0) {
+
+		if (nodes.size() > 0) {
 			// delete last ","
-			json.deleteCharAt(json.length()-1);
+			json.deleteCharAt(json.length() - 1);
 		}
-		
+
 		json.append("],\"edges\":[");
 
-		for(EdgeDto jobEdgeDto:edges) {
+		for (EdgeDto jobEdgeDto : edges) {
 			json.append("{");
-			json.append("\"id\": \""+jobEdgeDto.id+"\",");
-			json.append("\"from\": \""+jobEdgeDto.from+"\",");
-			json.append( "\"to\": \""+jobEdgeDto.to+"\",");
+			json.append("\"id\": \"" + jobEdgeDto.id + "\",");
+			json.append("\"from\": \"" + jobEdgeDto.from + "\",");
+			json.append("\"to\": \"" + jobEdgeDto.to + "\",");
 			json.append("\"arrows\": \"to\"");
 			json.append("}");
 			json.append(",");
 		}
-		
-		if(edges.size()>0) {
+
+		if (edges.size() > 0) {
 			// delete last ","
-			json.deleteCharAt(json.length()-1);
+			json.deleteCharAt(json.length() - 1);
 		}
-		
+
 		json.append("]}");
 		return json.toString();
 	}

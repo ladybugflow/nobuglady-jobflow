@@ -50,76 +50,71 @@ public class LogListController {
 	 * @param flowId
 	 * @return
 	 */
-	@RequestMapping(value="/request_log_list", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_log_list", method = RequestMethod.POST)
 	@ResponseBody
 	public List<LogFolderDto> requestLogList() {
-		
+
 		return logListBusiness.requestLogList();
 	}
-	
+
 	/**
 	 * 
 	 * @param flowId
 	 * @param fileId
 	 * @return
 	 */
-	@RequestMapping(value="/request_log_list_file", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_log_list_file", method = RequestMethod.POST)
 	@ResponseBody
-	public List<LogFileDto> requestLogListFile(
-			@RequestParam(value="flowId") String flowId) {
-		
+	public List<LogFileDto> requestLogListFile(@RequestParam(value = "flowId") String flowId) {
+
 		return logListBusiness.requestLogListFile(flowId);
 	}
-	
+
 	/**
 	 * 
 	 * @param flowId
 	 * @param fileId
 	 * @return
 	 */
-	@RequestMapping(value="/request_log_list_file_download", method=RequestMethod.GET)
-	public ResponseEntity<Resource> requestLogListFileDownload(
-			@RequestParam(value="flowId") String flowId,
-			@RequestParam(value="fileId") String fileId) {
-		
-		File file = logListBusiness.requestLogListFileDownload(flowId,fileId);
-		
-		if(file == null) {
+	@RequestMapping(value = "/request_log_list_file_download", method = RequestMethod.GET)
+	public ResponseEntity<Resource> requestLogListFileDownload(@RequestParam(value = "flowId") String flowId,
+			@RequestParam(value = "fileId") String fileId) {
+
+		File file = logListBusiness.requestLogListFileDownload(flowId, fileId);
+
+		if (file == null) {
 			return null;
 		}
-		
+
 		try {
-		    InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-	
-		    HttpHeaders headers = new HttpHeaders(); headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getName());
-		    
-		    return ResponseEntity.ok()
-		            .headers(headers)
-		            .contentLength(file.length())
-		            .contentType(MediaType.APPLICATION_OCTET_STREAM)
-		            .body(resource);
+			InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+
+			return ResponseEntity.ok().headers(headers).contentLength(file.length())
+					.contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param flowId
 	 * @param fileId
 	 * @return
 	 */
-	@RequestMapping(value="/request_log_list_file_delete", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_log_list_file_delete", method = RequestMethod.POST)
 	@ResponseBody
-	public FileDeleteResponseDto requestLogListFileDelete(
-			@RequestParam(value="flowId") String flowId,
-			@RequestParam(value="fileId") String fileId) {
-		
+	public FileDeleteResponseDto requestLogListFileDelete(@RequestParam(value = "flowId") String flowId,
+			@RequestParam(value = "fileId") String fileId) {
+
 		FileDeleteResponseDto responseDto = new FileDeleteResponseDto();
-		
-		logListBusiness.requestLogListFileDelete(flowId,fileId);
-		
+
+		logListBusiness.requestLogListFileDelete(flowId, fileId);
+
 		return responseDto;
 	}
 }

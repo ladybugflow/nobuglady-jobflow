@@ -43,9 +43,9 @@ import io.github.nobuglady.jobflow.websocket.WebSocketManager;
 @Component
 public class FlowManager {
 
-    @Autowired
-    private FlowMarker flowMarker;
-    
+	@Autowired
+	private FlowMarker flowMarker;
+
 	@Autowired
 	private HistoryFlowDao historyFlowDao;
 
@@ -57,59 +57,58 @@ public class FlowManager {
 
 	public FlowManager() {
 
-        CompleteQueueConsumerThread statusNotifyThread = new CompleteQueueConsumerThread(this);
-        statusNotifyThread.start();
-        System.out.println("Complete queue thread started.");
+		CompleteQueueConsumerThread statusNotifyThread = new CompleteQueueConsumerThread(this);
+		statusNotifyThread.start();
+		System.out.println("Complete queue thread started.");
 
 	}
-	
+
 	////////////////////////////////////////////////////////
 	// call back
 	////////////////////////////////////////////////////////
 
-    /**
-     * 
-     * @param nodeResult
-     */
-    public void onNodeComplete(CompleteNodeResult nodeResult) {
+	/**
+	 * 
+	 * @param nodeResult
+	 */
+	public void onNodeComplete(CompleteNodeResult nodeResult) {
 
-    	String flowId = nodeResult.getFlowId();
-    	String historyId = nodeResult.getHistoryId();
+		String flowId = nodeResult.getFlowId();
+		String historyId = nodeResult.getHistoryId();
 
-        try {
-        	flowMarker.onNodeComplete(nodeResult);
+		try {
+			flowMarker.onNodeComplete(nodeResult);
 
-            List<HistoryNodeEntity> readyNodeList = getReadyNode(flowId, historyId);
+			List<HistoryNodeEntity> readyNodeList = getReadyNode(flowId, historyId);
 
-            if (readyNodeList.size() > 0) {
-                for (HistoryNodeEntity readyNode : readyNodeList) {
-                    startNode(flowId, historyId, readyNode.getNodeId());
-                }
-            } else {
-            	
-                List<HistoryNodeEntity> runningNodeList = getRunningNode(flowId, historyId);
-                List<HistoryNodeEntity> openingNodeList = getOpenningNode(flowId, historyId);
-                List<HistoryNodeEntity> errorNodeList = getErrorNode(flowId, historyId);
-                
-                if (runningNodeList.size() == 0 && openingNodeList.size() == 0) {
-                    System.out.println("Complete.");
-                    if(errorNodeList.size() > 0) {
-                    	updateFlowStatus(flowId, historyId, true);
-                    }else {
-                    	updateFlowStatus(flowId, historyId, false);
-                    }
-                    
-                    WebSocketManager.getInstance().notifyFlowComplete(flowId, historyId);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            updateFlowStatus(flowId, historyId, true);
-        }
-        
-        WebSocketManager.getInstance().notifyFlowUpdate(flowId, historyId);
-    }
+			if (readyNodeList.size() > 0) {
+				for (HistoryNodeEntity readyNode : readyNodeList) {
+					startNode(flowId, historyId, readyNode.getNodeId());
+				}
+			} else {
 
+				List<HistoryNodeEntity> runningNodeList = getRunningNode(flowId, historyId);
+				List<HistoryNodeEntity> openingNodeList = getOpenningNode(flowId, historyId);
+				List<HistoryNodeEntity> errorNodeList = getErrorNode(flowId, historyId);
+
+				if (runningNodeList.size() == 0 && openingNodeList.size() == 0) {
+					System.out.println("Complete.");
+					if (errorNodeList.size() > 0) {
+						updateFlowStatus(flowId, historyId, true);
+					} else {
+						updateFlowStatus(flowId, historyId, false);
+					}
+
+					WebSocketManager.getInstance().notifyFlowComplete(flowId, historyId);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFlowStatus(flowId, historyId, true);
+		}
+
+		WebSocketManager.getInstance().notifyFlowUpdate(flowId, historyId);
+	}
 
 	////////////////////////////////////////////////////////
 	// start
@@ -120,60 +119,54 @@ public class FlowManager {
 	 * @param flowId
 	 * @return
 	 */
-    public String startFlow(String flowId) {
+	public String startFlow(String flowId) {
 
-        // create instance
-        String historyId = String.valueOf(historyFlowDao.createHistory(flowId));
-        
-        // initialize flow
-        historyNodeDao.updateStatusByHistoryId(flowId,historyId, NodeStatus.WAIT);
+		// create instance
+		String historyId = String.valueOf(historyFlowDao.createHistory(flowId));
 
-        // start first node
-        startNode(flowId, historyId, getFirstNodeId(flowId));
-        
-        return historyId;
-    }
+		// initialize flow
+		historyNodeDao.updateStatusByHistoryId(flowId, historyId, NodeStatus.WAIT);
 
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @return
-     */
-    public String recoveryFlow(
-    		String flowId, 
-    		String historyId) {
-    	
-    	UserEntity userEntity = new UserEntity();
-    	userEntity.setEmail(Const.USER_SYS);
-    	
-    	AuthHolder.setUser(userEntity);
-    	
-    	reStartFlow(flowId, historyId);
-        
-        return historyId;
-    }
-    
+		// start first node
+		startNode(flowId, historyId, getFirstNodeId(flowId));
 
-    /**
-     * 
-     * @param flowId
-     * @param historyIdParam
-     * @return
-     */
-    public String reStartFlow(
-    		String flowId, 
-    		String historyId) {
+		return historyId;
+	}
 
-        // initialize flow
-        historyNodeDao.updateStatusByHistoryId(flowId,historyId, NodeStatus.WAIT);
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @return
+	 */
+	public String recoveryFlow(String flowId, String historyId) {
 
-        // start first node
-        startNode(flowId, historyId, getFirstNodeId(flowId));
-        
-        return historyId;
-    }
-    
+		UserEntity userEntity = new UserEntity();
+		userEntity.setEmail(Const.USER_SYS);
+
+		AuthHolder.setUser(userEntity);
+
+		reStartFlow(flowId, historyId);
+
+		return historyId;
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyIdParam
+	 * @return
+	 */
+	public String reStartFlow(String flowId, String historyId) {
+
+		// initialize flow
+		historyNodeDao.updateStatusByHistoryId(flowId, historyId, NodeStatus.WAIT);
+
+		// start first node
+		startNode(flowId, historyId, getFirstNodeId(flowId));
+
+		return historyId;
+	}
 
 	/**
 	 * 
@@ -181,66 +174,57 @@ public class FlowManager {
 	 * @param nodeId
 	 * @return
 	 */
-    public String startNode(
-    		String flowId, 
-    		String nodeId) {
+	public String startNode(String flowId, String nodeId) {
 
-        // create instance
-        String historyId = String.valueOf(historyFlowDao.createHistory(flowId));
-        
-        // initialize flow
-        historyNodeDao.updateStatusByHistoryId(flowId,historyId, NodeStatus.WAIT);
+		// create instance
+		String historyId = String.valueOf(historyFlowDao.createHistory(flowId));
 
-        // start node
-        startNode(flowId, historyId, nodeId);
-        
-        return historyId;
-    }
+		// initialize flow
+		historyNodeDao.updateStatusByHistoryId(flowId, historyId, NodeStatus.WAIT);
 
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @param nodeId
-     * @return
-     */
-    public String reStartNode(
-    		String flowId, 
-    		String historyId, 
-    		String nodeId) {
+		// start node
+		startNode(flowId, historyId, nodeId);
 
-    	historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.READY);
-    	
-        // start node
-        startNode(flowId, historyId, nodeId);
-        
-        return historyId;
-    }
-    
-    /**
-     * 
-     * @param flowId
-     * @param personId
-     * @param personName
-     * @param personParam
-     * @return
-     */
-	public String startFlowByInterface(
-			String flowId, 
-			String personId, 
-			String personName, 
-			String personParam) {
+		return historyId;
+	}
 
-        // create instance
-        String historyId = String.valueOf(historyFlowDao.createHistory(flowId));
-        
-        // initialize flow
-        historyNodeDao.updateStatusByHistoryId(flowId,historyId, NodeStatus.WAIT);
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @param nodeId
+	 * @return
+	 */
+	public String reStartNode(String flowId, String historyId, String nodeId) {
 
-        // start first node
-        startNode(flowId, historyId, getFirstNodeId(flowId));
-        
-        return historyId;
+		historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.READY);
+
+		// start node
+		startNode(flowId, historyId, nodeId);
+
+		return historyId;
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param personId
+	 * @param personName
+	 * @param personParam
+	 * @return
+	 */
+	public String startFlowByInterface(String flowId, String personId, String personName, String personParam) {
+
+		// create instance
+		String historyId = String.valueOf(historyFlowDao.createHistory(flowId));
+
+		// initialize flow
+		historyNodeDao.updateStatusByHistoryId(flowId, historyId, NodeStatus.WAIT);
+
+		// start first node
+		startNode(flowId, historyId, getFirstNodeId(flowId));
+
+		return historyId;
 	}
 
 	////////////////////////////////////////////////////////
@@ -253,106 +237,107 @@ public class FlowManager {
 	 * @param instanceId
 	 * @param hasError
 	 */
-    public void updateFlowStatus(String flowId, String historyId, boolean hasError) {
-    	
-    	if(hasError) {
-    		historyFlowDao.updateFlowStatus(flowId, historyId, FlowStatus.ERROR);
-    	} else {
-    		historyFlowDao.updateFlowStatus(flowId, historyId, FlowStatus.COMPLETE);
-    	}
-    }
+	public void updateFlowStatus(String flowId, String historyId, boolean hasError) {
 
+		if (hasError) {
+			historyFlowDao.updateFlowStatus(flowId, historyId, FlowStatus.ERROR);
+		} else {
+			historyFlowDao.updateFlowStatus(flowId, historyId, FlowStatus.COMPLETE);
+		}
+	}
 
-    //////////////////////////////
-    // help function
-    //////////////////////////////
+	//////////////////////////////
+	// help function
+	//////////////////////////////
 
-    /**
-     * 
-     * @param flowId
-     * @return
-     */
-    private String getFirstNodeId(String flowId) {
-    	
-    	List<NodeEntity> nodeEntityList = nodeDao.selectByFlowId(flowId);
-    	if(nodeEntityList != null) {
-    		for(NodeEntity entity:nodeEntityList) {
-    			if(entity.getNodeType() == NodeType.NODE_TYPE_START ) {
-    				return entity.getNodeId();
-    			}
-    		}
-    	}
+	/**
+	 * 
+	 * @param flowId
+	 * @return
+	 */
+	private String getFirstNodeId(String flowId) {
+
+		List<NodeEntity> nodeEntityList = nodeDao.selectByFlowId(flowId);
+		if (nodeEntityList != null) {
+			for (NodeEntity entity : nodeEntityList) {
+				if (entity.getNodeType() == NodeType.NODE_TYPE_START) {
+					return entity.getNodeId();
+				}
+			}
+		}
 		return null;
 	}
 
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @param nodeId
-     */
-    private void startNode(String flowId, String historyId, String nodeId) {
-    	
-    	ReadyQueueManager.getInstance().putReadyNode(flowId, historyId, nodeId);
-	}
-    
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @return
-     */
-    private List<HistoryNodeEntity> getReadyNode(String flowId, String historyId) {
-    	
-    	List<HistoryNodeEntity> result = new ArrayList<>();
-    	
-    	List<HistoryNodeEntity> result_ready = historyNodeDao.selectNodeListByStatus(flowId, historyId, NodeStatus.READY);
-    	
-    	if(result_ready != null) {
-    		result.addAll(result_ready);
-    	}
-    	return result;
-    }
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @param nodeId
+	 */
+	private void startNode(String flowId, String historyId, String nodeId) {
 
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @return
-     */
-    private List<HistoryNodeEntity> getRunningNode(String flowId, String historyId) {
-    	List<HistoryNodeEntity> result = historyNodeDao.selectNodeListByStatus(flowId, historyId, NodeStatus.RUNNING);
-    	if(result == null) {
-    		return new ArrayList<>();
-    	}
-    	return result;
-    }
-    
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @return
-     */
-    private List<HistoryNodeEntity> getOpenningNode(String flowId, String historyId) {
-    	List<HistoryNodeEntity> result = historyNodeDao.selectNodeListByStatus(flowId, historyId, NodeStatus.OPENNING);
-    	if(result == null) {
-    		return new ArrayList<>();
-    	}
-    	return result;
-    }
-    
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @return
-     */
-    private List<HistoryNodeEntity> getErrorNode(String flowId, String historyId) {
-    	List<HistoryNodeEntity> result = historyNodeDao.selectNodeListByStatusDetail(flowId, historyId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_ERROR);
-    	if(result == null) {
-    		return new ArrayList<>();
-    	}
-    	return result;
-    }
+		ReadyQueueManager.getInstance().putReadyNode(flowId, historyId, nodeId);
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @return
+	 */
+	private List<HistoryNodeEntity> getReadyNode(String flowId, String historyId) {
+
+		List<HistoryNodeEntity> result = new ArrayList<>();
+
+		List<HistoryNodeEntity> result_ready = historyNodeDao.selectNodeListByStatus(flowId, historyId,
+				NodeStatus.READY);
+
+		if (result_ready != null) {
+			result.addAll(result_ready);
+		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @return
+	 */
+	private List<HistoryNodeEntity> getRunningNode(String flowId, String historyId) {
+		List<HistoryNodeEntity> result = historyNodeDao.selectNodeListByStatus(flowId, historyId, NodeStatus.RUNNING);
+		if (result == null) {
+			return new ArrayList<>();
+		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @return
+	 */
+	private List<HistoryNodeEntity> getOpenningNode(String flowId, String historyId) {
+		List<HistoryNodeEntity> result = historyNodeDao.selectNodeListByStatus(flowId, historyId, NodeStatus.OPENNING);
+		if (result == null) {
+			return new ArrayList<>();
+		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @return
+	 */
+	private List<HistoryNodeEntity> getErrorNode(String flowId, String historyId) {
+		List<HistoryNodeEntity> result = historyNodeDao.selectNodeListByStatusDetail(flowId, historyId,
+				NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_ERROR);
+		if (result == null) {
+			return new ArrayList<>();
+		}
+		return result;
+	}
 }

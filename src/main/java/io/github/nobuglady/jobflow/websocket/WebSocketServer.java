@@ -31,57 +31,57 @@ public class WebSocketServer {
 	 * @param session
 	 * @param sid
 	 */
-    @OnOpen
-    public void onOpen(Session session, @PathParam("sid") String sid) {
-    	System.out.println("websocket open:"+session.getId());
-    	WebSocketManager.getInstance().saveSession(session);
-    }
+	@OnOpen
+	public void onOpen(Session session, @PathParam("sid") String sid) {
+		System.out.println("websocket open:" + session.getId());
+		WebSocketManager.getInstance().saveSession(session);
+	}
 
-    /**
-     * 
-     * @param session
-     */
-    @OnClose
-    public void onClose(Session session) {
-    	System.out.println("websocket close:"+session.getId());
-    	WebSocketManager.getInstance().removeSession(session);
-    }
+	/**
+	 * 
+	 * @param session
+	 */
+	@OnClose
+	public void onClose(Session session) {
+		System.out.println("websocket close:" + session.getId());
+		WebSocketManager.getInstance().removeSession(session);
+	}
 
-    /**
-     * 
-     * @param message
-     * @param session
-     */
-    @OnMessage
-    public void onMessage(String message, Session session) {
-        System.out.println(message);
-        try {
-	        String header = message.split("#")[0];
-	        String body = message.split("#")[1];
-	        
-	        if("setFlowHistory".equals(header)) {
-	        	String flowId = body.split(",")[0];
-	        	
-	        	String historyId = null;
-	        	if(body.split(",").length >= 2) {
-	        		historyId = body.split(",")[1];
-	        	}
-	        	
-	        	WebSocketManager.getInstance().updateFlowHistory(session, flowId, historyId);
-	        }
-        } catch(Exception e) {
-        	e.printStackTrace();
-        }
-    }
+	/**
+	 * 
+	 * @param message
+	 * @param session
+	 */
+	@OnMessage
+	public void onMessage(String message, Session session) {
+		System.out.println(message);
+		try {
+			String header = message.split("#")[0];
+			String body = message.split("#")[1];
 
-    /**
-     * 
-     * @param session
-     * @param error
-     */
-    @OnError
-    public void onError(Session session, Throwable error) {
-        error.printStackTrace();
-    }
+			if ("setFlowHistory".equals(header)) {
+				String flowId = body.split(",")[0];
+
+				String historyId = null;
+				if (body.split(",").length >= 2) {
+					historyId = body.split(",")[1];
+				}
+
+				WebSocketManager.getInstance().updateFlowHistory(session, flowId, historyId);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
+	 * @param session
+	 * @param error
+	 */
+	@OnError
+	public void onError(Session session, Throwable error) {
+		error.printStackTrace();
+	}
 
 }

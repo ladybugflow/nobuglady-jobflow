@@ -36,96 +36,125 @@ public class HistoryFlowEntity {
 	private String updateUser;
 	private Date createTime;
 	private Date updateTime;
-	
+
 	public String getFlowId() {
 		return flowId;
 	}
+
 	public void setFlowId(String flowId) {
 		this.flowId = flowId;
 	}
+
 	public String getHistoryId() {
 		return historyId;
 	}
+
 	public void setHistoryId(String historyId) {
 		this.historyId = historyId;
 	}
+
 	public String getCategoryId() {
 		return categoryId;
 	}
+
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
+
 	public String getFlowName() {
 		return flowName;
 	}
+
 	public void setFlowName(String flowName) {
 		this.flowName = flowName;
 	}
+
 	public String getFlowDesc() {
 		return flowDesc;
 	}
+
 	public void setFlowDesc(String flowDesc) {
 		this.flowDesc = flowDesc;
 	}
+
 	public int getFlowStatus() {
 		return flowStatus;
 	}
+
 	public void setFlowStatus(int flowStatus) {
 		this.flowStatus = flowStatus;
 	}
+
 	public String getFlowResult() {
 		return flowResult;
 	}
+
 	public void setFlowResult(String flowResult) {
 		this.flowResult = flowResult;
 	}
+
 	public Date getStartTime() {
 		return startTime;
 	}
+
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
+
 	public Date getFinishTime() {
 		return finishTime;
 	}
+
 	public void setFinishTime(Date finishTime) {
 		this.finishTime = finishTime;
 	}
+
 	public Date getErrorTime() {
 		return errorTime;
 	}
+
 	public void setErrorTime(Date errorTime) {
 		this.errorTime = errorTime;
 	}
+
 	public int getDisableFlag() {
 		return disableFlag;
 	}
+
 	public void setDisableFlag(int disableFlag) {
 		this.disableFlag = disableFlag;
 	}
+
 	public String getCreateUser() {
 		return createUser;
 	}
+
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
 	}
+
 	public String getUpdateUser() {
 		return updateUser;
 	}
+
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
+
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+
 }

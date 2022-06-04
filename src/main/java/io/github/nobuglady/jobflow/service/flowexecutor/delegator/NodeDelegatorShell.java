@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.service.flowexecutor.delegator;
 
-
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeShellDao;
 import io.github.nobuglady.jobflow.persistance.db.entity.HistoryNodeShellEntity;
 import io.github.nobuglady.jobflow.service.flowexecutor.NodeInf;
@@ -25,51 +24,45 @@ import io.github.nobuglady.jobflow.service.flowexecutor.NodeInf;
 public class NodeDelegatorShell implements NodeInf {
 
 	private HistoryNodeShellEntity historyNodeShellEntity;
-    @SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private HistoryNodeShellDao historyNodeShellDao;
 
-    /**
-     * 
-     * @param historyNodeShellEntity
-     * @param historyNodeShellDao
-     */
-    public NodeDelegatorShell(HistoryNodeShellEntity historyNodeShellEntity, HistoryNodeShellDao historyNodeShellDao) {
-        this.historyNodeShellEntity = historyNodeShellEntity;
-        this.historyNodeShellDao = historyNodeShellDao;
-    }
+	/**
+	 * 
+	 * @param historyNodeShellEntity
+	 * @param historyNodeShellDao
+	 */
+	public NodeDelegatorShell(HistoryNodeShellEntity historyNodeShellEntity, HistoryNodeShellDao historyNodeShellDao) {
+		this.historyNodeShellEntity = historyNodeShellEntity;
+		this.historyNodeShellDao = historyNodeShellDao;
+	}
 
-    /**
-     * 
-     */
-    @Override
-    public String execute() throws Throwable {
-    	
-    	String shellPath = historyNodeShellEntity.getShellLocation();
-    	
-    	Runtime runtime = Runtime.getRuntime();
-    	Process process = runtime.exec(shellPath);
-    	
-    	RuntimeStreamTracer tracer_normal = new RuntimeStreamTracer(
-				process.getInputStream(),
-				historyNodeShellEntity.getFlowId(),
-				historyNodeShellEntity.getHistoryId()
-				);
-    	
-    	RuntimeStreamTracer tracer_error = new RuntimeStreamTracer(
-				process.getErrorStream(),
-				historyNodeShellEntity.getFlowId(),
-				historyNodeShellEntity.getHistoryId()
-				);
-    	
-    	new Thread(tracer_normal).start();
-    	new Thread(tracer_error).start();
-    	
-    	process.waitFor();
-    	
-    	tracer_normal.doStop();
-    	tracer_error.doStop();
-    	
-        return String.valueOf(process.exitValue());
-    }
+	/**
+	 * 
+	 */
+	@Override
+	public String execute() throws Throwable {
+
+		String shellPath = historyNodeShellEntity.getShellLocation();
+
+		Runtime runtime = Runtime.getRuntime();
+		Process process = runtime.exec(shellPath);
+
+		RuntimeStreamTracer tracer_normal = new RuntimeStreamTracer(process.getInputStream(),
+				historyNodeShellEntity.getFlowId(), historyNodeShellEntity.getHistoryId());
+
+		RuntimeStreamTracer tracer_error = new RuntimeStreamTracer(process.getErrorStream(),
+				historyNodeShellEntity.getFlowId(), historyNodeShellEntity.getHistoryId());
+
+		new Thread(tracer_normal).start();
+		new Thread(tracer_error).start();
+
+		process.waitFor();
+
+		tracer_normal.doStop();
+		tracer_error.doStop();
+
+		return String.valueOf(process.exitValue());
+	}
 
 }

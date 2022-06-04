@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +45,10 @@ public class HistoryNodeDao {
 	 * @return
 	 */
 	public HistoryNodeEntity selectByKey(String flowId, String nodeId, String historyId) {
-		
+
 		return nodeHistoryMapper.selectByKey(flowId, nodeId, historyId);
 	}
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -60,7 +59,7 @@ public class HistoryNodeDao {
 	 * @return
 	 */
 	public List<HistoryNodeEntity> selectByFlowHistoryId(String flowId, String historyId) {
-		
+
 		return nodeHistoryMapper.selectByFlowHistoryId(flowId, historyId);
 	}
 
@@ -73,7 +72,7 @@ public class HistoryNodeDao {
 	 */
 	public List<HistoryNodeEntity> selectNodeListByStatus(String flowId, String historyId, int status) {
 
-        return nodeHistoryMapper.selectNodeListByStatus(flowId, historyId, status);
+		return nodeHistoryMapper.selectNodeListByStatus(flowId, historyId, status);
 	}
 
 	/**
@@ -84,59 +83,62 @@ public class HistoryNodeDao {
 	 * @param statusDetail
 	 * @return
 	 */
-	public List<HistoryNodeEntity> selectNodeListByStatusDetail(String flowId, String historyId, int status, int statusDetail) {
+	public List<HistoryNodeEntity> selectNodeListByStatusDetail(String flowId, String historyId, int status,
+			int statusDetail) {
 
-        return nodeHistoryMapper.selectNodeListByStatusDetail(flowId, historyId, status, statusDetail);
+		return nodeHistoryMapper.selectNodeListByStatusDetail(flowId, historyId, status, statusDetail);
 	}
 
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @param status
-     */
-    public void updateStatusByHistoryId(String flowId, String historyId, int status) {
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @param status
+	 */
+	public void updateStatusByHistoryId(String flowId, String historyId, int status) {
 
-    	nodeHistoryMapper.updateStatusByHistoryId(status, flowId, historyId, AuthHolder.getUser().email);
-    }
-    
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @param nodeId
-     * @param status
-     */
-    public void updateStatusByNodeId(String flowId, String historyId, String nodeId, int status) {
-    	
-    	try {
-    		WebSocketManager.getInstance().notifyFlowUpdate(flowId, historyId);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	
-    	nodeHistoryMapper.updateStatusByNodeId(status, flowId, historyId, nodeId, AuthHolder.getUser().email);
-    }
-    
-    /**
-     * 
-     * @param flowId
-     * @param instanceId
-     * @param nodeId
-     * @param status
-     * @param detailStatus
-     */
-    public void updateStatusDetailByNodeId(String flowId, String instanceId, String nodeId, int status, int detailStatus) {
-    	
-    	try {
-    		WebSocketManager.getInstance().notifyFlowUpdate(flowId, instanceId);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	
-    	nodeHistoryMapper.updateStatusDetailByNodeId(status, detailStatus, flowId, instanceId, nodeId, AuthHolder.getUser().email);
-    }
-    
+		nodeHistoryMapper.updateStatusByHistoryId(status, flowId, historyId, AuthHolder.getUser().email);
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @param nodeId
+	 * @param status
+	 */
+	public void updateStatusByNodeId(String flowId, String historyId, String nodeId, int status) {
+
+		try {
+			WebSocketManager.getInstance().notifyFlowUpdate(flowId, historyId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		nodeHistoryMapper.updateStatusByNodeId(status, flowId, historyId, nodeId, AuthHolder.getUser().email);
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param instanceId
+	 * @param nodeId
+	 * @param status
+	 * @param detailStatus
+	 */
+	public void updateStatusDetailByNodeId(String flowId, String instanceId, String nodeId, int status,
+			int detailStatus) {
+
+		try {
+			WebSocketManager.getInstance().notifyFlowUpdate(flowId, instanceId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		nodeHistoryMapper.updateStatusDetailByNodeId(status, detailStatus, flowId, instanceId, nodeId,
+				AuthHolder.getUser().email);
+	}
+
 	/**
 	 * 
 	 * @param flowId

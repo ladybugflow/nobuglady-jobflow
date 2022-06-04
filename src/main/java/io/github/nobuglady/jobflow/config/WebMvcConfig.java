@@ -26,11 +26,11 @@ import io.github.nobuglady.jobflow.interceptor.UrlInterceptor;
  *
  */
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer{
+public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Autowired
 	private UrlInterceptor urlInterceptor;
-	
+
 	/**
 	 * 
 	 */

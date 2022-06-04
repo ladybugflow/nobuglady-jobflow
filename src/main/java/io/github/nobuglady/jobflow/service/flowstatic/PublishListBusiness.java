@@ -43,55 +43,54 @@ public class PublishListBusiness {
 
 	@Autowired
 	private PublishNodeDao publishNodeDao;
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public List<PublishListResponseDto> requestPublishList() {
-		
+
 		List<PublishListResponseDto> resultList = new ArrayList<>();
-		
+
 		List<FlowPublishCatagoryEntity> entityList = publishFlowDao.selectFlowPublishCatagoryList();
-		if(entityList != null) {
-			for(FlowPublishCatagoryEntity entity:entityList) {
-				
+		if (entityList != null) {
+			for (FlowPublishCatagoryEntity entity : entityList) {
+
 				List<PublishNodeEntity> nodeEntityList = publishNodeDao.selectStartByFlowId(entity.getFlowId());
-				
+
 				PublishNodeEntity nodeStartEntity = null;
-				if(nodeEntityList != null && nodeEntityList.size() > 0) {
+				if (nodeEntityList != null && nodeEntityList.size() > 0) {
 					nodeStartEntity = nodeEntityList.get(0);
 				}
-				
+
 				PublishListResponseDto responseDto = new PublishListResponseDto();
-				
+
 				responseDto.flow_id = entity.getFlowId();
 				responseDto.file_id = entity.getCategoryId();
 				responseDto.flow_name = entity.getFlowName();
 				responseDto.disable_flag = entity.getDisableFlag();
 				responseDto.update_time = entity.getUpdateTime();
-				
-				if(nodeStartEntity != null) {
+
+				if (nodeStartEntity != null) {
 					responseDto.flow_start_type = nodeStartEntity.getStartType();
 					responseDto.cron = nodeStartEntity.getStartCron();
-					
-					if(DataUtil.getNodeStartType(nodeStartEntity.getStartType()) == NodeStartType.NODE_START_TYPE_TIMER
-							&& StringUtil.isNotEmpty(nodeStartEntity.getStartCron())) {
-				        CronExpression cronTrigger = CronExpression.parse(nodeStartEntity.getStartCron());
 
-				        LocalDateTime next = cronTrigger.next(LocalDateTime.now());
-				        responseDto.nextStartTime = next.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+					if (DataUtil.getNodeStartType(nodeStartEntity.getStartType()) == NodeStartType.NODE_START_TYPE_TIMER
+							&& StringUtil.isNotEmpty(nodeStartEntity.getStartCron())) {
+						CronExpression cronTrigger = CronExpression.parse(nodeStartEntity.getStartCron());
+
+						LocalDateTime next = cronTrigger.next(LocalDateTime.now());
+						responseDto.nextStartTime = next.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
 					}
 				}
-				
+
 				resultList.add(responseDto);
-				
+
 			}
 		}
-		
+
 		return resultList;
 	}
-
 
 	///////////////////////////////////////
 	// help function

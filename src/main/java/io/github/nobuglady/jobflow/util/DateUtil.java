@@ -23,7 +23,7 @@ import java.util.Date;
 public class DateUtil {
 
 	public static final String FMT_YYYYMMDD_HHMMSS = "yyyy/MM/dd HH:mm:ss";
-	
+
 	/**
 	 * 
 	 * @param date
@@ -31,7 +31,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String dateToString(Date date, String fmt) {
-		if(date == null) {
+		if (date == null) {
 			return "";
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(fmt);

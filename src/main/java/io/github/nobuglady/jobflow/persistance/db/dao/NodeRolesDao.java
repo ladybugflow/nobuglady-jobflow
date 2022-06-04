@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +32,11 @@ public class NodeRolesDao {
 
 	@Autowired
 	private NodeRolesMapper nodeRolesMapper;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -48,17 +47,17 @@ public class NodeRolesDao {
 	 * @return
 	 */
 	public List<String> selectRolesIdList(String flowId, String nodeId) {
-		
+
 		List<String> resultList = new ArrayList<String>();
-		
+
 		List<NodeRolesEntity> nodeRolesEntityList = nodeRolesMapper.selectList(flowId, nodeId);
-		
+
 		if (nodeRolesEntityList != null) {
-			for(NodeRolesEntity entity:nodeRolesEntityList) {
+			for (NodeRolesEntity entity : nodeRolesEntityList) {
 				resultList.add(entity.getRolesId());
 			}
 		}
-		
+
 		return resultList;
 	}
 }

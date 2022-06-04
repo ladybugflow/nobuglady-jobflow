@@ -33,19 +33,19 @@ public class BeanUtil {
 	 * @param cls
 	 * @return
 	 */
-	public static <T> List<T> copyList(List<?> srcList, Class<T> cls){
+	public static <T> List<T> copyList(List<?> srcList, Class<T> cls) {
 		List<T> targetList = new ArrayList<T>();
-		
-		if(srcList != null) {
-			for(Object src:srcList) {
+
+		if (srcList != null) {
+			for (Object src : srcList) {
 				T target = copy(src, cls);
 				targetList.add(target);
 			}
 		}
-		
+
 		return targetList;
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -54,37 +54,38 @@ public class BeanUtil {
 	 * @return
 	 */
 	public static <T> T copy(Object src, Class<T> cls) {
-		if(src == null) {
+		if (src == null) {
 			return null;
 		}
-		
+
 		try {
 			T target = cls.getDeclaredConstructor().newInstance();
-			
-			Map<String,Object> fieldNameUpperValueMap = new HashMap<String,Object>();
-			
+
+			Map<String, Object> fieldNameUpperValueMap = new HashMap<String, Object>();
+
 			Method[] methodsSrc = src.getClass().getMethods();
-			if(methodsSrc != null) {
-				for(Method method:methodsSrc) {
-					if(method.getName().startsWith("get")) {
+			if (methodsSrc != null) {
+				for (Method method : methodsSrc) {
+					if (method.getName().startsWith("get")) {
 						String filedNameUpper = method.getName().substring(3);
 						fieldNameUpperValueMap.put(filedNameUpper, method.invoke(src));
 					}
 				}
 			}
-			
+
 			Method[] methodsTarget = target.getClass().getMethods();
-			if(methodsTarget != null) {
-				for(Method method:methodsTarget) {
-					if(method.getName().startsWith("set")) {
+			if (methodsTarget != null) {
+				for (Method method : methodsTarget) {
+					if (method.getName().startsWith("set")) {
 						String filedNameUpper = method.getName().substring(3);
-						method.invoke(target,fieldNameUpperValueMap.get(filedNameUpper));
+						method.invoke(target, fieldNameUpperValueMap.get(filedNameUpper));
 					}
 				}
 			}
-			
+
 			return target;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block

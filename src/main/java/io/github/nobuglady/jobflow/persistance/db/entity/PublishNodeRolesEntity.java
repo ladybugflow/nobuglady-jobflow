@@ -20,7 +20,7 @@ import java.util.Date;
  *
  */
 public class PublishNodeRolesEntity {
-	
+
 	private String flowId;
 	private String nodeId;
 	private String rolesId;
@@ -28,48 +28,61 @@ public class PublishNodeRolesEntity {
 	private String updateUser;
 	private Date createTime;
 	private Date updateTime;
-	
+
 	public String getFlowId() {
 		return flowId;
 	}
+
 	public void setFlowId(String flowId) {
 		this.flowId = flowId;
 	}
+
 	public String getNodeId() {
 		return nodeId;
 	}
+
 	public void setNodeId(String nodeId) {
 		this.nodeId = nodeId;
 	}
+
 	public String getRolesId() {
 		return rolesId;
 	}
+
 	public void setRolesId(String rolesId) {
 		this.rolesId = rolesId;
 	}
+
 	public String getCreateUser() {
 		return createUser;
 	}
+
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
 	}
+
 	public String getUpdateUser() {
 		return updateUser;
 	}
+
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
+
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+
 }

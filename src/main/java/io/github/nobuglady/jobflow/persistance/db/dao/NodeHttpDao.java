@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +31,7 @@ public class NodeHttpDao {
 
 	@Autowired
 	private NodeHttpMapper nodeHttpMapper;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
@@ -43,10 +42,9 @@ public class NodeHttpDao {
 	 * @return
 	 */
 	public NodeHttpEntity selectByKey(String flowId, String nodeId) {
-		
-        return nodeHttpMapper.selectByKey(flowId, nodeId);
+
+		return nodeHttpMapper.selectByKey(flowId, nodeId);
 	}
-	
 
 	/**
 	 * 
@@ -80,24 +78,15 @@ public class NodeHttpDao {
 	 * @param httpHeader
 	 * @param httpBody
 	 */
-	public void saveOrUpdateNode(
-			String flowId, 
-			String nodeId, 
-			String successCode, 
-			String errorType, 
-			String syncFlag,
-			String location, 
-			String httpMethod,
-			String httpContentType, 
-			String httpHeader, 
-			String httpBody) {
+	public void saveOrUpdateNode(String flowId, String nodeId, String successCode, String errorType, String syncFlag,
+			String location, String httpMethod, String httpContentType, String httpHeader, String httpBody) {
 
 		NodeHttpEntity nodeHttpEntity = nodeHttpMapper.selectByKey(flowId, nodeId);
-		
+
 		/*
 		 * save or update nodes
 		 */
-		if(nodeHttpEntity != null) {
+		if (nodeHttpEntity != null) {
 			nodeHttpEntity.setFlowId(flowId);
 			nodeHttpEntity.setNodeId(nodeId);
 			nodeHttpEntity.setSuccessCode(successCode);
@@ -129,7 +118,7 @@ public class NodeHttpDao {
 			nodeHttpEntity.setUpdateUser(AuthHolder.getUser().email);
 			nodeHttpMapper.save(nodeHttpEntity);
 		}
-		
+
 	}
 
 }

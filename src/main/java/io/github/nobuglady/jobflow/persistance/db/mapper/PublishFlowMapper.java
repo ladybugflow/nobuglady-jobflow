@@ -31,17 +31,13 @@ public interface PublishFlowMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_flow "
-			+ " WHERE"
-			+ " flow_id = #{param1}")
+	@Select("SELECT * FROM publish_flow " + " WHERE" + " flow_id = #{param1}")
 	public PublishFlowEntity selectByKey(String flowId);
-
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_flow "
-			+ " order by update_time desc ")
+	@Select("SELECT * FROM publish_flow " + " order by update_time desc ")
 	public List<FlowPublishCatagoryEntity> selectFlowPublishCatagoryList();
 
 }

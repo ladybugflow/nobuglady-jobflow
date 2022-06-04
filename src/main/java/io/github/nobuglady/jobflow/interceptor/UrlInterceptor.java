@@ -37,21 +37,22 @@ public class UrlInterceptor implements AsyncHandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
+
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "DELETE, POST, GET, PUT, OPTIONS");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-		
-		if("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+		response.setHeader("Access-Control-Allow-Headers",
+				"Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+		if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
 			response.setStatus(200);
 			return false;
 		}
-		
+
 		String uri = getRequestUrl(request);
 		String reqFullPath = uri.substring(request.getContextPath().length());
 
 		AuthHolder.refreshUser(request.getSession());
-		
+
 		if (reqFullPath.startsWith("/home")) {
 			UserEntity userEntity = AuthHolder.getUser();
 			if (userEntity == null) {

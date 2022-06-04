@@ -33,11 +33,11 @@ public class PublishNodeDao {
 
 	@Autowired
 	private PublishNodeMapper publishNodeMapper;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -55,7 +55,7 @@ public class PublishNodeDao {
 	 * @return
 	 */
 	public List<PublishNodeEntity> selectAllCronNode() {
-		
+
 		return publishNodeMapper.selectAllCronNode(NodeStartType.NODE_START_TYPE_TIMER);
 	}
 }

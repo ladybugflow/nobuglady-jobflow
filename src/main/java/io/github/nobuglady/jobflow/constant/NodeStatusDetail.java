@@ -19,14 +19,13 @@ package io.github.nobuglady.jobflow.constant;
  */
 public class NodeStatusDetail {
 
-    /** node execute success */
-    public static final int COMPLETE_SUCCESS = 1;
-    /** node execute error */
-    public static final int COMPLETE_ERROR = -1;
-    /** node execute timeout */
-    public static final int COMPLETE_TIMEOUT = -2;
-    /** node cancel */
-    public static final int COMPLETE_CANCEL = -3;
-
+	/** node execute success */
+	public static final int COMPLETE_SUCCESS = 1;
+	/** node execute error */
+	public static final int COMPLETE_ERROR = -1;
+	/** node execute timeout */
+	public static final int COMPLETE_TIMEOUT = -2;
+	/** node cancel */
+	public static final int COMPLETE_CANCEL = -3;
 
 }

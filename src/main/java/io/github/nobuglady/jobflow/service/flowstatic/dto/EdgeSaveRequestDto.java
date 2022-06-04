@@ -24,5 +24,5 @@ public class EdgeSaveRequestDto {
 	public String from;
 	public String to;
 	public String content;
-	
+
 }

@@ -23,43 +23,42 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ReadyQueueManager {
 
 	private static ReadyQueueManager instance = new ReadyQueueManager();
-	
-    private BlockingQueue<ReadyNodeResult> nodeCompleteQueue = new LinkedBlockingQueue<ReadyNodeResult>();
 
-    private ReadyQueueManager() {
+	private BlockingQueue<ReadyNodeResult> nodeCompleteQueue = new LinkedBlockingQueue<ReadyNodeResult>();
 
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public static ReadyQueueManager getInstance() {
-    	return instance;
-    }
+	private ReadyQueueManager() {
 
-    /**
-     * 
-     * @return
-     * @throws InterruptedException
-     */
-    public ReadyNodeResult takeCompleteNode() throws InterruptedException {
-        return nodeCompleteQueue.take();
-    }
+	}
 
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @param nodeId
-     */
-    public void putReadyNode(String flowId, String historyId, String nodeId) {
-        try {
-        	nodeCompleteQueue.put(new ReadyNodeResult(flowId, historyId, nodeId));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public static ReadyQueueManager getInstance() {
+		return instance;
+	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public ReadyNodeResult takeCompleteNode() throws InterruptedException {
+		return nodeCompleteQueue.take();
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @param nodeId
+	 */
+	public void putReadyNode(String flowId, String historyId, String nodeId) {
+		try {
+			nodeCompleteQueue.put(new ReadyNodeResult(flowId, historyId, nodeId));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

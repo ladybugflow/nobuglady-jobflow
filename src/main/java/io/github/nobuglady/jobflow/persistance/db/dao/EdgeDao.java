@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class EdgeDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
@@ -50,9 +49,9 @@ public class EdgeDao {
 	 */
 	public EdgeEntity selectByKey(String flowId, String edgeId) {
 
-        return edgeMapper.selectByKey(flowId, edgeId);
+		return edgeMapper.selectByKey(flowId, edgeId);
 	}
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -62,7 +61,7 @@ public class EdgeDao {
 	 * @return
 	 */
 	public List<EdgeEntity> selectByFlowId(String flowId) {
-		
+
 		return edgeMapper.selectByFlowId(flowId);
 	}
 
@@ -73,10 +72,11 @@ public class EdgeDao {
 	 * @param to_node_id
 	 * @param condition
 	 */
-	public void saveOrUpdateEdge(String flowId, String edgeId, String from_node_id, String to_node_id, String condition) {
+	public void saveOrUpdateEdge(String flowId, String edgeId, String from_node_id, String to_node_id,
+			String condition) {
 
 		EdgeEntity edgeEntity = edgeMapper.selectByKey(flowId, edgeId);
-		if(edgeEntity != null) {
+		if (edgeEntity != null) {
 			edgeEntity.setFlowId(flowId);
 			edgeEntity.setEdgeId(edgeId);
 			edgeEntity.setFromNodeId(from_node_id);
@@ -85,7 +85,7 @@ public class EdgeDao {
 			edgeEntity.setUpdateUser(AuthHolder.getUser().email);
 
 			edgeMapper.update(edgeEntity);
-		}else {
+		} else {
 			edgeEntity = new EdgeEntity();
 			edgeEntity.setFlowId(flowId);
 			edgeEntity.setEdgeId(edgeId);
@@ -97,7 +97,7 @@ public class EdgeDao {
 
 			edgeMapper.save(edgeEntity);
 		}
-		
+
 	}
 
 	/**
@@ -108,17 +108,15 @@ public class EdgeDao {
 	public void deleteEdgeNotInKeys(String flowId, List<String[]> fromToList) {
 
 		List<String> fromToStrList = new ArrayList<String>();
-		for(String[] fromTo:fromToList) {
-			fromToStrList.add(fromTo[0] + "," +fromTo[1]);
+		for (String[] fromTo : fromToList) {
+			fromToStrList.add(fromTo[0] + "," + fromTo[1]);
 		}
-		
+
 		String fromToArray = String.join("','", fromToStrList);
-		
-		String sql = "delete from edge "
-		+ " where "
-		+ " flow_id = '"+flowId+"'  "
-		+ " and concat(from_node_id,',',to_node_id) not in ('"+fromToArray+"') ";
-		
+
+		String sql = "delete from edge " + " where " + " flow_id = '" + flowId + "'  "
+				+ " and concat(from_node_id,',',to_node_id) not in ('" + fromToArray + "') ";
+
 		jdbcTemplate.execute(sql);
 	}
 

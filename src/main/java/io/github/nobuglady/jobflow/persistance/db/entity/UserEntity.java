@@ -30,54 +30,69 @@ public class UserEntity {
 	public Integer adminFlag;
 	public Date createTime;
 	public Date updateTime;
-	
+
 	public Integer getUserId() {
 		return userId;
 	}
+
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
 	public String getUserName() {
 		return userName;
 	}
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPasswd() {
 		return passwd;
 	}
+
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
+
 	public String getRemarks() {
 		return remarks;
 	}
+
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+
 	public Integer getAdminFlag() {
 		return adminFlag;
 	}
+
 	public void setAdminFlag(Integer adminFlag) {
 		this.adminFlag = adminFlag;
 	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
+
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+
 }

@@ -42,5 +42,5 @@ public class NodeSaveRequestDto {
 	public String httpHeader;
 	public String httpBody;
 	public String roles;
-	
+
 }

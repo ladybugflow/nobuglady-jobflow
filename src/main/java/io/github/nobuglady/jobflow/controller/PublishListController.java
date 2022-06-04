@@ -34,7 +34,6 @@ public class PublishListController {
 	@Autowired
 	private PublishListBusiness flowBusiness;
 
-	
 	///////////////////////////////////////
 	// flow
 	///////////////////////////////////////
@@ -43,10 +42,10 @@ public class PublishListController {
 	 * @param flowid
 	 * @return
 	 */
-	@RequestMapping(value="/request_publish_list", method=RequestMethod.POST)
+	@RequestMapping(value = "/request_publish_list", method = RequestMethod.POST)
 	@ResponseBody
 	public List<PublishListResponseDto> requestPublishList() {
-		
+
 		return flowBusiness.requestPublishList();
 	}
 }

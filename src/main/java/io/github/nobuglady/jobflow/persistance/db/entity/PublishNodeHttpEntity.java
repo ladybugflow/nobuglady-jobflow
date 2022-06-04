@@ -37,102 +37,133 @@ public class PublishNodeHttpEntity {
 	private String updateUser;
 	private Date createTime;
 	private Date updateTime;
-	
+
 	public String getFlowId() {
 		return flowId;
 	}
+
 	public void setFlowId(String flowId) {
 		this.flowId = flowId;
 	}
+
 	public String getNodeId() {
 		return nodeId;
 	}
+
 	public void setNodeId(String nodeId) {
 		this.nodeId = nodeId;
 	}
+
 	public String getTimeout() {
 		return timeout;
 	}
+
 	public void setTimeout(String timeout) {
 		this.timeout = timeout;
 	}
+
 	public int getTimeoutType() {
 		return timeoutType;
 	}
+
 	public void setTimeoutType(int timeoutType) {
 		this.timeoutType = timeoutType;
 	}
+
 	public String getSuccessCode() {
 		return successCode;
 	}
+
 	public void setSuccessCode(String successCode) {
 		this.successCode = successCode;
 	}
+
 	public int getErrorType() {
 		return errorType;
 	}
+
 	public void setErrorType(int errorType) {
 		this.errorType = errorType;
 	}
+
 	public int getSyncFlag() {
 		return syncFlag;
 	}
+
 	public void setSyncFlag(int syncFlag) {
 		this.syncFlag = syncFlag;
 	}
+
 	public String getHttpUrl() {
 		return httpUrl;
 	}
+
 	public void setHttpUrl(String httpUrl) {
 		this.httpUrl = httpUrl;
 	}
+
 	public String getHttpMethod() {
 		return httpMethod;
 	}
+
 	public void setHttpMethod(String httpMethod) {
 		this.httpMethod = httpMethod;
 	}
+
 	public String getHttpHeader() {
 		return httpHeader;
 	}
+
 	public void setHttpHeader(String httpHeader) {
 		this.httpHeader = httpHeader;
 	}
+
 	public String getHttpBody() {
 		return httpBody;
 	}
+
 	public void setHttpBody(String httpBody) {
 		this.httpBody = httpBody;
 	}
+
 	public String getHttpContentType() {
 		return httpContentType;
 	}
+
 	public void setHttpContentType(String httpContentType) {
 		this.httpContentType = httpContentType;
 	}
+
 	public String getCreateUser() {
 		return createUser;
 	}
+
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
 	}
+
 	public String getUpdateUser() {
 		return updateUser;
 	}
+
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
+
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+
 }

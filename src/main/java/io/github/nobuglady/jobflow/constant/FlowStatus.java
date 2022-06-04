@@ -18,14 +18,14 @@ package io.github.nobuglady.jobflow.constant;
  *
  */
 public class FlowStatus {
-    /** READY */
-    public static final int READY = 0;
-    /** PROCESSING */
-    public static final int PROCESSING = 1;
-    /** COMPLETE */
-    public static final int COMPLETE = 2;
-    /** ERROR */
-    public static final int ERROR = -1;
-    /** CANCEL */
-    public static final int CANCEL = -2;
+	/** READY */
+	public static final int READY = 0;
+	/** PROCESSING */
+	public static final int PROCESSING = 1;
+	/** COMPLETE */
+	public static final int COMPLETE = 2;
+	/** ERROR */
+	public static final int ERROR = -1;
+	/** CANCEL */
+	public static final int CANCEL = -2;
 }

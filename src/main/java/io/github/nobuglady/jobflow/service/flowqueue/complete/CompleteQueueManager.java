@@ -23,43 +23,42 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class CompleteQueueManager {
 
 	private static CompleteQueueManager instance = new CompleteQueueManager();
-	
-    private BlockingQueue<CompleteNodeResult> nodeCompleteQueue = new LinkedBlockingQueue<CompleteNodeResult>();
 
-    private CompleteQueueManager() {
+	private BlockingQueue<CompleteNodeResult> nodeCompleteQueue = new LinkedBlockingQueue<CompleteNodeResult>();
 
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public static CompleteQueueManager getInstance() {
-    	return instance;
-    }
+	private CompleteQueueManager() {
 
-    /**
-     * 
-     * @return
-     * @throws InterruptedException
-     */
-    public CompleteNodeResult takeCompleteNode() throws InterruptedException {
-        return nodeCompleteQueue.take();
-    }
+	}
 
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @param nodeId
-     */
-    public void putCompleteNode(String flowId, String historyId, String nodeId) {
-        try {
-        	nodeCompleteQueue.put(new CompleteNodeResult(flowId, historyId, nodeId));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public static CompleteQueueManager getInstance() {
+		return instance;
+	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public CompleteNodeResult takeCompleteNode() throws InterruptedException {
+		return nodeCompleteQueue.take();
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @param nodeId
+	 */
+	public void putCompleteNode(String flowId, String historyId, String nodeId) {
+		try {
+			nodeCompleteQueue.put(new CompleteNodeResult(flowId, historyId, nodeId));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

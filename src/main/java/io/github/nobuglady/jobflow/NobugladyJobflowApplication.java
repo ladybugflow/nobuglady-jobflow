@@ -34,10 +34,10 @@ public class NobugladyJobflowApplication {
 
 	@Autowired
 	private FlowDynamicBusiness flowBusiness;
-	
+
 	@Autowired
 	private PublishNodeDao publishNodeDao;
-	
+
 	@Autowired
 	private FlowManager flowManager;
 
@@ -54,8 +54,8 @@ public class NobugladyJobflowApplication {
 	 */
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
-	    flowBusiness.initFlowOnStartup();
-	    new Thread(new FlowTimerTriger(publishNodeDao, flowManager, new ThreadPoolTaskScheduler())).start();
+		flowBusiness.initFlowOnStartup();
+		new Thread(new FlowTimerTriger(publishNodeDao, flowManager, new ThreadPoolTaskScheduler())).start();
 	}
 
 }

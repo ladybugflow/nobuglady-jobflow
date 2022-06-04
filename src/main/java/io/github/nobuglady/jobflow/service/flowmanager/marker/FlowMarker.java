@@ -43,7 +43,7 @@ public class FlowMarker {
 
 	@Autowired
 	private FlowHelper flowHelper;
-	
+
 	@Autowired
 	private HistoryNodeDao historyNodeDao;
 
@@ -59,85 +59,85 @@ public class FlowMarker {
 	 */
 	public void onNodeComplete(CompleteNodeResult nodeResult) {
 
-    	String flowId = nodeResult.getFlowId();
-    	String historyId = nodeResult.getHistoryId();
-        String nodeId = nodeResult.getNodeId();
-        
-        HistoryNodeEntity historyNodeEntity = historyNodeDao.selectByKey(flowId, nodeId, historyId);
-        
-        if(NodeStatus.COMPLETE != historyNodeEntity.getNodeStatus()) {
-        	return;
-        }
-        
-        if(NodeStatus.COMPLETE == historyNodeEntity.getNodeStatus()
-        		&& NodeStatusDetail.COMPLETE_SUCCESS != historyNodeEntity.getNodeStatusDetail()
-        		) {
-        	// has error
-        	int nodeErrorType = NodeErrorType.NODE_ERROR_TYPE_STOP;
-        	if(NodeExecuteType.NODE_EXECUTE_TYPE_HTTP == historyNodeEntity.getExecuteType()) {
-        		
-        		HistoryNodeHttpEntity historyNodeHttpEntity = historyNodeHttpDao.selectByKey(flowId, nodeId, historyId);
-        		nodeErrorType = historyNodeHttpEntity.getErrorType();
-        		
-        	} else if(NodeExecuteType.NODE_EXECUTE_TYPE_SHELL == historyNodeEntity.getExecuteType()) {
-        		
-        		HistoryNodeShellEntity historyNodeShellEntity = historyNodeShellDao.selectByKey(flowId, nodeId, historyId);
-        		nodeErrorType = historyNodeShellEntity.getErrorType();
-        	}
-        	
-        	if(NodeErrorType.NODE_ERROR_TYPE_STOP == nodeErrorType) {
-        		return;
-        	}
-        }
-        
-        historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.GO);
-        
-        // mark next
-        markNext(flowId, historyId, nodeId);
+		String flowId = nodeResult.getFlowId();
+		String historyId = nodeResult.getHistoryId();
+		String nodeId = nodeResult.getNodeId();
+
+		HistoryNodeEntity historyNodeEntity = historyNodeDao.selectByKey(flowId, nodeId, historyId);
+
+		if (NodeStatus.COMPLETE != historyNodeEntity.getNodeStatus()) {
+			return;
+		}
+
+		if (NodeStatus.COMPLETE == historyNodeEntity.getNodeStatus()
+				&& NodeStatusDetail.COMPLETE_SUCCESS != historyNodeEntity.getNodeStatusDetail()) {
+			// has error
+			int nodeErrorType = NodeErrorType.NODE_ERROR_TYPE_STOP;
+			if (NodeExecuteType.NODE_EXECUTE_TYPE_HTTP == historyNodeEntity.getExecuteType()) {
+
+				HistoryNodeHttpEntity historyNodeHttpEntity = historyNodeHttpDao.selectByKey(flowId, nodeId, historyId);
+				nodeErrorType = historyNodeHttpEntity.getErrorType();
+
+			} else if (NodeExecuteType.NODE_EXECUTE_TYPE_SHELL == historyNodeEntity.getExecuteType()) {
+
+				HistoryNodeShellEntity historyNodeShellEntity = historyNodeShellDao.selectByKey(flowId, nodeId,
+						historyId);
+				nodeErrorType = historyNodeShellEntity.getErrorType();
+			}
+
+			if (NodeErrorType.NODE_ERROR_TYPE_STOP == nodeErrorType) {
+				return;
+			}
+		}
+
+		historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.GO);
+
+		// mark next
+		markNext(flowId, historyId, nodeId);
 
 	}
-	
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @param nodeId
-     */
-    private void markNext(String flowId, String historyId, String nodeId) {
 
-        Flow flow = flowHelper.getFlow(flowId, historyId);
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @param nodeId
+	 */
+	private void markNext(String flowId, String historyId, String nodeId) {
 
-        Map<String, List<HistoryEdgeEntity>> edgesMap = flow.getEdgesMap();
-        Map<String, HistoryNodeEntity> nodeMap = flow.getNodeMap();
+		Flow flow = flowHelper.getFlow(flowId, historyId);
 
-        List<HistoryEdgeEntity> edgeList = edgesMap.get(nodeId);
-        if (edgeList != null && edgeList.size() > 0) {
-            for (HistoryEdgeEntity edge : edgeList) {
-            	HistoryNodeEntity nodeTo = nodeMap.get(edge.getToNodeId());
+		Map<String, List<HistoryEdgeEntity>> edgesMap = flow.getEdgesMap();
+		Map<String, HistoryNodeEntity> nodeMap = flow.getNodeMap();
 
-                if (nodeTo == null) {
-                    continue;
-                }
-                
+		List<HistoryEdgeEntity> edgeList = edgesMap.get(nodeId);
+		if (edgeList != null && edgeList.size() > 0) {
+			for (HistoryEdgeEntity edge : edgeList) {
+				HistoryNodeEntity nodeTo = nodeMap.get(edge.getToNodeId());
+
+				if (nodeTo == null) {
+					continue;
+				}
+
 //                if (NodeStatus.WAIT == nodeTo.getStatus()) {
-                	
-                	boolean needWait = false;
-                	Map<String, List<HistoryEdgeEntity>> edgesBackMap = flow.getEdgesBackMap();
-                	List<HistoryEdgeEntity> edgeBackList = edgesBackMap.get(nodeTo.getNodeId());
-                	for (HistoryEdgeEntity flowEdgeBack : edgeBackList) {
-                		HistoryNodeEntity nodeFrom = nodeMap.get(flowEdgeBack.getFromNodeId());
-                		 if(!(NodeStatus.GO == nodeFrom.getNodeStatus())) {
-                			 needWait = true;
-                		 }
-                	}
-                	
-                	if(!needWait) {
-                		historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeTo.getNodeId(), NodeStatus.READY);
-                	}
-                	
+
+				boolean needWait = false;
+				Map<String, List<HistoryEdgeEntity>> edgesBackMap = flow.getEdgesBackMap();
+				List<HistoryEdgeEntity> edgeBackList = edgesBackMap.get(nodeTo.getNodeId());
+				for (HistoryEdgeEntity flowEdgeBack : edgeBackList) {
+					HistoryNodeEntity nodeFrom = nodeMap.get(flowEdgeBack.getFromNodeId());
+					if (!(NodeStatus.GO == nodeFrom.getNodeStatus())) {
+						needWait = true;
+					}
+				}
+
+				if (!needWait) {
+					historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeTo.getNodeId(), NodeStatus.READY);
+				}
+
 //                }
-            }
-        }
-    }
+			}
+		}
+	}
 
 }

@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +43,13 @@ public class NodeDao {
 
 	@Autowired
 	private FlowMapper flowMapper;
-	
+
 	@Autowired
 	private NodeRolesMapper nodeRolesMapper;
-	
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
@@ -61,8 +60,8 @@ public class NodeDao {
 	 * @return
 	 */
 	public NodeEntity selectByKey(String flowId, String nodeId) {
-		
-        return nodeMapper.selectByKey(flowId, nodeId);
+
+		return nodeMapper.selectByKey(flowId, nodeId);
 	}
 
 	/**
@@ -90,9 +89,9 @@ public class NodeDao {
 	 * @return
 	 */
 	public List<NodeEntity> selectByFlowId(String flowId) {
-        return nodeMapper.selectByFlowId(flowId);
+		return nodeMapper.selectByFlowId(flowId);
 	}
-	
+
 	/**
 	 * 
 	 * @param flowId
@@ -116,35 +115,25 @@ public class NodeDao {
 	 * @param layoutY
 	 * @param roles
 	 */
-	public void saveOrUpdateNode(
-			String flowId, 
-			String nodeId, 
-			String nodeType, 
-			String cron, 
-			String startType, 
-			String executeType, 
-			String nodeRefName, 
-			String nodeName, 
-			String layoutX, 
-			String layoutY, 
-			String roles) {
+	public void saveOrUpdateNode(String flowId, String nodeId, String nodeType, String cron, String startType,
+			String executeType, String nodeRefName, String nodeName, String layoutX, String layoutY, String roles) {
 
 		NodeEntity nodeEntity = nodeMapper.selectByKey(flowId, nodeId);
-		
+
 		/*
 		 * save or update nodes
 		 */
-		if(nodeEntity != null) {
+		if (nodeEntity != null) {
 			nodeEntity.setFlowId(flowId);
 			nodeEntity.setNodeId(nodeId);
-			if(StringUtil.isNotEmpty(nodeType)) {
+			if (StringUtil.isNotEmpty(nodeType)) {
 				nodeEntity.setNodeType(Integer.valueOf(nodeType));
 			}
 			nodeEntity.setStartCron(cron);
-			if(StringUtil.isNotEmpty(startType)) {
+			if (StringUtil.isNotEmpty(startType)) {
 				nodeEntity.setStartType(Integer.valueOf(startType));
 			}
-			if(StringUtil.isNotEmpty(executeType)) {
+			if (StringUtil.isNotEmpty(executeType)) {
 				nodeEntity.setExecuteType(Integer.valueOf(executeType));
 			}
 			nodeEntity.setRefName(nodeRefName);
@@ -152,7 +141,7 @@ public class NodeDao {
 			nodeEntity.setLayoutX(layoutX);
 			nodeEntity.setLayoutY(layoutY);
 
-        	nodeEntity.setUpdateUser(AuthHolder.getUser().email);
+			nodeEntity.setUpdateUser(AuthHolder.getUser().email);
 			nodeMapper.update(nodeEntity);
 		} else {
 
@@ -161,10 +150,10 @@ public class NodeDao {
 			nodeEntity.setNodeId(nodeId);
 			nodeEntity.setNodeType(NodeType.NODE_TYPE_NOMARL);
 			nodeEntity.setStartCron(cron);
-			if(StringUtil.isNotEmpty(startType)) {
+			if (StringUtil.isNotEmpty(startType)) {
 				nodeEntity.setStartType(Integer.valueOf(startType));
 			}
-			if(StringUtil.isNotEmpty(executeType)) {
+			if (StringUtil.isNotEmpty(executeType)) {
 				nodeEntity.setExecuteType(Integer.valueOf(executeType));
 			}
 			nodeEntity.setRefName(nodeRefName);
@@ -172,27 +161,27 @@ public class NodeDao {
 			nodeEntity.setLayoutX(layoutX);
 			nodeEntity.setLayoutY(layoutY);
 
-        	nodeEntity.setCreateUser(AuthHolder.getUser().email);
-        	nodeEntity.setUpdateUser(AuthHolder.getUser().email);
+			nodeEntity.setCreateUser(AuthHolder.getUser().email);
+			nodeEntity.setUpdateUser(AuthHolder.getUser().email);
 			nodeMapper.save(nodeEntity);
 		}
-		
+
 		/*
 		 * update flow
 		 */
-		if(DataUtil.getNodeType(nodeEntity.getNodeType()) == NodeType.NODE_TYPE_START) {
+		if (DataUtil.getNodeType(nodeEntity.getNodeType()) == NodeType.NODE_TYPE_START) {
 			FlowEntity flowEntity = flowMapper.selectByKey(nodeEntity.getFlowId());
 			flowEntity.setUpdateUser(AuthHolder.getUser().email);
 			flowMapper.update(flowEntity);
 		}
-		
+
 		/*
 		 * update roles
 		 */
-		nodeRolesMapper.deleteRoles(flowId,nodeId);
-		if(roles != null && !"".equals(roles)) {
+		nodeRolesMapper.deleteRoles(flowId, nodeId);
+		if (roles != null && !"".equals(roles)) {
 			String[] rolesArray = roles.split(",");
-			for(int i = 0; i < rolesArray.length; i++) {
+			for (int i = 0; i < rolesArray.length; i++) {
 				NodeRolesEntity entity = new NodeRolesEntity();
 				entity.setFlowId(flowId);
 				entity.setNodeId(nodeId);
@@ -213,14 +202,12 @@ public class NodeDao {
 	public void deleteNodesNotInKeys(String flowId, List<String> nodeIdList) {
 
 		String nodeIdArray = String.join("','", nodeIdList);
-		
-		String sql = "delete from node "
-				+ " where "
-				+ " flow_id = '"+flowId+"'  "
-				+ " and node_id not in ('"+nodeIdArray+"') ";
-		
+
+		String sql = "delete from node " + " where " + " flow_id = '" + flowId + "'  " + " and node_id not in ('"
+				+ nodeIdArray + "') ";
+
 		jdbcTemplate.execute(sql);
-		
+
 	}
 
 }

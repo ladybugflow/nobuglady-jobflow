@@ -28,9 +28,9 @@ public class DaoUtil {
 	 * @return
 	 */
 	public static <T> T listToObject(List<T> list) {
-		if(list == null || list.size() == 0) {
+		if (list == null || list.size() == 0) {
 			return null;
-		}else {
+		} else {
 			return list.get(0);
 		}
 	}

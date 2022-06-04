@@ -46,23 +46,24 @@ public class NodePool {
 	 * 
 	 */
 	public NodePool() {
-		
+
 		new ReadyQueueConsumerThread(this).start();
 		System.out.println("Ready queue thread started.");
 	}
-	
+
 	/**
 	 * 
 	 * @param nodeResult
 	 */
 	public void onNodeReady(ReadyNodeResult nodeResult) {
-		
+
 		String flowId = nodeResult.getFlowId();
 		String historyId = nodeResult.getHistoryId();
 		String nodeId = nodeResult.getNodeId();
-		
-        NodeRunner nodeRunner = new NodeRunner(flowId, historyId, nodeId, historyFlowDao, historyNodeDao, nodeDelegator);
-        
-        nodePool.submit(nodeRunner);
+
+		NodeRunner nodeRunner = new NodeRunner(flowId, historyId, nodeId, historyFlowDao, historyNodeDao,
+				nodeDelegator);
+
+		nodePool.submit(nodeRunner);
 	}
 }

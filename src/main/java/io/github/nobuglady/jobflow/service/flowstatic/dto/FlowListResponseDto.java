@@ -26,7 +26,7 @@ public class FlowListResponseDto {
 	public Integer flow_start_type;
 	public Integer disable_flag;
 	public Date update_time;
-	
+
 	public String cron;
 	public String nextStartTime;
 }

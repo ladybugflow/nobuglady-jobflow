@@ -29,77 +29,77 @@ import io.github.nobuglady.jobflow.security.AuthHolder;
 @Controller
 public class UrlController {
 
-    @RequestMapping("/")
-    public String index() {
-    	
-        return "redirect:/home";
-    }
+	@RequestMapping("/")
+	public String index() {
 
-    @GetMapping("/login")
-    public String login() {
-    	
-        return "login";
-    }
+		return "redirect:/home";
+	}
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-    	
-    	AuthHolder.removeUser();
-    	
-        return "redirect:/login";
-    }
+	@GetMapping("/login")
+	public String login() {
 
-    @RequestMapping("/home")
-    public String home() {
-    	
-        return "home";
-    }
+		return "login";
+	}
 
-    @RequestMapping("/flow_list")
-    public String flowList() {
-    	
-        return "flow_list";
-    }
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
 
-    @RequestMapping("/publish_list")
-    public String publishList() {
-    	
-        return "publish_list";
-    }
+		AuthHolder.removeUser();
 
-    @RequestMapping("/instance_list")
-    public String instanceList() {
-    	
-        return "instance_list";
-    }
-    
-    @RequestMapping("/log_list")
-    public String logList() {
-    	
-        return "log_list";
-    }
-    
-    @RequestMapping("/log_list_file")
-    public String logListFile() {
-    	
-        return "log_list_file";
-    }
-    
-    @RequestMapping("/flow_panel_execute")
-    public String flowPanelExecute() {
-    	
-        return "flow_panel_execute";
-    }
+		return "redirect:/login";
+	}
 
-    @RequestMapping("/flow_panel_editor")
-    public String flowPanelEditor() {
-    	
-        return "flow_panel_editor";
-    }
-    
-    @RequestMapping("/admin")
-    public String admin() {
-    	
-        return "admin";
-    }
+	@RequestMapping("/home")
+	public String home() {
+
+		return "home";
+	}
+
+	@RequestMapping("/flow_list")
+	public String flowList() {
+
+		return "flow_list";
+	}
+
+	@RequestMapping("/publish_list")
+	public String publishList() {
+
+		return "publish_list";
+	}
+
+	@RequestMapping("/instance_list")
+	public String instanceList() {
+
+		return "instance_list";
+	}
+
+	@RequestMapping("/log_list")
+	public String logList() {
+
+		return "log_list";
+	}
+
+	@RequestMapping("/log_list_file")
+	public String logListFile() {
+
+		return "log_list_file";
+	}
+
+	@RequestMapping("/flow_panel_execute")
+	public String flowPanelExecute() {
+
+		return "flow_panel_execute";
+	}
+
+	@RequestMapping("/flow_panel_editor")
+	public String flowPanelEditor() {
+
+		return "flow_panel_editor";
+	}
+
+	@RequestMapping("/admin")
+	public String admin() {
+
+		return "admin";
+	}
 }

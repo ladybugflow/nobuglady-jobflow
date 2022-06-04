@@ -25,49 +25,49 @@ import io.github.nobuglady.jobflow.service.flowqueue.complete.CompleteQueueManag
  */
 public class CompleteQueueConsumerThread extends Thread {
 
-    private volatile boolean stopFlag = false;
+	private volatile boolean stopFlag = false;
 
-    private FlowManager flowManager;
+	private FlowManager flowManager;
 
-    /**
-     * 
-     * @param flowManager
-     */
-    public CompleteQueueConsumerThread(FlowManager flowManager) {
-    	this.flowManager = flowManager;
-    }
+	/**
+	 * 
+	 * @param flowManager
+	 */
+	public CompleteQueueConsumerThread(FlowManager flowManager) {
+		this.flowManager = flowManager;
+	}
 
-    /**
-     * 
-     */
-    public void run() {
+	/**
+	 * 
+	 */
+	public void run() {
 
-    	UserEntity userEntity = new UserEntity();
-    	userEntity.setEmail(Const.USER_SYS);
-    	
-    	AuthHolder.setUser(userEntity);
-    	
-        while (true) {
-            try {
-                CompleteNodeResult nodeResult = CompleteQueueManager.getInstance().takeCompleteNode();
-                flowManager.onNodeComplete(nodeResult);
-            } catch (InterruptedException e) {
-                if (!this.stopFlag) {
-                    e.printStackTrace();
-                } else {
-                    break;
-                }
-            }
-        }
-    }
+		UserEntity userEntity = new UserEntity();
+		userEntity.setEmail(Const.USER_SYS);
 
-    /**
-     * 
-     */
-    public void shutdown() {
-    	
-        this.stopFlag = true;
-        this.interrupt();
-    }
+		AuthHolder.setUser(userEntity);
+
+		while (true) {
+			try {
+				CompleteNodeResult nodeResult = CompleteQueueManager.getInstance().takeCompleteNode();
+				flowManager.onNodeComplete(nodeResult);
+			} catch (InterruptedException e) {
+				if (!this.stopFlag) {
+					e.printStackTrace();
+				} else {
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public void shutdown() {
+
+		this.stopFlag = true;
+		this.interrupt();
+	}
 
 }

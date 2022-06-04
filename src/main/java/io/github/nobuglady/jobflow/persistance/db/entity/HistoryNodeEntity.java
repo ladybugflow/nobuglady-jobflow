@@ -46,156 +46,205 @@ public class HistoryNodeEntity {
 	private String updateUser;
 	private Date createTime;
 	private Date updateTime;
-	
+
 	public String getFlowId() {
 		return flowId;
 	}
+
 	public void setFlowId(String flowId) {
 		this.flowId = flowId;
 	}
+
 	public String getNodeId() {
 		return nodeId;
 	}
+
 	public void setNodeId(String nodeId) {
 		this.nodeId = nodeId;
 	}
+
 	public String getHistoryId() {
 		return historyId;
 	}
+
 	public void setHistoryId(String historyId) {
 		this.historyId = historyId;
 	}
+
 	public String getNodeName() {
 		return nodeName;
 	}
+
 	public void setNodeName(String nodeName) {
 		this.nodeName = nodeName;
 	}
+
 	public String getRefName() {
 		return refName;
 	}
+
 	public void setRefName(String refName) {
 		this.refName = refName;
 	}
+
 	public int getNodeType() {
 		return nodeType;
 	}
+
 	public void setNodeType(int nodeType) {
 		this.nodeType = nodeType;
 	}
+
 	public int getStartType() {
 		return startType;
 	}
+
 	public void setStartType(int startType) {
 		this.startType = startType;
 	}
+
 	public int getExecuteType() {
 		return executeType;
 	}
+
 	public void setExecuteType(int executeType) {
 		this.executeType = executeType;
 	}
+
 	public String getStartCron() {
 		return startCron;
 	}
+
 	public void setStartCron(String startCron) {
 		this.startCron = startCron;
 	}
+
 	public String getSubFlowId() {
 		return subFlowId;
 	}
+
 	public void setSubFlowId(String subFlowId) {
 		this.subFlowId = subFlowId;
 	}
+
 	public String getSubNodeId() {
 		return subNodeId;
 	}
+
 	public void setSubNodeId(String subNodeId) {
 		this.subNodeId = subNodeId;
 	}
+
 	public String getLayoutX() {
 		return layoutX;
 	}
+
 	public void setLayoutX(String layoutX) {
 		this.layoutX = layoutX;
 	}
+
 	public String getLayoutY() {
 		return layoutY;
 	}
+
 	public void setLayoutY(String layoutY) {
 		this.layoutY = layoutY;
 	}
+
 	public int getSkipFlag() {
 		return skipFlag;
 	}
+
 	public void setSkipFlag(int skipFlag) {
 		this.skipFlag = skipFlag;
 	}
+
 	public String getSkipValue() {
 		return skipValue;
 	}
+
 	public void setSkipValue(String skipValue) {
 		this.skipValue = skipValue;
 	}
+
 	public int getNodeStatus() {
 		return nodeStatus;
 	}
+
 	public void setNodeStatus(int nodeStatus) {
 		this.nodeStatus = nodeStatus;
 	}
+
 	public int getNodeStatusDetail() {
 		return nodeStatusDetail;
 	}
+
 	public void setNodeStatusDetail(int nodeStatusDetail) {
 		this.nodeStatusDetail = nodeStatusDetail;
 	}
+
 	public Date getStartTime() {
 		return startTime;
 	}
+
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
+
 	public Date getFinishTime() {
 		return finishTime;
 	}
+
 	public void setFinishTime(Date finishTime) {
 		this.finishTime = finishTime;
 	}
+
 	public String getNodeResultMessage() {
 		return nodeResultMessage;
 	}
+
 	public void setNodeResultMessage(String nodeResultMessage) {
 		this.nodeResultMessage = nodeResultMessage;
 	}
+
 	public int getDisableFlag() {
 		return disableFlag;
 	}
+
 	public void setDisableFlag(int disableFlag) {
 		this.disableFlag = disableFlag;
 	}
+
 	public String getCreateUser() {
 		return createUser;
 	}
+
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
 	}
+
 	public String getUpdateUser() {
 		return updateUser;
 	}
+
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
+
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+
 }

@@ -25,37 +25,37 @@ import io.github.nobuglady.jobflow.persistance.db.entity.UserEntity;
 public class AuthHolder {
 
 	private static ThreadLocal<UserEntity> userHolder = new ThreadLocal<>();
-	
+
 	/**
 	 * save user
 	 * 
-	 * @param sessionId session id
+	 * @param sessionId  session id
 	 * @param userEntity user entity
 	 */
 	public static void saveUser(HttpSession session, UserEntity userEntity) {
 		session.setAttribute("loginUser", userEntity);
 		userHolder.set(userEntity);
 	}
-	
+
 	/**
 	 * save user
 	 * 
-	 * @param sessionId session id
+	 * @param sessionId  session id
 	 * @param userEntity user entity
 	 */
 	public static void setUser(UserEntity userEntity) {
 		userHolder.set(userEntity);
 	}
-	
+
 	/**
 	 * 
 	 * @param session
 	 */
 	public static void refreshUser(HttpSession session) {
-		UserEntity userEntity = (UserEntity)session.getAttribute("loginUser");
+		UserEntity userEntity = (UserEntity) session.getAttribute("loginUser");
 		userHolder.set(userEntity);
 	}
-	
+
 	/**
 	 * get user
 	 * 
@@ -65,7 +65,7 @@ public class AuthHolder {
 	public static UserEntity getUser() {
 		return userHolder.get();
 	}
-	
+
 	/**
 	 * remove user
 	 * 
@@ -74,7 +74,7 @@ public class AuthHolder {
 	public static void removeUser() {
 		userHolder.remove();
 	}
-	
+
 	/**
 	 * get user menu
 	 * 
@@ -83,15 +83,15 @@ public class AuthHolder {
 	 */
 	public static String getUserMenu() {
 		UserEntity userEntity = userHolder.get();
-		if(userEntity == null) {
+		if (userEntity == null) {
 			return "";
 		}
-		
-		if(userEntity.getAdminFlag() != null && userEntity.getAdminFlag() == 1) {
+
+		if (userEntity.getAdminFlag() != null && userEntity.getAdminFlag() == 1) {
 //			return ""+userEntity.email+" | <a href='/admin' target='_tab'>admin</a> | <a href='/logout'>logout</a>";
-			return ""+userEntity.email+" | <a href='/logout'>logout</a>";
-		}else {
-			return ""+userEntity.email+" | <a href='/logout'>logout</a>";
+			return "" + userEntity.email + " | <a href='/logout'>logout</a>";
+		} else {
+			return "" + userEntity.email + " | <a href='/logout'>logout</a>";
 		}
 	}
 }

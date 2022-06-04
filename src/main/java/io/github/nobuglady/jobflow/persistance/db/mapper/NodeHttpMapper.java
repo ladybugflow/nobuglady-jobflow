@@ -30,74 +30,26 @@ public interface NodeHttpMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM node_http "
-			+ " WHERE"
-			+ " flow_id = #{param1}"
-			+ " and node_id = #{param2}")
+	@Select("SELECT * FROM node_http " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
 	public NodeHttpEntity selectByKey(String flowId, String nodeId);
 
-
-	@Insert("insert into node_http"
-			+ " ("
-	    	+ " flow_id, "
-	    	+ " node_id, "
-	    	+ " timeout, "
-	    	+ " timeout_type, "
-	    	+ " success_code, "
-	    	+ " error_type, "
-	    	+ " sync_flag, "
-	    	+ " http_url, "
-	    	+ " http_method, "
-	    	+ " http_header, "
-	    	+ " http_body, "
-	    	+ " http_content_type, "
-	    	+ " create_user, "
-	    	+ " update_user, "
-	    	+ " create_time, "
-	    	+ " update_time "
-			+ " )"
-			+ " values"
-			+ " ("
-			+ "#{flowId},"
-			+ "#{nodeId},"
-			+ "#{timeout},"
-			+ "#{timeoutType},"
-			+ "#{successCode},"
-			+ "#{errorType},"
-			+ "#{syncFlag},"
-			+ "#{httpUrl},"
-			+ "#{httpMethod},"
-			+ "#{httpHeader},"
-			+ "#{httpBody},"
-			+ "#{httpContentType},"
-			+ "#{createUser},"
-			+ "#{updateUser},"
-			+ "now(),"
-			+ "now()"
-			+ " ) ")
+	@Insert("insert into node_http" + " (" + " flow_id, " + " node_id, " + " timeout, " + " timeout_type, "
+			+ " success_code, " + " error_type, " + " sync_flag, " + " http_url, " + " http_method, " + " http_header, "
+			+ " http_body, " + " http_content_type, " + " create_user, " + " update_user, " + " create_time, "
+			+ " update_time " + " )" + " values" + " (" + "#{flowId}," + "#{nodeId}," + "#{timeout},"
+			+ "#{timeoutType}," + "#{successCode}," + "#{errorType}," + "#{syncFlag}," + "#{httpUrl},"
+			+ "#{httpMethod}," + "#{httpHeader}," + "#{httpBody}," + "#{httpContentType}," + "#{createUser},"
+			+ "#{updateUser}," + "now()," + "now()" + " ) ")
 	public void save(NodeHttpEntity entity);
-	
-	@Update("update node_http "
-			+ " set"
-			+ " flow_id=#{flowId}"
-			+ " ,node_id=#{nodeId}"
-			+ " ,timeout=#{timeout}"
-			+ " ,timeout_type=#{timeoutType}"
-			+ " ,success_code=#{successCode}"
-			+ " ,error_type=#{errorType}"
-			+ " ,sync_flag=#{syncFlag}"
-			+ " ,http_url=#{httpUrl}"
-			+ " ,http_method=#{httpMethod}"
-			+ " ,http_header=#{httpHeader}"
-			+ " ,http_body=#{httpBody}"
-			+ " ,http_content_type=#{httpContentType}"
-			+ " ,update_user=#{updateUser}"
-			+ " ,update_time=now()"
-			+ " where"
-			+ " flow_id=#{flowId}"
+
+	@Update("update node_http " + " set" + " flow_id=#{flowId}" + " ,node_id=#{nodeId}" + " ,timeout=#{timeout}"
+			+ " ,timeout_type=#{timeoutType}" + " ,success_code=#{successCode}" + " ,error_type=#{errorType}"
+			+ " ,sync_flag=#{syncFlag}" + " ,http_url=#{httpUrl}" + " ,http_method=#{httpMethod}"
+			+ " ,http_header=#{httpHeader}" + " ,http_body=#{httpBody}" + " ,http_content_type=#{httpContentType}"
+			+ " ,update_user=#{updateUser}" + " ,update_time=now()" + " where" + " flow_id=#{flowId}"
 			+ " and node_id=#{nodeId}")
 	public void update(NodeHttpEntity entity);
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////

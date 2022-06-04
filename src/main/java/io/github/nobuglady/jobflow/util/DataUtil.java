@@ -30,28 +30,27 @@ public class DataUtil {
 	 * @return
 	 */
 	public static int getDisabedFlag(Integer disabeldFlag) {
-		
-		if(disabeldFlag == null) {
+
+		if (disabeldFlag == null) {
 			return Const.FLAG_OFF;
-		}else {
+		} else {
 			return disabeldFlag.intValue();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param nodeType
 	 * @return
 	 */
 	public static int getNodeType(Integer nodeType) {
-		
-		if(nodeType == null) {
+
+		if (nodeType == null) {
 			return NodeType.NODE_TYPE_NOMARL;
-		}else {
+		} else {
 			return nodeType.intValue();
 		}
 	}
-	
 
 	/**
 	 * 
@@ -59,24 +58,24 @@ public class DataUtil {
 	 * @return
 	 */
 	public static int getNodeExecuteType(Integer nodeExecuteType) {
-		
-		if(nodeExecuteType == null) {
+
+		if (nodeExecuteType == null) {
 			return NodeExecuteType.NODE_EXECUTE_TYPE_NONE;
-		}else {
+		} else {
 			return nodeExecuteType.intValue();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param nodeExecuteType
 	 * @return
 	 */
 	public static int getNodeStartType(Integer nodeStartType) {
-		
-		if(nodeStartType == null) {
+
+		if (nodeStartType == null) {
 			return NodeStartType.NODE_START_TYPE_DEFAULT;
-		}else {
+		} else {
 			return nodeStartType.intValue();
 		}
 	}

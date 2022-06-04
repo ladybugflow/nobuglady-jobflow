@@ -28,13 +28,9 @@ public interface HistoryNodeShellMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM history_node_shell "
-			+ " WHERE"
-			+ " flow_id = #{param1}"
-			+ " and node_id = #{param2} "
+	@Select("SELECT * FROM history_node_shell " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2} "
 			+ " and history_id = #{param3}")
 	public HistoryNodeShellEntity selectByKey(String flowId, String nodeId, String historyId);
-	
 
 	//////////////////////////////////////
 	// Extends

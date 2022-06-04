@@ -24,12 +24,12 @@ import io.github.nobuglady.jobflow.logger.ConsoleLogger;
  * @author NoBugLady
  *
  */
-public class RuntimeStreamTracer implements Runnable{
+public class RuntimeStreamTracer implements Runnable {
 
 	private BufferedReader br;
 	private ConsoleLogger consoleLogger;
 	private volatile boolean stopFlag = false;
-	
+
 	/**
 	 * 
 	 * @param is
@@ -37,12 +37,12 @@ public class RuntimeStreamTracer implements Runnable{
 	 * @param historyId
 	 */
 	public RuntimeStreamTracer(InputStream is, String flowId, String historyId) {
-		
+
 		InputStreamReader isr = new InputStreamReader(is);
 		br = new BufferedReader(isr);
-		consoleLogger = ConsoleLogger.getInstance(flowId,historyId);
+		consoleLogger = ConsoleLogger.getInstance(flowId, historyId);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -54,28 +54,28 @@ public class RuntimeStreamTracer implements Runnable{
 		}
 		stopFlag = true;
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void run() {
-		
+
 		try {
 			String temp = null;
-			while(!stopFlag) {
+			while (!stopFlag) {
 				temp = br.readLine();
-				if(temp != null) {
+				if (temp != null) {
 					consoleLogger.info(temp);
-				}else {
+				} else {
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						break;
 					}
 				}
-				
+
 			}
-			
+
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();

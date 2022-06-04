@@ -34,140 +34,141 @@ import io.github.nobuglady.jobflow.service.flowexecutor.NodeInf;
  */
 public class NodeDelegatorHttp implements NodeInf {
 
-    private HistoryNodeHttpEntity historyNodeHttpEntity;
-    private HistoryNodeHttpDao historyNodeHttpDao;
+	private HistoryNodeHttpEntity historyNodeHttpEntity;
+	private HistoryNodeHttpDao historyNodeHttpDao;
 
-    /**
-     * 
-     * @param historyNodeHttpEntity
-     * @param historyNodeHttpDao
-     */
-    public NodeDelegatorHttp(HistoryNodeHttpEntity historyNodeHttpEntity, HistoryNodeHttpDao historyNodeHttpDao) {
-        this.historyNodeHttpEntity = historyNodeHttpEntity;
-        this.historyNodeHttpDao = historyNodeHttpDao;
-    }
+	/**
+	 * 
+	 * @param historyNodeHttpEntity
+	 * @param historyNodeHttpDao
+	 */
+	public NodeDelegatorHttp(HistoryNodeHttpEntity historyNodeHttpEntity, HistoryNodeHttpDao historyNodeHttpDao) {
+		this.historyNodeHttpEntity = historyNodeHttpEntity;
+		this.historyNodeHttpDao = historyNodeHttpDao;
+	}
 
-    /**
-     * 
-     */
-    @Override
-    public String execute() throws Throwable {
-        
-    	/*
-    	 * check body
-    	 */
-    	String body = historyNodeHttpEntity.getHttpBody();
-    	if(body != null && !"".equals(body)) {
-    		body = body.replace("\r", "").replace("\n", "");
-    	}
-    	
-    	// variable replace
-    	
-    	StringBuffer responseStr = new StringBuffer();
-        
-    	
-    	/*
-    	 * open connection
-    	 */
-        URL urlObj = new URL(historyNodeHttpEntity.getHttpUrl());
-        HttpURLConnection httpConnection = (HttpURLConnection) urlObj.openConnection();
-       
-        /*
-         * set header
-         */
-        httpConnection.setRequestMethod(historyNodeHttpEntity.getHttpMethod());
+	/**
+	 * 
+	 */
+	@Override
+	public String execute() throws Throwable {
 
-        /*
-         * send content
-         */
-        if("GET".equalsIgnoreCase(historyNodeHttpEntity.getHttpMethod())) {
-        	printRequestInfo(httpConnection);
-        	httpConnection.connect();
-        }else {
-        	httpConnection.setDoOutput(true);
-            if(historyNodeHttpEntity.getHttpContentType() != null && !"".equals(historyNodeHttpEntity.getHttpContentType())) {
-            	httpConnection.setRequestProperty("Content-Type", historyNodeHttpEntity.getHttpContentType());
-            }
-            
+		/*
+		 * check body
+		 */
+		String body = historyNodeHttpEntity.getHttpBody();
+		if (body != null && !"".equals(body)) {
+			body = body.replace("\r", "").replace("\n", "");
+		}
 
-            httpConnection.setRequestProperty("Content-Length", String.valueOf(body.length()));
-            
-            printRequestInfo(httpConnection);
-            
-            updateRequest(body);
-            
-            OutputStreamWriter out = new OutputStreamWriter(
-                new BufferedOutputStream(httpConnection.getOutputStream()));
-            if(body != null && !"".equals(body)) {
-            	out.write(body);
-            }
-            out.close();
-        }
-        
-        /*
-         * read response
-         */
-        
-        int responseCode = httpConnection.getResponseCode();
-        
-        if(responseCode == HttpURLConnection.HTTP_OK){
-            InputStream inputStream = httpConnection.getInputStream();
-            String encoding = httpConnection.getContentEncoding();
-            if(null == encoding){
-                encoding = "UTF-8";
-            }
+		// variable replace
 
-            InputStreamReader isr = new InputStreamReader(inputStream, encoding);
-            BufferedReader br = new BufferedReader(isr);
+		StringBuffer responseStr = new StringBuffer();
 
-            String line = null;
-            while((line = br.readLine()) != null){
-                responseStr.append(line);
-            }
+		/*
+		 * open connection
+		 */
+		URL urlObj = new URL(historyNodeHttpEntity.getHttpUrl());
+		HttpURLConnection httpConnection = (HttpURLConnection) urlObj.openConnection();
 
-            br.close();
-            isr.close();
-            inputStream.close();
-            
-        } else {
-        	throw new Exception("response code error:"+responseCode);
-        }
-        
-        /*
-         * update to database
-         */
-        updateResponse(String.valueOf(responseCode), responseStr.toString());
-        
-        return String.valueOf(responseCode);
-    }
+		/*
+		 * set header
+		 */
+		httpConnection.setRequestMethod(historyNodeHttpEntity.getHttpMethod());
 
-    /**
-     * 
-     * @param httpConnection
-     */
-    private void printRequestInfo(HttpURLConnection httpConnection) {
-    	
-    	ConsoleLogger consoleLogger = ConsoleLogger.getInstance(historyNodeHttpEntity.getFlowId(), historyNodeHttpEntity.getHistoryId());
-    	
-    	consoleLogger.info("------------");
-    	consoleLogger.info("URL:"+httpConnection.getURL());
-    	consoleLogger.info("METHOD:"+httpConnection.getRequestMethod());
-    	
+		/*
+		 * send content
+		 */
+		if ("GET".equalsIgnoreCase(historyNodeHttpEntity.getHttpMethod())) {
+			printRequestInfo(httpConnection);
+			httpConnection.connect();
+		} else {
+			httpConnection.setDoOutput(true);
+			if (historyNodeHttpEntity.getHttpContentType() != null
+					&& !"".equals(historyNodeHttpEntity.getHttpContentType())) {
+				httpConnection.setRequestProperty("Content-Type", historyNodeHttpEntity.getHttpContentType());
+			}
+
+			httpConnection.setRequestProperty("Content-Length", String.valueOf(body.length()));
+
+			printRequestInfo(httpConnection);
+
+			updateRequest(body);
+
+			OutputStreamWriter out = new OutputStreamWriter(new BufferedOutputStream(httpConnection.getOutputStream()));
+			if (body != null && !"".equals(body)) {
+				out.write(body);
+			}
+			out.close();
+		}
+
+		/*
+		 * read response
+		 */
+
+		int responseCode = httpConnection.getResponseCode();
+
+		if (responseCode == HttpURLConnection.HTTP_OK) {
+			InputStream inputStream = httpConnection.getInputStream();
+			String encoding = httpConnection.getContentEncoding();
+			if (null == encoding) {
+				encoding = "UTF-8";
+			}
+
+			InputStreamReader isr = new InputStreamReader(inputStream, encoding);
+			BufferedReader br = new BufferedReader(isr);
+
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				responseStr.append(line);
+			}
+
+			br.close();
+			isr.close();
+			inputStream.close();
+
+		} else {
+			throw new Exception("response code error:" + responseCode);
+		}
+
+		/*
+		 * update to database
+		 */
+		updateResponse(String.valueOf(responseCode), responseStr.toString());
+
+		return String.valueOf(responseCode);
+	}
+
+	/**
+	 * 
+	 * @param httpConnection
+	 */
+	private void printRequestInfo(HttpURLConnection httpConnection) {
+
+		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(historyNodeHttpEntity.getFlowId(),
+				historyNodeHttpEntity.getHistoryId());
+
+		consoleLogger.info("------------");
+		consoleLogger.info("URL:" + httpConnection.getURL());
+		consoleLogger.info("METHOD:" + httpConnection.getRequestMethod());
+
 		Map<String, List<String>> headerMap = httpConnection.getHeaderFields();
-		for(Map.Entry<String, List<String>> entry:headerMap.entrySet() ) {
+		for (Map.Entry<String, List<String>> entry : headerMap.entrySet()) {
 			consoleLogger.info(entry.getKey() + ":" + entry.getValue());
 		}
 		consoleLogger.info("------------");
 	}
 
 	/**
-     * 
-     * @param http_body
-     */
+	 * 
+	 * @param http_body
+	 */
 	private void updateRequest(String http_body) {
-		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(historyNodeHttpEntity.getFlowId(), historyNodeHttpEntity.getHistoryId());
+		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(historyNodeHttpEntity.getFlowId(),
+				historyNodeHttpEntity.getHistoryId());
 		consoleLogger.info(http_body);
-		historyNodeHttpDao.updateNodehitoryRequest(historyNodeHttpEntity.getFlowId(), historyNodeHttpEntity.getHistoryId(), historyNodeHttpEntity.getNodeId(), cutString(http_body,1500));
+		historyNodeHttpDao.updateNodehitoryRequest(historyNodeHttpEntity.getFlowId(),
+				historyNodeHttpEntity.getHistoryId(), historyNodeHttpEntity.getNodeId(), cutString(http_body, 1500));
 	}
 
 	/**
@@ -176,14 +177,17 @@ public class NodeDelegatorHttp implements NodeInf {
 	 * @param http_response
 	 */
 	private void updateResponse(String http_res_status, String http_response) {
-		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(historyNodeHttpEntity.getFlowId(), historyNodeHttpEntity.getHistoryId());
+		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(historyNodeHttpEntity.getFlowId(),
+				historyNodeHttpEntity.getHistoryId());
 		consoleLogger.info("------------");
-		consoleLogger.info("RESPONSE:"+http_res_status);
+		consoleLogger.info("RESPONSE:" + http_res_status);
 		consoleLogger.info(http_response);
 		consoleLogger.info("------------");
-		historyNodeHttpDao.updateNodehitoryReponse(historyNodeHttpEntity.getFlowId(), historyNodeHttpEntity.getHistoryId(), historyNodeHttpEntity.getNodeId(), http_res_status, cutString(http_response,1500));
+		historyNodeHttpDao.updateNodehitoryReponse(historyNodeHttpEntity.getFlowId(),
+				historyNodeHttpEntity.getHistoryId(), historyNodeHttpEntity.getNodeId(), http_res_status,
+				cutString(http_response, 1500));
 	}
-	
+
 	/**
 	 * 
 	 * @param str
@@ -191,9 +195,9 @@ public class NodeDelegatorHttp implements NodeInf {
 	 * @return
 	 */
 	private String cutString(String str, int max) {
-		if(str.length() > max) {
-			return str.substring(0,max-1);
-		}else {
+		if (str.length() > max) {
+			return str.substring(0, max - 1);
+		} else {
 			return str;
 		}
 	}

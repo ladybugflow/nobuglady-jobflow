@@ -29,46 +29,23 @@ public interface HistoryNodeHttpMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM history_node_http "
-			+ " WHERE"
-			+ " flow_id = #{param1}"
-			+ " and node_id = #{param2}"
+	@Select("SELECT * FROM history_node_http " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}"
 			+ " and history_id = #{param3}")
 	public HistoryNodeHttpEntity selectByKey(String flowId, String nodeId, String historyId);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Update("update history_node_http "
-			+ "  set http_request = #{param4} , "
-			+ "  update_user = #{param5}, "
-			+ "  update_time = now() "
-			+ " where"
-			+ " flow_id = #{param1} "
-			+ " and history_id = #{param2} "
+	@Update("update history_node_http " + "  set http_request = #{param4} , " + "  update_user = #{param5}, "
+			+ "  update_time = now() " + " where" + " flow_id = #{param1} " + " and history_id = #{param2} "
 			+ " and node_id = #{param3} ")
-	public void updateNodehitoryRequest(
-			String flowId, 
-			String historyId,
-			String nodeId,
-			String httpRequest, 
+	public void updateNodehitoryRequest(String flowId, String historyId, String nodeId, String httpRequest,
 			String userId);
-	
-	@Update("update history_node_http "
-			+ "  set http_res_status = #{param4}, "
-			+ " http_response = #{param5}, "
-			+ "  update_user = #{param6}, "
-			+ "  update_time = now() "
-			+ " where"
-			+ " flow_id = #{param1} "
-			+ " and history_id = #{param2} "
-			+ " and node_id = #{param3} ")
-	public void updateNodehitoryReponse(
-			String flowId, 
-			String historyId,
-			String nodeId,
-			String httpResStatus, 
-			String httpResponse, 
-			String userId);
+
+	@Update("update history_node_http " + "  set http_res_status = #{param4}, " + " http_response = #{param5}, "
+			+ "  update_user = #{param6}, " + "  update_time = now() " + " where" + " flow_id = #{param1} "
+			+ " and history_id = #{param2} " + " and node_id = #{param3} ")
+	public void updateNodehitoryReponse(String flowId, String historyId, String nodeId, String httpResStatus,
+			String httpResponse, String userId);
 
 }

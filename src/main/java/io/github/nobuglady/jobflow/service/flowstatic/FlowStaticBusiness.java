@@ -72,22 +72,22 @@ public class FlowStaticBusiness {
 
 	@Autowired
 	private FlowDao flowDao;
-	
+
 	@Autowired
 	private NodeDao nodeDao;
 
 	@Autowired
 	private NodeShellDao nodeShellDao;
-	
+
 	@Autowired
 	private NodeHttpDao nodeHttpDao;
-	
+
 	@Autowired
 	private EdgeDao edgeDao;
 
 	@Autowired
 	private NodeRolesDao nodeRolesDao;
-	
+
 	///////////////////////////////////////
 	// flow
 	///////////////////////////////////////
@@ -96,52 +96,51 @@ public class FlowStaticBusiness {
 	 * @param requestDto
 	 * @param responseDto
 	 */
-	public void requestFlowStatic(FlowStaticRequestDto requestDto, 
-			FlowStaticResponseDto responseDto) {
+	public void requestFlowStatic(FlowStaticRequestDto requestDto, FlowStaticResponseDto responseDto) {
 
 		String flowId = requestDto.flowId;
-		
+
 		/*
 		 * flow
 		 */
-    	FlowEntity flowEntity = flowDao.selectByKey(flowId);
-    	
-        FlowDto nodeFlowDto = new FlowDto();
-        if(flowEntity.getUpdateTime() != null) {
-        	nodeFlowDto.updateTime = DateUtil.dateToString(flowEntity.getUpdateTime(), DateUtil.FMT_YYYYMMDD_HHMMSS);
-        }
+		FlowEntity flowEntity = flowDao.selectByKey(flowId);
 
-        /*
-         * node
-         */
-        List<NodeEntity> nodeEntityList = nodeDao.selectByFlowId(flowId);
-        for (NodeEntity item : nodeEntityList) {
-        	
-            NodeDto nodeNodeDto = new NodeDto();
-            nodeNodeDto.id = item.getNodeId();
-            nodeNodeDto.label = item.getNodeName();
-            nodeNodeDto.layoutX = item.getLayoutX();
-            nodeNodeDto.layoutY = item.getLayoutY();
-            nodeNodeDto.disabled = DataUtil.getDisabedFlag(item.getDisableFlag());
-            nodeNodeDto.type = DataUtil.getNodeType(item.getNodeType());
+		FlowDto nodeFlowDto = new FlowDto();
+		if (flowEntity.getUpdateTime() != null) {
+			nodeFlowDto.updateTime = DateUtil.dateToString(flowEntity.getUpdateTime(), DateUtil.FMT_YYYYMMDD_HHMMSS);
+		}
 
-            nodeFlowDto.nodes.add(nodeNodeDto);
-        }
+		/*
+		 * node
+		 */
+		List<NodeEntity> nodeEntityList = nodeDao.selectByFlowId(flowId);
+		for (NodeEntity item : nodeEntityList) {
 
-        /*
-         * edge
-         */
-        List<EdgeEntity> edgeEntityList = edgeDao.selectByFlowId(flowId);
-        for (EdgeEntity item : edgeEntityList) {
-            	
-            EdgeDto nodeEdgeDto = new EdgeDto();
-            nodeEdgeDto.id = item.getEdgeId();
-            nodeEdgeDto.from = item.getFromNodeId();
-            nodeEdgeDto.to = item.getToNodeId();
+			NodeDto nodeNodeDto = new NodeDto();
+			nodeNodeDto.id = item.getNodeId();
+			nodeNodeDto.label = item.getNodeName();
+			nodeNodeDto.layoutX = item.getLayoutX();
+			nodeNodeDto.layoutY = item.getLayoutY();
+			nodeNodeDto.disabled = DataUtil.getDisabedFlag(item.getDisableFlag());
+			nodeNodeDto.type = DataUtil.getNodeType(item.getNodeType());
 
-            nodeFlowDto.edges.add(nodeEdgeDto);
-        }
-		
+			nodeFlowDto.nodes.add(nodeNodeDto);
+		}
+
+		/*
+		 * edge
+		 */
+		List<EdgeEntity> edgeEntityList = edgeDao.selectByFlowId(flowId);
+		for (EdgeEntity item : edgeEntityList) {
+
+			EdgeDto nodeEdgeDto = new EdgeDto();
+			nodeEdgeDto.id = item.getEdgeId();
+			nodeEdgeDto.from = item.getFromNodeId();
+			nodeEdgeDto.to = item.getToNodeId();
+
+			nodeFlowDto.edges.add(nodeEdgeDto);
+		}
+
 		/*
 		 * convert entity to json
 		 */
@@ -158,20 +157,19 @@ public class FlowStaticBusiness {
 
 		FlowEntity entity = flowDao.selectByKey(requestDto.flowId);
 		if (entity != null) {
-			
-			if(Const.STR_ON.equals(requestDto.onOff)) {
+
+			if (Const.STR_ON.equals(requestDto.onOff)) {
 				entity.setDisableFlag(Const.FLAG_OFF);
-			}else {
+			} else {
 				entity.setDisableFlag(Const.FLAG_ON);
 			}
 			entity.setUpdateUser(AuthHolder.getUser().email);
 			flowDao.update(entity);
-			
+
 			entity = flowDao.selectByKey(requestDto.flowId);
 			responseDto.updateTime = DateUtil.dateToString(entity.getUpdateTime(), DateUtil.FMT_YYYYMMDD_HHMMSS);
-		} 
+		}
 	}
-
 
 	/**
 	 * 
@@ -179,80 +177,79 @@ public class FlowStaticBusiness {
 	 * @param responseDto
 	 */
 	public void requestFlowSave(FlowSaveRequestDto requestDto, FlowSaveResponseDto responseDto) {
-		
+
 		String flowId = requestDto.flowid;
 		List<Node> nodes = requestDto.nodes;
 		List<Edge> edges = requestDto.edges;
-		
+
 		List<String[]> fromToList = new ArrayList<>();
-		for(Edge edge:edges) {
-			fromToList.add(new String[] {edge.from, edge.to, edge.id});
+		for (Edge edge : edges) {
+			fromToList.add(new String[] { edge.from, edge.to, edge.id });
 		}
-		
+
 		/*
 		 * update nodes
 		 */
 
-		Map<String,Node> nodeMap = new HashMap<String,Node>();
+		Map<String, Node> nodeMap = new HashMap<String, Node>();
 		List<String> nodeIdList = new ArrayList<String>();
-		for(Node node:nodes) {
+		for (Node node : nodes) {
 			nodeIdList.add(node.id);
 			nodeMap.put(node.id, node);
 		}
-		
+
 		nodeDao.deleteNodesNotInKeys(flowId, nodeIdList);
-        
-        for(String nodeId:nodeIdList) {
-        	
-        	Node node = nodeMap.get(nodeId);
-        	
-        	NodeEntity nodeEntity = nodeDao.selectByKey(flowId, nodeId);
-        	if(nodeEntity != null) {
-        		nodeEntity.setNodeName(node.label);
-        		nodeEntity.setLayoutX(node.layoutX);
-        		nodeEntity.setLayoutY(node.layoutY);
-        		nodeEntity.setUpdateUser(AuthHolder.getUser().email);
-        		nodeDao.update(nodeEntity);
-        	}else {
-        		nodeEntity = new NodeEntity();
-            	nodeEntity.setFlowId(flowId);
-            	nodeEntity.setNodeId(nodeId);
-            	nodeEntity.setNodeName(node.label);
-            	nodeEntity.setRefName(node.label);
-            	nodeEntity.setLayoutX(node.layoutX);
-            	nodeEntity.setLayoutY(node.layoutY);
-            	nodeEntity.setStartType(NodeStartType.NODE_START_TYPE_DEFAULT);
-            	nodeEntity.setDisableFlag(Const.FLAG_OFF);
-            	nodeEntity.setNodeType(NodeType.NODE_TYPE_NOMARL);
-            	nodeEntity.setExecuteType(NodeExecuteType.NODE_EXECUTE_TYPE_NONE);
-            	nodeEntity.setSkipFlag(Const.FLAG_OFF);
-            	nodeEntity.setDisableFlag(Const.FLAG_OFF);
-	        	nodeEntity.setCreateUser(AuthHolder.getUser().email);
-	        	nodeEntity.setUpdateUser(AuthHolder.getUser().email);
-	        	
-            	nodeDao.save(nodeEntity);
-        	}
-        	
-        }
-        
-		
+
+		for (String nodeId : nodeIdList) {
+
+			Node node = nodeMap.get(nodeId);
+
+			NodeEntity nodeEntity = nodeDao.selectByKey(flowId, nodeId);
+			if (nodeEntity != null) {
+				nodeEntity.setNodeName(node.label);
+				nodeEntity.setLayoutX(node.layoutX);
+				nodeEntity.setLayoutY(node.layoutY);
+				nodeEntity.setUpdateUser(AuthHolder.getUser().email);
+				nodeDao.update(nodeEntity);
+			} else {
+				nodeEntity = new NodeEntity();
+				nodeEntity.setFlowId(flowId);
+				nodeEntity.setNodeId(nodeId);
+				nodeEntity.setNodeName(node.label);
+				nodeEntity.setRefName(node.label);
+				nodeEntity.setLayoutX(node.layoutX);
+				nodeEntity.setLayoutY(node.layoutY);
+				nodeEntity.setStartType(NodeStartType.NODE_START_TYPE_DEFAULT);
+				nodeEntity.setDisableFlag(Const.FLAG_OFF);
+				nodeEntity.setNodeType(NodeType.NODE_TYPE_NOMARL);
+				nodeEntity.setExecuteType(NodeExecuteType.NODE_EXECUTE_TYPE_NONE);
+				nodeEntity.setSkipFlag(Const.FLAG_OFF);
+				nodeEntity.setDisableFlag(Const.FLAG_OFF);
+				nodeEntity.setCreateUser(AuthHolder.getUser().email);
+				nodeEntity.setUpdateUser(AuthHolder.getUser().email);
+
+				nodeDao.save(nodeEntity);
+			}
+
+		}
+
 		/*
 		 * update edges
 		 */
 		edgeDao.deleteEdgeNotInKeys(flowId, fromToList);
-        
-        for(String[] fromTo:fromToList) {
-        	String from = fromTo[0];
-        	String to = fromTo[1];
-        	String edgeId = fromTo[2];
-        	
-        	edgeDao.saveOrUpdateEdge(flowId, edgeId, from, to, null);
-			
-        }
-        
-        /*
-         * update flow
-         */
+
+		for (String[] fromTo : fromToList) {
+			String from = fromTo[0];
+			String to = fromTo[1];
+			String edgeId = fromTo[2];
+
+			edgeDao.saveOrUpdateEdge(flowId, edgeId, from, to, null);
+
+		}
+
+		/*
+		 * update flow
+		 */
 		FlowEntity flowEntity = flowDao.selectByKey(flowId);
 		flowEntity.setUpdateUser(AuthHolder.getUser().email);
 		flowDao.update(flowEntity);
@@ -266,7 +263,7 @@ public class FlowStaticBusiness {
 	 */
 	public void requestFlowPublish(FlowPublishRequestDto requestDto, FlowPublishResponseDto responseDto) {
 		FlowEntity flowEntity = flowDao.publishFlow(requestDto.flowId);
-		responseDto.publishTime =  DateUtil.dateToString(flowEntity.getPublishTime(), DateUtil.FMT_YYYYMMDD_HHMMSS);
+		responseDto.publishTime = DateUtil.dateToString(flowEntity.getPublishTime(), DateUtil.FMT_YYYYMMDD_HHMMSS);
 	}
 
 	///////////////////////////////////////
@@ -277,16 +274,15 @@ public class FlowStaticBusiness {
 	 * @param requestDto
 	 * @param responseDto
 	 */
-	public void requestNodeInfo(NodeInfoRequestDto requestDto, 
-			NodeInfoResponseDto responseDto) {
-		
+	public void requestNodeInfo(NodeInfoRequestDto requestDto, NodeInfoResponseDto responseDto) {
+
 		String flowId = requestDto.flowId;
 		String nodeId = requestDto.nodeId;
-		
+
 		NodeEntity nodeEntity = nodeDao.selectByKey(flowId, nodeId);
 		NodeHttpEntity nodeHttpEntity = nodeHttpDao.selectByKey(flowId, nodeId);
 		NodeShellEntity nodeShellEntity = nodeShellDao.selectByKey(flowId, nodeId);
-		
+
 		responseDto.nodeEntity = nodeEntity;
 		responseDto.nodeHttpEntity = nodeHttpEntity;
 		responseDto.nodeShellEntity = nodeShellEntity;
@@ -300,20 +296,20 @@ public class FlowStaticBusiness {
 	 */
 	public void requestNodeSaveOnOff(NodeSaveOnOffRequestDto requestDto, NodeSaveOnOffResponseDto responseDto) {
 
-		NodeEntity entity = nodeDao.selectByKey(requestDto.flowId,requestDto.nodeId);
+		NodeEntity entity = nodeDao.selectByKey(requestDto.flowId, requestDto.nodeId);
 		if (entity != null) {
-			
-			if(Const.STR_ON.equals(requestDto.onOff)) {
+
+			if (Const.STR_ON.equals(requestDto.onOff)) {
 				entity.setDisableFlag(Const.FLAG_OFF);
-			}else {
+			} else {
 				entity.setDisableFlag(Const.FLAG_ON);
 			}
 			entity.setUpdateUser(AuthHolder.getUser().email);
 			nodeDao.update(entity);
-			
-			entity = nodeDao.selectByKey(requestDto.flowId,requestDto.nodeId);
+
+			entity = nodeDao.selectByKey(requestDto.flowId, requestDto.nodeId);
 			responseDto.updateTime = DateUtil.dateToString(entity.getUpdateTime(), DateUtil.FMT_YYYYMMDD_HHMMSS);
-		} 
+		}
 	}
 
 	/**
@@ -322,42 +318,17 @@ public class FlowStaticBusiness {
 	 * @param responseDto
 	 */
 	public void requestNodeSave(NodeSaveRequestDto requestDto, NodeSaveResponseDto responseDto) {
-		
-		nodeDao.saveOrUpdateNode(
-				requestDto.flowId,
-				requestDto.nodeId,
-				requestDto.nodeType,
-				requestDto.cron,
-				requestDto.startType,
-				requestDto.executeType,
-				requestDto.nodeRefName,
-				requestDto.nodeName,
-				requestDto.layoutX,
-				requestDto.layoutY,
-				requestDto.roles
-				);
-		
-		nodeHttpDao.saveOrUpdateNode(
-				requestDto.flowId,
-				requestDto.nodeId,
-				requestDto.httpSuccessCode,
-				requestDto.httpErrorType,
-				requestDto.httpSyncFlag,
-				requestDto.location,
-				requestDto.httpMethod,
-				requestDto.httpContentType,
-				requestDto.httpHeader,
-				requestDto.httpBody
-				);
-		
-		nodeShellDao.saveOrUpdateNode(
-				requestDto.flowId,
-				requestDto.nodeId,
-				requestDto.shellSuccessCode,
-				requestDto.shellErrorType,
-				requestDto.shellSyncFlag,
-				requestDto.shellLocation
-				);
+
+		nodeDao.saveOrUpdateNode(requestDto.flowId, requestDto.nodeId, requestDto.nodeType, requestDto.cron,
+				requestDto.startType, requestDto.executeType, requestDto.nodeRefName, requestDto.nodeName,
+				requestDto.layoutX, requestDto.layoutY, requestDto.roles);
+
+		nodeHttpDao.saveOrUpdateNode(requestDto.flowId, requestDto.nodeId, requestDto.httpSuccessCode,
+				requestDto.httpErrorType, requestDto.httpSyncFlag, requestDto.location, requestDto.httpMethod,
+				requestDto.httpContentType, requestDto.httpHeader, requestDto.httpBody);
+
+		nodeShellDao.saveOrUpdateNode(requestDto.flowId, requestDto.nodeId, requestDto.shellSuccessCode,
+				requestDto.shellErrorType, requestDto.shellSyncFlag, requestDto.shellLocation);
 	}
 
 	///////////////////////////////////////
@@ -369,14 +340,14 @@ public class FlowStaticBusiness {
 	 * @param responseDto
 	 */
 	public void requestEdgeInfo(EdgeInfoRequestDto requestDto, EdgeInfoResponseDto responseDto) {
-		
+
 		String flowId = requestDto.flowId;
 		String edgeId = requestDto.edgeId;
-		
-		EdgeEntity edgeEntity = edgeDao.selectByKey(flowId,edgeId);
+
+		EdgeEntity edgeEntity = edgeDao.selectByKey(flowId, edgeId);
 		NodeEntity fromNodeEntity = nodeDao.selectByKey(flowId, edgeEntity.getFromNodeId());
 		NodeEntity toNodeEntity = nodeDao.selectByKey(flowId, edgeEntity.getToNodeId());
-		
+
 		responseDto.flowid = edgeEntity.getFlowId();
 		responseDto.edgeid = edgeEntity.getEdgeId();
 		responseDto.from = edgeEntity.getFromNodeId();
@@ -392,15 +363,10 @@ public class FlowStaticBusiness {
 	 * @param responseDto
 	 */
 	public void requestEdgeSave(EdgeSaveRequestDto requestDto, EdgeSaveResponseDto responseDto) {
-		
-		edgeDao.saveOrUpdateEdge(
-				requestDto.flowId,
-				requestDto.edgeId,
-				requestDto.from,
-				requestDto.to,
-				requestDto.content
-				);
-		
+
+		edgeDao.saveOrUpdateEdge(requestDto.flowId, requestDto.edgeId, requestDto.from, requestDto.to,
+				requestDto.content);
+
 	}
 
 	///////////////////////////////////////

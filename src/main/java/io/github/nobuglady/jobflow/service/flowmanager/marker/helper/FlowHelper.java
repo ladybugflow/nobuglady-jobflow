@@ -42,82 +42,78 @@ public class FlowHelper {
 
 	@Autowired
 	private HistoryEdgeDao historyEdgeDao;
-	
-    /**
-     *
-     */
-    private FlowHelper() {
 
-    }
+	/**
+	 *
+	 */
+	private FlowHelper() {
 
-    /**
-     * 
-     * @param flowId
-     * @param historyId
-     * @return
-     */
-    public Flow getFlow(
-    		String flowId, 
-    		String historyId) {
+	}
 
-    	List<HistoryEdgeEntity> edgeHistoryEntityList = historyEdgeDao.selectByFlowHistoryId(flowId, historyId);
-    	List<HistoryNodeEntity> nodeHistoryEntityList = historyNodeDao.selectByFlowHistoryId(flowId, historyId);
-    	HistoryFlowEntity flowHistoryEntity = historyFlowDao.selectByKey(flowId,historyId);
-    	
-        return loadConfig(flowHistoryEntity,edgeHistoryEntityList, nodeHistoryEntityList);
-    }
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 * @return
+	 */
+	public Flow getFlow(String flowId, String historyId) {
 
-    /**
-     * 
-     * @param historyFlowEntity
-     * @param historyEdgeEntityList
-     * @param historyNodeEntityList
-     * @return
-     */
-    private static Flow loadConfig(
-    		HistoryFlowEntity historyFlowEntity, 
-    		List<HistoryEdgeEntity> historyEdgeEntityList,
-    		List<HistoryNodeEntity> historyNodeEntityList) {
+		List<HistoryEdgeEntity> edgeHistoryEntityList = historyEdgeDao.selectByFlowHistoryId(flowId, historyId);
+		List<HistoryNodeEntity> nodeHistoryEntityList = historyNodeDao.selectByFlowHistoryId(flowId, historyId);
+		HistoryFlowEntity flowHistoryEntity = historyFlowDao.selectByKey(flowId, historyId);
 
-        Flow flow = new Flow();
-    	flow.setHistoryId(historyFlowEntity.getHistoryId());
-    	flow.setStatus(historyFlowEntity.getFlowStatus());
-    	
-        /*
-         * make node map
-         */
-        for(HistoryNodeEntity historyNodeEntity:historyNodeEntityList) {
-        	flow.getNodeMap().put(historyNodeEntity.getNodeId(), historyNodeEntity);
-        }
-        
-        /*
-         * Initialize previous and next node
-         */
-        for (HistoryEdgeEntity historyEdgeEntity : historyEdgeEntityList) {
+		return loadConfig(flowHistoryEntity, edgeHistoryEntityList, nodeHistoryEntityList);
+	}
 
-            String from = historyEdgeEntity.getFromNodeId();
-            String to = historyEdgeEntity.getToNodeId();
+	/**
+	 * 
+	 * @param historyFlowEntity
+	 * @param historyEdgeEntityList
+	 * @param historyNodeEntityList
+	 * @return
+	 */
+	private static Flow loadConfig(HistoryFlowEntity historyFlowEntity, List<HistoryEdgeEntity> historyEdgeEntityList,
+			List<HistoryNodeEntity> historyNodeEntityList) {
 
-            List<HistoryEdgeEntity> existEdges = flow.getEdgesMap().get(from);
-            
-            if (existEdges == null) {
-                existEdges = new ArrayList<HistoryEdgeEntity>();
-                flow.getEdgesMap().put(from, existEdges);
-                
-            }
+		Flow flow = new Flow();
+		flow.setHistoryId(historyFlowEntity.getHistoryId());
+		flow.setStatus(historyFlowEntity.getFlowStatus());
 
-            existEdges.add(historyEdgeEntity);
-            
-            List<HistoryEdgeEntity> existBackEdges = flow.getEdgesBackMap().get(to);
-            if (existBackEdges == null) {
-                existBackEdges = new ArrayList<HistoryEdgeEntity>();
-                flow.getEdgesBackMap().put(to, existBackEdges);
-            }
+		/*
+		 * make node map
+		 */
+		for (HistoryNodeEntity historyNodeEntity : historyNodeEntityList) {
+			flow.getNodeMap().put(historyNodeEntity.getNodeId(), historyNodeEntity);
+		}
 
-            existBackEdges.add(historyEdgeEntity);
-            
-        }
-    	
-        return flow;
-    }
+		/*
+		 * Initialize previous and next node
+		 */
+		for (HistoryEdgeEntity historyEdgeEntity : historyEdgeEntityList) {
+
+			String from = historyEdgeEntity.getFromNodeId();
+			String to = historyEdgeEntity.getToNodeId();
+
+			List<HistoryEdgeEntity> existEdges = flow.getEdgesMap().get(from);
+
+			if (existEdges == null) {
+				existEdges = new ArrayList<HistoryEdgeEntity>();
+				flow.getEdgesMap().put(from, existEdges);
+
+			}
+
+			existEdges.add(historyEdgeEntity);
+
+			List<HistoryEdgeEntity> existBackEdges = flow.getEdgesBackMap().get(to);
+			if (existBackEdges == null) {
+				existBackEdges = new ArrayList<HistoryEdgeEntity>();
+				flow.getEdgesBackMap().put(to, existBackEdges);
+			}
+
+			existBackEdges.add(historyEdgeEntity);
+
+		}
+
+		return flow;
+	}
 }

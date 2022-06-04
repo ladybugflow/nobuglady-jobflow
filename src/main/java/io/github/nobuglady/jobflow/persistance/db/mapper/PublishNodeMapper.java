@@ -30,23 +30,16 @@ public interface PublishNodeMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_node "
-			+ " WHERE"
-			+ " flow_id = #{param1}"
-			+ " node_id = #{param2}")
+	@Select("SELECT * FROM publish_node " + " WHERE" + " flow_id = #{param1}" + " node_id = #{param2}")
 	public PublishNodeEntity selectByKey(String flowId, String nodeId);
-
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_node "
-			+ " where flow_id = #{param1} "
-			+ " and node_type = #{param2}")
-	public List<PublishNodeEntity> selectStartByFlowId(String flowIds,int nodeType);
+	@Select("SELECT * FROM publish_node " + " where flow_id = #{param1} " + " and node_type = #{param2}")
+	public List<PublishNodeEntity> selectStartByFlowId(String flowIds, int nodeType);
 
-	@Select("SELECT * FROM publish_node "
-			+ " where start_type = #{param1}")
+	@Select("SELECT * FROM publish_node " + " where start_type = #{param1}")
 	public List<PublishNodeEntity> selectAllCronNode(int nodeStartType);
 
 }

@@ -20,5 +20,5 @@ package io.github.nobuglady.jobflow.service.flowdynamic.dto;
 public class FlowHistoryClearRequestDto {
 
 	public String flowId;
-	
+
 }

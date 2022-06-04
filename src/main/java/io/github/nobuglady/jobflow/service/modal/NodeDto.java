@@ -25,8 +25,8 @@ public class NodeDto {
 	public String layoutY;
 	public int disabled;
 	public int type;
-	
+
 	public int status;
 	public int status_detail;
-	
+
 }

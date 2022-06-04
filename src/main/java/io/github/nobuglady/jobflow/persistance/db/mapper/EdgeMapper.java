@@ -32,71 +32,28 @@ public interface EdgeMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM edge "
-			+ " WHERE"
-			+ " flow_id = #{param1}"
-			+ " and edge_id = #{param2}")
+	@Select("SELECT * FROM edge " + " WHERE" + " flow_id = #{param1}" + " and edge_id = #{param2}")
 	public EdgeEntity selectByKey(String flowId, String edgeId);
 
-	@Insert("insert into edge"
-			+ " ("
-			+ "flow_id,"
-			+ "edge_id,"
-			+ "from_node_id,"
-			+ "to_node_id,"
-			+ "edge_condition,"
-			+ "edge_exception_return_type,"
-			+ "skip_flag,"
-			+ "skip_value,"
-			+ "disable_flag,"
-			+ "create_user,"
-			+ "update_user,"
-			+ "create_time,"
-			+ "update_time"
-			+ " )"
-			+ " values"
-			+ " ("
-			+ "#{flowId},"
-			+ "#{edgeId},"
-			+ "#{fromNodeId},"
-			+ "#{toNodeId},"
-			+ "#{edgeCondition},"
-			+ "#{edgeExceptionReturnType},"
-			+ "#{skipFlag},"
-			+ "#{skipValue},"
-			+ "#{disableFlag},"
-			+ "#{createUser},"
-			+ "#{updateUser},"
-			+ "now(),"
-			+ "now()"
-			+ " ) ")
+	@Insert("insert into edge" + " (" + "flow_id," + "edge_id," + "from_node_id," + "to_node_id," + "edge_condition,"
+			+ "edge_exception_return_type," + "skip_flag," + "skip_value," + "disable_flag," + "create_user,"
+			+ "update_user," + "create_time," + "update_time" + " )" + " values" + " (" + "#{flowId}," + "#{edgeId},"
+			+ "#{fromNodeId}," + "#{toNodeId}," + "#{edgeCondition}," + "#{edgeExceptionReturnType}," + "#{skipFlag},"
+			+ "#{skipValue}," + "#{disableFlag}," + "#{createUser}," + "#{updateUser}," + "now()," + "now()" + " ) ")
 	public void save(EdgeEntity entity);
-	
-	@Update("update edge "
-			+ " set"
-			+ " flow_id=#{flowId}"
-			+ " ,edge_id=#{edgeId}"
-			+ " ,from_node_id=#{fromNodeId}"
-			+ " ,to_node_id=#{toNodeId}"
-			+ " ,edge_condition=#{edgeCondition}"
-			+ " ,edge_exception_return_type=#{edgeExceptionReturnType}"
-			+ " ,skip_flag=#{skipFlag}"
-			+ " ,skip_value=#{skipValue}"
-			+ " ,disable_flag=#{disableFlag}"
-			+ " ,update_user=#{updateUser}"
-			+ " ,update_time=now()"
-			+ " where"
-			+ " flow_id=#{flowId}"
-			+ " and from_node_id=#{fromNodeId}"
+
+	@Update("update edge " + " set" + " flow_id=#{flowId}" + " ,edge_id=#{edgeId}" + " ,from_node_id=#{fromNodeId}"
+			+ " ,to_node_id=#{toNodeId}" + " ,edge_condition=#{edgeCondition}"
+			+ " ,edge_exception_return_type=#{edgeExceptionReturnType}" + " ,skip_flag=#{skipFlag}"
+			+ " ,skip_value=#{skipValue}" + " ,disable_flag=#{disableFlag}" + " ,update_user=#{updateUser}"
+			+ " ,update_time=now()" + " where" + " flow_id=#{flowId}" + " and from_node_id=#{fromNodeId}"
 			+ " and to_node_id=#{toNodeId}")
 	public void update(EdgeEntity entity);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM edge "
-			+ " WHERE"
-			+ " flow_id = #{param1}")
+	@Select("SELECT * FROM edge " + " WHERE" + " flow_id = #{param1}")
 	public List<EdgeEntity> selectByFlowId(String flowId);
-	
+
 }

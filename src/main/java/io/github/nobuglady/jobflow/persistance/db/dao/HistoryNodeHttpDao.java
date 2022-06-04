@@ -12,7 +12,6 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,10 +42,10 @@ public class HistoryNodeHttpDao {
 	 * @return
 	 */
 	public HistoryNodeHttpEntity selectByKey(String flowId, String nodeId, String historyId) {
-		
+
 		return historyNodeHttpMapper.selectByKey(flowId, nodeId, historyId);
 	}
-	
+
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
@@ -57,13 +56,10 @@ public class HistoryNodeHttpDao {
 	 * @param nodeId
 	 * @param httpRequest
 	 */
-	public void updateNodehitoryRequest(
-			String flowId, 
-			String historyId,
-			String nodeId,
-			String httpRequest) {
+	public void updateNodehitoryRequest(String flowId, String historyId, String nodeId, String httpRequest) {
 
-		historyNodeHttpMapper.updateNodehitoryRequest(flowId, historyId, nodeId, httpRequest, AuthHolder.getUser().email);
+		historyNodeHttpMapper.updateNodehitoryRequest(flowId, historyId, nodeId, httpRequest,
+				AuthHolder.getUser().email);
 	}
 
 	/**
@@ -74,13 +70,10 @@ public class HistoryNodeHttpDao {
 	 * @param httpResStatus
 	 * @param httpResponse
 	 */
-	public void updateNodehitoryReponse(
-			String flowId, 
-			String instanceId,
-			String nodeId,
-			String httpResStatus, 
+	public void updateNodehitoryReponse(String flowId, String instanceId, String nodeId, String httpResStatus,
 			String httpResponse) {
 
-		historyNodeHttpMapper.updateNodehitoryReponse(flowId, instanceId, nodeId, httpResStatus, httpResponse, AuthHolder.getUser().email);
+		historyNodeHttpMapper.updateNodehitoryReponse(flowId, instanceId, nodeId, httpResStatus, httpResponse,
+				AuthHolder.getUser().email);
 	}
 }

@@ -25,6 +25,6 @@ public interface NodeInf {
 	 * @return
 	 * @throws Throwable
 	 */
-    public String execute() throws Throwable;
+	public String execute() throws Throwable;
 
 }

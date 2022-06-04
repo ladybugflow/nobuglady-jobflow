@@ -36,7 +36,7 @@ public class InterFaceService {
 
 	@Autowired
 	private HistoryNodeDao historyNodeDao;
-	
+
 	/**
 	 * 
 	 * @param flowId
@@ -48,27 +48,31 @@ public class InterFaceService {
 	public RequestAsyncResponseDto requestAsync(String flowId, String nodeId, String historyId, String result) {
 
 		RequestAsyncResponseDto responseDto = new RequestAsyncResponseDto();
-		
-		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(flowId,historyId);
+
+		ConsoleLogger consoleLogger = ConsoleLogger.getInstance(flowId, historyId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
-		
+
 		HistoryNodeEntity historyNodeEntity = historyNodeDao.selectByKey(flowId, nodeId, historyId);
 
-        /*
-         * Complete
-         */
-		if("0".equals(result)) {
-			historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_SUCCESS);
-	        CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
-	        consoleLogger.info(sdf.format(new Date()) + " [NODE COMPLETE]["+result+"]" + historyNodeEntity.getNodeName());
-		}else {
-			consoleLogger.error(sdf.format(new Date()) + " [NODE ERROR]" + historyNodeEntity.getNodeName(), new Exception(result));
-            historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE, NodeStatusDetail.COMPLETE_ERROR);
-            CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
+		/*
+		 * Complete
+		 */
+		if ("0".equals(result)) {
+			historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+					NodeStatusDetail.COMPLETE_SUCCESS);
+			CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
+			consoleLogger.info(
+					sdf.format(new Date()) + " [NODE COMPLETE][" + result + "]" + historyNodeEntity.getNodeName());
+		} else {
+			consoleLogger.error(sdf.format(new Date()) + " [NODE ERROR]" + historyNodeEntity.getNodeName(),
+					new Exception(result));
+			historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+					NodeStatusDetail.COMPLETE_ERROR);
+			CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
 		}
-        
-        responseDto.result = "ok";
+
+		responseDto.result = "ok";
 		return responseDto;
 	}
-	
+
 }
