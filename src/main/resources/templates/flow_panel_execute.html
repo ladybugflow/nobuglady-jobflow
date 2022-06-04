@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	
+	<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="js/vis/vis-network.min.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/flow_websocket.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/flow_network.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/flow_editor.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/flow_history.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/editor_help.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/editor_log.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/editor_terminal.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/flow.js"></script>
+    <script type="text/javascript" src="js/flow_panel_execute/flow_panel_execute.js"></script>
+    
+    <script type="text/javascript" src="js/bootstrap/bootstrap-tab.js"></script>
+    <script type="text/javascript" src="lib/loaders/loaders.css.js"></script>
+    
+    <link rel="stylesheet" href="js/jstree/themes/default/style.min.css" />
+    <link rel="stylesheet" href="lib/loaders/loaders.min.css" />
+	
+	<!-- ace -->
+		
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ext-language_tools.js"></script>
+	
+	<style type="text/css">
+		.ace-related-code-highlight {
+			border-bottom: 1px solid red;
+		     position:absolute;
+		}
+		.fa-disabled {
+		  opacity: 0.2;
+		  cursor: not-allowed;
+		}
+		
+		.ball-pulse > div {
+		  background-color: orange;
+		}
+		
+		.tab-content {
+		    border-left: 1px solid #ddd;
+		    border-right: 1px solid #ddd;
+		    border-bottom: 1px solid #ddd;
+		    padding: 10px;
+		    background-color: #f6f7f9;
+		}
+		
+		.nav-tabs {
+		    margin-bottom: 0;
+		}
+	</style>
+	
+  </head>
+  <body>
+  	<table>
+  		<tr>
+  			<!-- Right -->
+  			<td valign="top">
+  				<table style="margin-left:10px;width:1100px">
+			  		<tr height="20px">
+			  			<td colspan="2" valign="top">
+			  				<table style="width:100%">
+			  					<tr style="background-color:#8bc34a;color:#ffffff;">
+						  			<td height="20px">
+											<div style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
+												<b><span id="flowName"></span></b>
+												 [<span id="flowId"></span><span id="instanceId"></span>]
+											</div>
+						  			</td>
+						  			<td align="right" style="padding-right:10px">
+						  				<span id="menu"></span>
+						  			</td>
+			  					</tr>
+			  				</table>
+			  			</td>
+			  		</tr>
+			  		<tr>
+			  			<!--  Middle -->
+			  			<td valign="top">
+			  				<div id="folderMessagePanel" style="width:750px;display:none;margin-left:10px">
+								<button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create Flow</button>
+								<button type="button" class="btn btn-success btn-sm" onclick="demo_create_folder();"><i class="glyphicon glyphicon-asterisk"></i> Create Folder</button>
+								<input type="text" id="plugins4_q_1" name="plugins4_q_1"/>
+			  				</div>
+							<div id="flowPanel" style="display:none">
+			
+								<ul class="nav nav-tabs" id="myTab" role="tablist">
+								  <li class="nav-item" id="script-tab-li">
+								    <a class="nav-link active" id="flow-tab" data-toggle="tab" href="#flow" role="tab" aria-controls="flow" aria-selected="true">Flow</a>
+								  </li>
+								  <li class="nav-item" id="console-tab-li">
+								    <a class="nav-link" id="console-tab" data-toggle="tab" href="#console" role="tab" aria-controls="console" aria-selected="true">Log</a>
+								  </li>
+								  <!-- 
+								  <li class="nav-item" id="history-tab-li">
+								    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="true">History</a>
+								  </li>
+								  <li class="nav-item" id="terminal-tab-li">
+								    <a class="nav-link" id="terminal-tab" data-toggle="tab" href="#terminal" role="tab" aria-controls="terminal" aria-selected="true">Terminal</a>
+								  </li>
+								   -->
+								</ul>
+								
+								
+								<div class="tab-content" id="myTabContent">
+								  <!--  Flow -->
+								  <div class="tab-pane fade show active" id="flow" role="tabpanel" aria-labelledby="flow-tab">
+
+							    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+								  
+							    	<div class="row mb-2" style="margin-left:10px">
+										<div class="custom-control custom-switch" style="display:none">
+										  <input type="checkbox" class="custom-control-input" id="customSwitch1">
+										  <label class="custom-control-label" for="customSwitch1"></label>
+										</div>
+										<div class="col">
+											<a href="#"><i  id="btn_start" class="far fa-play-circle fa-lg"></i></a>
+											<a href="#" style="margin-left:10px;display:none"><i  id="btn_stop" class="far fa-stop-circle fa-lg fa-disabled"></i></a>
+											<a href="#" style="margin-left:10px"><i  id="btn_refresh" class="fas fa-sync fa-lg"></i></a>
+											<a href="#"><i  id="btn_restart" class="fas fa-reply fa-lg"></i></a>
+										</div>
+										<div id="update_time" class="col" style="float:right"></div>
+									</div>
+								</div>
+			
+									<table>
+										<tr>
+											<td valign="top">
+												<div class="loader-inner ball-pulse" style="display:none"></div>
+												<div style="padding:3px"></div>
+													<div id="mynetwork"></div>
+											    <div style="padding:3px"></div>
+											</td>
+								  			<!--  Right -->
+								  			<td valign="top" style="padding-left:10px;">
+								  			
+								  				<!-- ˜ Node properties -->
+								  				<div id="nodePropDiv" style="display:none">
+													<ul class="nav nav-tabs" id="myTab" role="tablist">
+													  <li class="nav-item" id="profile-tab-li">
+													    <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+													  </li>
+													  <li class="nav-item" id="triger-tab-li">
+													    <a class="nav-link" id="triger-tab" data-toggle="tab" href="#triger" role="tab" aria-controls="triger" aria-selected="true">Triger</a>
+													  </li>
+													  <li class="nav-item" id="excutor-tab-li">
+													    <a class="nav-link" id="executor-tab" data-toggle="tab" href="#executor" role="tab" aria-controls="executor" aria-selected="true">Executor</a>
+													  </li>
+													</ul>
+													
+													<!-- ˜ Node/Main -->
+													<div class="tab-content" id="myTabContent">
+													  <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+															<form id="profile_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+															  <div class="form-group" style="display:none">
+															    <label id="node_info_id"></label>
+															  </div>
+															  <div class="form-group" style="display:none">
+															  	<div class="form-check form-check-inline">
+																    <input type="radio" class="form-check-input" name="node_info_type" id="node_info_type_1" value="1">
+																    <label class="form-check-label" for="node_info_type_1">Start</label>	
+															  	</div>
+																<div class="form-check form-check-inline">
+																    <input type="radio" class="form-check-input" name="node_info_type" id="node_info_type_2" value="2" checked>
+																    <label class="form-check-label" for="node_info_type_2">Normal</label>
+															    </div>
+															  </div>
+															  <div class="form-group" style="display:none">
+															    <label for="formGroupExampleInput">RefName</label>
+															    <input type="text" id="node_info_ref_name" class="form-control" placeholder="">
+															  </div>
+															  <div class="form-group">
+															    <label for="formGroupExampleInput">Name</label>
+															    <input type="text" id="node_info_name" class="form-control" placeholder="" required pattern=".{1,25}">
+															    <div class="invalid-feedback">
+														          Please input node name with(1 to 25 characters).
+														        </div>
+															  </div>
+															  <div class="form-group" style="display:none">
+															    <label for="formGroupExampleInput">LayoutX</label>
+															    <input type="text" id="node_info_layout_x" class="form-control" placeholder="">
+															  </div>
+															  <div class="form-group" style="display:none">
+															    <label for="formGroupExampleInput">layoutY</label>
+															    <input type="text" id="node_info_layout_y" class="form-control" placeholder="">
+															  </div>
+															</form>
+													 		
+													  </div>
+													  
+													  <div class="tab-pane fade" id="triger" role="tabpanel" aria-labelledby="triger-tab">
+													      <form id="triger_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+															  <div class="form-group">
+																  <div class="form-check form-check-inline">
+																    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_1" value="1">
+																    <label class="form-check-label" for="node_info_start_type_1">Default</label>	
+																  </div>
+																  <div class="form-check form-check-inline" style="display:none">
+																    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_2" value="2">
+																    <label class="form-check-label" for="node_info_start_type_2">Wait Request</label>	
+																  </div>
+																  <div class="form-check form-check-inline">
+																    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_3" value="3">
+																    <label class="form-check-label" for="node_info_start_type_3">Timer</label>	
+																  </div>
+															  </div>
+															  <div id="node_info_start_type_1_div" style="display:none">
+															  </div>
+															  <div id="node_info_start_type_2_div" style="display:none">
+															  	  <div class="form-group">
+																  	<div class="form-check form-check-inline">
+																	    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck1" value="1">
+																	    <label class="form-check-label" for="rolesCheck1">Staff</label>	
+																  	</div>
+																  	<div class="form-check form-check-inline">
+																	    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck2" value="2">
+																	    <label class="form-check-label" for="rolesCheck2">Leader</label>	
+																  	</div>
+																  	<div class="form-check form-check-inline">
+																	    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck3" value="3">
+																	    <label class="form-check-label" for="rolesCheck3">Manager</label>	
+																  	</div>
+																  </div>
+															  </div>
+															  <div  id="node_info_start_type_3_div" style="display:none">
+																  <div class="form-group">
+																    <label for="formGroupExampleInput">Cron</label>
+																    <input type="text" id="node_info_cron" class="form-control" placeholder="" pattern=".{1,100}">
+																    <div class="invalid-feedback">
+															          Please input cron with(1 to 100 characters).
+															        </div>
+																  </div>
+															  </div>
+													      </form>
+													  </div>
+													  
+													  <div class="tab-pane fade" id="executor" role="tabpanel" aria-labelledby="executor-tab">
+														<form id="executor_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+															<div class="form-group">
+																  <div class="form-check form-check-inline">
+																    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_1" value="1">
+																    <label class="form-check-label" for="node_info_execute_type_1">None</label>	
+																  </div>
+																  <div class="form-check form-check-inline">
+																    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_2" value="2">
+																    <label class="form-check-label" for="node_info_execute_type_2">Shell</label>	
+																  </div>
+																  <div class="form-check form-check-inline">
+																    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_3" value="3">
+																    <label class="form-check-label" for="node_info_execute_type_3">HTTP</label>	
+																  </div>
+															  </div>
+															  <div id="node_info_execute_type_1_div" style="display:none">
+															  </div>
+															  <div id="node_info_execute_type_2_div" style="display:none">
+															    <div class="form-group">
+																    <label for="formGroupExampleInput">Success Code</label>
+																    <input type="text" id="node_info_shell_success_code" value="0" class="form-control" placeholder="" pattern=".{1,10}">
+																    <div class="invalid-feedback">
+															          Please input location with(1 to 10 characters).
+															        </div>
+																 </div>
+																 <div class="form-group">
+																    <label for="formGroupExampleInput">Exception</label>
+																    <div class="form-check form-check-inline">
+																      <input type="radio" class="form-check-input" name="node_info_shell_error_type" id="node_info_shell_error_type_1" value="1">
+																      <label class="form-check-label" for="node_info_shell_error_type_1">Continue flow</label>	
+																    </div>
+																    <div class="form-check form-check-inline">
+																      <input type="radio" class="form-check-input" name="node_info_shell_error_type" id="node_info_shell_error_type_2" value="2" checked>
+																      <label class="form-check-label" for="node_info_shell_error_type_2">Stop flow</label>	
+																    </div>
+																 </div>
+																 <div class="form-group">
+																    <div class="form-check form-check-inline">
+																      <input type="radio" class="form-check-input" name="node_info_shell_sync_flag" id="node_info_shell_sync_flag_1" value="1" checked>
+																      <label class="form-check-label" for="node_info_shell_sync_flag_1">SYNC</label>	
+																    </div>
+																    <div class="form-check form-check-inline">
+																      <input type="radio" class="form-check-input" name="node_info_shell_sync_flag" id="node_info_shell_sync_flag_2" value="2">
+																      <label class="form-check-label" for="node_info_shell_sync_flag_2">ASYNC</label>	
+																    </div>
+																 </div>
+																 <div id="node_info_shell_sync_flag_2_div" style="display:none">
+																 	http://{host}:{port}/api/async?flowId={flowId}&nodeId={nodeId}&historyId={historyId}&result={success:0,fail:1}
+															  	 </div>
+															  	<div class="form-group">
+																    <label for="formGroupExampleInput">location</label>
+																    <input type="text" id="node_info_shell_location" class="form-control" placeholder="" pattern=".{1,250}">
+																    <div class="invalid-feedback">
+															          Please input location with(1 to 250 characters).
+															        </div>
+																  </div>
+															  </div>
+															  <div id="node_info_execute_type_3_div" style="display:none">
+															      <div class="form-group">
+																    <label for="formGroupExampleInput">Success Code</label>
+																    <input type="text" id="node_info_http_success_code" value="200" class="form-control" placeholder="" pattern=".{1,10}">
+																    <div class="invalid-feedback">
+															          Please input location with(1 to 10 characters).
+															        </div>
+																 </div>
+																 <div class="form-group">
+																    <label for="formGroupExampleInput">Exception</label>
+																    <div class="form-check form-check-inline">
+																      <input type="radio" class="form-check-input" name="node_info_http_error_type" id="node_info_http_error_type_1" value="1">
+																      <label class="form-check-label" for="node_info_http_error_type_1">Continue flow</label>	
+																    </div>
+																    <div class="form-check form-check-inline">
+																      <input type="radio" class="form-check-input" name="node_info_http_error_type" id="node_info_http_error_type_2" value="2" checked>
+																      <label class="form-check-label" for="node_info_http_error_type_2">Stop flow</label>	
+																    </div>
+																 </div>
+																 <div class="form-group">
+																    <div class="form-check form-check-inline">
+																      <input type="radio" class="form-check-input" name="node_info_http_sync_flag" id="node_info_http_sync_flag_1" value="1" checked>
+																      <label class="form-check-label" for="node_info_http_sync_flag_1">SYNC</label>	
+																    </div>
+																    <div class="form-check form-check-inline">
+																      <input type="radio" class="form-check-input" name="node_info_http_sync_flag" id="node_info_http_sync_flag_2" value="2">
+																      <label class="form-check-label" for="node_info_http_sync_flag_2">ASYNC</label>	
+																    </div>
+																 </div>
+																 <div id="node_info_http_sync_flag_2_div" style="display:none">
+																 	http://{host}:{port}/api/async?flowId={flowId}&nodeId={nodeId}&historyId={historyId}&result={success:0,fail:1}
+															  	 </div>
+																  <div class="form-group">
+																    <label for="formGroupExampleInput2">Url</label>
+																    <input type="text" class="form-control" id="node_info_location" placeholder="" pattern=".{1,250}">
+																    <div class="invalid-feedback">
+															          Please input url with(1 to 250 characters).
+															        </div>
+																  </div>
+																  <div class="form-group">
+																    <label for="formGroupExampleInput2">Method</label>
+																    <select class="form-control" id="node_info_http_method" aria-label="">
+																	  <option selected value="GET">Get</option>
+																	  <option value="POST">Post</option>
+																	  <option value="PUT">put</option>
+																	  <option value="DELETE">Delete</option>
+																	</select>
+																  </div>
+																  <div class="form-group">
+																    <label for="formGroupExampleInput2">Content-Type</label>
+																    <input type="text" class="form-control" id="node_info_http_content_type" placeholder="" value="application/json" pattern=".{1,25}">
+																    <div class="invalid-feedback">
+															          Please input Content-Type with(1 to 25 characters).
+															        </div>
+																  </div>
+																  <div class="form-group">
+																    <label for="formGroupExampleInput2">Header</label>
+																    <textarea class="form-control" id="node_info_http_header" rows="3" pattern=".{1,250}"></textarea>
+																    <div class="invalid-feedback">
+															          Please input header with(1 to 250 characters).
+															        </div>
+																  </div>
+																  <div class="form-group">
+																    <label for="formGroupExampleInput2">Body</label>
+																    <textarea class="form-control" id="node_info_http_body" rows="10" pattern=".{1,250}"></textarea>
+																    <div class="invalid-feedback">
+															          Please input body with(1 to 250 characters).
+															        </div>
+																  </div>
+																</div>
+															</form>
+													 		
+													  </div>
+													  
+													</div>
+								  				
+									  			</div>
+									  			
+									  			<!-- ˜ Edge properties -->
+									  			<div id="edgePropDiv" style="display:none">
+
+									  				<div style="display:none">
+									  					<span id="edge_info_from"></span>
+									  					<span id="edge_info_to"></span>
+									  				</div>
+
+								  					<div class="form-group">
+								  						<b><span id="edge_info_from_name"></span>-><span id="edge_info_to_name"></span></b>
+								  					</div>
+									  				<form id="edge_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+									  					<div class="form-group">
+									  						<label for="edge_condition">condition</label>
+									  						<input type="text" class="form-control"  id="edge_condition"></input>
+									  					</div>
+										  				<input type="hidden" class="form-control"  id="edge_info_id" name="edge_info_id"></input>
+									  				</form>
+									  			</div>
+									  			
+								  			</td>
+
+										</tr>
+								    </table>
+								  </div>
+								  <!--  Console -->
+								  <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="console-tab">
+								  
+								    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+								    	<div class="row" style="margin-left:10px">
+								    		<div class="col-xs-2" style="margin-right:5px">
+												<a href="#"><i  id="btn_refresh_log" class="fas fa-sync fa-lg"></i></a>
+												<a href="#" style="display:none"><i  id="btn_clear_log" class="fas fa-ban fa-lg"></i></a>
+											</div>
+										</div>
+									</div>
+								
+									<div style="padding:3px"></div>
+								    <div id="console_div" style="width:925px;height:500px"></div>
+								    <div style="padding:3px"></div>
+								    
+								  </div>
+								  <!--  History -->
+								  <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+								  
+								    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+								    	<div class="row" style="margin-left:10px">
+								    		<div class="col-xs-2" style="margin-right:5px">
+												<a href="#"><i  id="btn_refresh_history" class="fas fa-sync fa-lg"></i></a>
+												<a href="#"><i  id="btn_clear_log_history" class="fas fa-ban fa-lg"></i></a>
+											</div>
+										</div>
+									</div>
+								
+									<div style="padding:3px"></div>
+										<div id="history_div">
+											<table>
+												<tr>
+													<td><a href="#">2022/01/05 18:55:01</a></td>
+												</tr>
+												<tr>
+													<td><a href="#">2022/01/04 16:25:03</a></td>
+												</tr>
+												<tr>
+													<td><a href="#">2022/01/04 20:32:15</a></td>
+												</tr>
+											</table>
+										</div>
+								    <div style="padding:3px"></div>
+								    
+								  </div>
+								  <!--  Terminal -->
+								  <div class="tab-pane fade" id="terminal" role="terminalpanel" aria-labelledby="terminal-tab">
+								  
+								    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+								    	<div class="row" style="margin-left:10px">
+								    		<div class="col-xs-2" style="margin-right:5px">
+												<a href="#"><i  id="btn_clear_terminal" class="fas fa-ban fa-lg"></i></a>
+											</div>
+										</div>
+									</div>
+								
+									<div style="padding:3px"></div>
+								    <div id="terminal_div" style="width:925px;height:500px"></div>
+								    <div style="padding:3px"></div>
+								    
+								  </div>
+								</div>
+								
+			
+							</div>
+			  			</td>
+			  			
+						<!-- Right -->
+						<td></td>
+			  		</tr>
+  				</table>
+  			</td>
+  		</tr>
+  	</table>
+
+  </body>
+</html>
