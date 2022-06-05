@@ -41,14 +41,14 @@ public class FlowListController {
 	///////////////////////////////////////
 	/**
 	 * 
-	 * @param flowid
+	 * @param curPage
 	 * @return
 	 */
 	@RequestMapping(value = "/request_flow_list", method = RequestMethod.POST)
 	@ResponseBody
-	public List<FlowListResponseDto> requestPublishList() {
+	public List<FlowListResponseDto> requestFlowList(@RequestParam(value = "curPage") int curPage) {
 
-		return flowBusiness.requestFlowList();
+		return flowBusiness.requestFlowList(curPage);
 	}
 
 	/**

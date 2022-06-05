@@ -33,6 +33,7 @@ import io.github.nobuglady.jobflow.persistance.db.entity.NodeEntity;
 import io.github.nobuglady.jobflow.persistance.db.entity.custom.FlowCatagoryEntity;
 import io.github.nobuglady.jobflow.service.flowstatic.dto.FlowListResponseDto;
 import io.github.nobuglady.jobflow.util.DataUtil;
+import io.github.nobuglady.jobflow.util.PagingUtil;
 import io.github.nobuglady.jobflow.util.StringUtil;
 
 /**
@@ -51,13 +52,15 @@ public class FlowListBusiness {
 
 	/**
 	 * 
+	 * @param curPage
 	 * @return
 	 */
-	public List<FlowListResponseDto> requestFlowList() {
+	public List<FlowListResponseDto> requestFlowList(int curPage) {
 
 		List<FlowListResponseDto> resultList = new ArrayList<>();
 
-		List<FlowCatagoryEntity> entityList = flowDao.selectFlowCatagoryList();
+		List<FlowCatagoryEntity> entityList = flowDao.selectFlowCatagoryList(PagingUtil.getFrom(curPage),
+				PagingUtil.getFetchCount(curPage));
 		if (entityList != null) {
 			for (FlowCatagoryEntity entity : entityList) {
 

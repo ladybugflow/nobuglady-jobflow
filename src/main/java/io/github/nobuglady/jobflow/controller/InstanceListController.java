@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.github.nobuglady.jobflow.controller.dto.model.HistoryFlowEntityVo;
@@ -40,13 +41,14 @@ public class InstanceListController {
 	///////////////////////////////////////
 	/**
 	 * 
+	 * @param curPage
 	 * @return
 	 */
 	@RequestMapping(value = "/request_instance_list", method = RequestMethod.POST)
 	@ResponseBody
-	public List<HistoryFlowEntityVo> requestInstanceList() {
+	public List<HistoryFlowEntityVo> requestInstanceList(@RequestParam(value = "curPage") int curPage) {
 
-		return BeanUtil.copyList(flowBusiness.requestInstanceList(), HistoryFlowEntityVo.class);
+		return BeanUtil.copyList(flowBusiness.requestInstanceList(curPage), HistoryFlowEntityVo.class);
 	}
 
 	/**

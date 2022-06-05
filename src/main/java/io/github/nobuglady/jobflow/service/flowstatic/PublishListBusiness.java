@@ -28,6 +28,7 @@ import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeEntity;
 import io.github.nobuglady.jobflow.persistance.db.entity.custom.FlowPublishCatagoryEntity;
 import io.github.nobuglady.jobflow.service.flowstatic.dto.PublishListResponseDto;
 import io.github.nobuglady.jobflow.util.DataUtil;
+import io.github.nobuglady.jobflow.util.PagingUtil;
 import io.github.nobuglady.jobflow.util.StringUtil;
 
 /**
@@ -46,13 +47,15 @@ public class PublishListBusiness {
 
 	/**
 	 * 
+	 * @param curPage
 	 * @return
 	 */
-	public List<PublishListResponseDto> requestPublishList() {
+	public List<PublishListResponseDto> requestPublishList(int curPage) {
 
 		List<PublishListResponseDto> resultList = new ArrayList<>();
 
-		List<FlowPublishCatagoryEntity> entityList = publishFlowDao.selectFlowPublishCatagoryList();
+		List<FlowPublishCatagoryEntity> entityList = publishFlowDao
+				.selectFlowPublishCatagoryList(PagingUtil.getFrom(curPage), PagingUtil.getFetchCount(curPage));
 		if (entityList != null) {
 			for (FlowPublishCatagoryEntity entity : entityList) {
 

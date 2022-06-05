@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.github.nobuglady.jobflow.service.flowstatic.PublishListBusiness;
@@ -39,13 +40,13 @@ public class PublishListController {
 	///////////////////////////////////////
 	/**
 	 * 
-	 * @param flowid
+	 * @param curPage
 	 * @return
 	 */
 	@RequestMapping(value = "/request_publish_list", method = RequestMethod.POST)
 	@ResponseBody
-	public List<PublishListResponseDto> requestPublishList() {
+	public List<PublishListResponseDto> requestPublishList(@RequestParam(value = "curPage") int curPage) {
 
-		return flowBusiness.requestPublishList();
+		return flowBusiness.requestPublishList(curPage);
 	}
 }

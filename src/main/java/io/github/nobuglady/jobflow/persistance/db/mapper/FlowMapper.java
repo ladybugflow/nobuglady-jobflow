@@ -50,8 +50,8 @@ public interface FlowMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM flow " + " order by update_time desc ")
-	public List<FlowCatagoryEntity> selectFlowCatagoryList();
+	@Select("select * from (SELECT * FROM flow " + " order by update_time desc) t1 LIMIT #{param1}, #{param2} ")
+	public List<FlowCatagoryEntity> selectFlowCatagoryList(int from, int fetchCount);
 
 	@Update("delete from publish_flow where flow_id = #{param1}")
 	public void deletePublishFlow(String flowId);

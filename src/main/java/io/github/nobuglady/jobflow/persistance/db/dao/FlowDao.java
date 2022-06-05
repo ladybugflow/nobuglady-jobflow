@@ -68,11 +68,13 @@ public class FlowDao {
 	//////////////////////////////////////
 	/**
 	 * 
+	 * @param from
+	 * @param fetchCount
 	 * @return
 	 */
-	public List<FlowCatagoryEntity> selectFlowCatagoryList() {
+	public List<FlowCatagoryEntity> selectFlowCatagoryList(int from, int fetchCount) {
 
-		return flowMapper.selectFlowCatagoryList();
+		return flowMapper.selectFlowCatagoryList(from, fetchCount);
 	}
 
 	/**

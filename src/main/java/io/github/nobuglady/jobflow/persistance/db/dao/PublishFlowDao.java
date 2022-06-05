@@ -41,10 +41,12 @@ public class PublishFlowDao {
 	//////////////////////////////////////
 	/**
 	 * 
+	 * @param from
+	 * @param fetchCount
 	 * @return
 	 */
-	public List<FlowPublishCatagoryEntity> selectFlowPublishCatagoryList() {
+	public List<FlowPublishCatagoryEntity> selectFlowPublishCatagoryList(int from, int fetchCount) {
 
-		return publishFlowMapper.selectFlowPublishCatagoryList();
+		return publishFlowMapper.selectFlowPublishCatagoryList(from, fetchCount);
 	}
 }

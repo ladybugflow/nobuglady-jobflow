@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryFlowDao;
 import io.github.nobuglady.jobflow.persistance.db.entity.HistoryFlowEntity;
+import io.github.nobuglady.jobflow.util.PagingUtil;
 
 /**
  * 
@@ -33,11 +34,12 @@ public class InstanceListBusiness {
 
 	/**
 	 * 
+	 * @param curPage
 	 * @return
 	 */
-	public List<HistoryFlowEntity> requestInstanceList() {
+	public List<HistoryFlowEntity> requestInstanceList(int curPage) {
 
-		return flowHistoryDao.selectAll();
+		return flowHistoryDao.selectAll(PagingUtil.getFrom(curPage), PagingUtil.getFetchCount(curPage));
 	}
 
 	/**

@@ -1,9 +1,14 @@
 ////////////////////////////////////////
 // Initialize
 ////////////////////////////////////////
+
+var curPageStatic = 1;
+var pageCountStatic = 1;
+var pageSizeStatic = 10;
+
 $(document).ready(function() {
 	$("#btn_create_flow").on("click", createFlowClick);
-	request_flow_list();
+	fetch_data(1);
 });
 
 function createFlowClick(){
@@ -20,7 +25,6 @@ function createFlowClick(){
 	
 }
 
-
 function getUniqueStr(myStrong){
  var strong = 1000;
  if (myStrong) strong = myStrong;
@@ -28,10 +32,12 @@ function getUniqueStr(myStrong){
 }
 
 
-function request_flow_list(){
+function request_flow_list(curPage){
 	post(
 		'/request_flow_list',
-		{},
+		{
+			curPage:curPage
+		},
 		function (data) {
 			var responseObj = data;
 			$("#flowListBody").html("");
@@ -52,6 +58,34 @@ function request_flow_list(){
 			});
 			html += "";
 			$("#flowListBody").html(html);
+			
+			/////////////////////////////
+			// paging start
+			/////////////////////////////
+			var rowCount = responseObj.length;
+			
+			var pageCount = parseInt(rowCount / pageSizeStatic);
+			if(rowCount % pageSizeStatic > 0){
+				pageCount ++;
+			}
+			
+			curPageStatic = curPage;
+			pageCountStatic = pageCount;
+			
+			$(".paging_item_class").remove();
+			for(var i = 1; i <= pageCount; i ++){
+				
+				var html = '<li class="page-item paging_item_class"><a class="page-link" href="javascript:fetch_data('+i+')">'+i+'</a></li>';
+				
+				if(i == curPageStatic){
+					html = '<li class="page-item paging_item_class active"><span class="page-link">'+i+'<span class="sr-only">(current)</span></span></li>';
+				}
+				
+				$($(".paging_item_next")).before(html);
+			}
+			/////////////////////////////
+			// paging end
+			/////////////////////////////
 		}
 	);
 }
@@ -115,3 +149,27 @@ function postJson(requestUrl, requestData, callBack){
 
     });
 }
+
+
+/////////////////////////////
+// paging start
+/////////////////////////////
+function fetch_pre(){
+	if(curPageStatic > 1){
+		fetch_data(curPageStatic -1);
+	}
+}
+
+function fetch_next(){
+	if(curPageStatic < pageCountStatic){
+		fetch_data(curPageStatic +1);
+	}
+}
+
+function fetch_data(curPage){
+	request_flow_list(curPage);
+}
+/////////////////////////////
+// paging end
+/////////////////////////////
+

@@ -68,11 +68,13 @@ public class HistoryFlowDao {
 	//////////////////////////////////////
 	/**
 	 * 
+	 * @param from
+	 * @param fetchCount
 	 * @return
 	 */
-	public List<HistoryFlowEntity> selectAll() {
+	public List<HistoryFlowEntity> selectAll(int from, int fetchCount) {
 
-		return flowHistoryMapper.selectAll();
+		return flowHistoryMapper.selectAll(from, fetchCount);
 	}
 
 	/**
