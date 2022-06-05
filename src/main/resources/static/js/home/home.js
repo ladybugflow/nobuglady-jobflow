@@ -14,6 +14,13 @@ function request_processing_instance_list(){
 		{},
 		function (data) {
 			var responseObj = data;
+			
+			if(responseObj.length == 0){
+				$("#processingInstanceListTable").hide();
+				$("#processingInstanceListNoresult").show();
+				return;
+			}
+			
 			$("#processingInstanceListBody").html("");
 			var html = "";
 			html += "";
@@ -49,6 +56,13 @@ function request_error_instance_list(){
 		{},
 		function (data) {
 			var responseObj = data;
+			
+			if(responseObj.length == 0){
+				$("#errorInstanceListTable").hide();
+				$("#errorInstanceListNoresult").show();
+				return;
+			}
+			
 			$("#errorInstanceListBody").html("");
 			var html = "";
 			html += "";
@@ -84,6 +98,13 @@ function request_complete_instance_list(){
 		{},
 		function (data) {
 			var responseObj = data;
+			
+			if(responseObj.length == 0){
+				$("#completeInstanceListTable").hide();
+				$("#completeInstanceListNoresult").show();
+				return;
+			}
+			
 			$("#completeInstanceListBody").html("");
 			var html = "";
 			html += "";

@@ -63,7 +63,7 @@
 		
 	</style>
 
-
+	<link rel="stylesheet" href="css/common.css" />
 
 <script>
 jQuery(document).ready(function($){
@@ -158,626 +158,639 @@ overflow-y: scroll;
 list-style:none;
 }
 </style>
-
+<link rel="stylesheet" href="css/common.css" />
   </head>
   <body>
-  	<table>
-  		<tr>
-  			<!-- Right -->
-  			<td valign="top">
-  				<table style="margin-left:10px;width:1100px">
-			  		<tr height="20px">
-			  			<td colspan="2" valign="top">
-			  				<table style="width:100%">
-			  					<tr style="background-color:#8bc34a;color:#ffffff;">
-						  			<td height="20px">
-											<div style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
-												<b><span id="flowName"></span></b>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	  <a class="navbar-brand" href="/home">Home</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item">
+	        <a class="nav-link" href="/flow_list">Flow</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/publish_list">Service</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/instance_list">Instance</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/log_list">Log</a>
+	      </li>
+		</ul>
+	  </div>
+	</nav>
+	<div class="container">
+		<div class="bd-callout bd-callout-info">
+			<div style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
+				<b><span id="flowName"></span></b>
+			</div>
+			<p style="display:none">
+		    	 [ <span id="flowId"></span> ]
+		    	 <span id="instanceId"></span>
+		    </p>
+		</div>
+	  	<table>
+	  		<tr>
+	  			<!-- Right -->
+	  			<td valign="top">
+	  				<table style="margin-left:10px;width:100%">
+				  		<tr>
+				  			<!--  Middle -->
+				  			<td valign="top">
+				  				<div id="folderMessagePanel" style="width:750px;display:none;margin-left:10px">
+									<button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create Flow</button>
+									<button type="button" class="btn btn-success btn-sm" onclick="demo_create_folder();"><i class="glyphicon glyphicon-asterisk"></i> Create Folder</button>
+				  				</div>
+								<div id="flowPanel" style="display:none">
+				
+									<ul class="nav nav-tabs" id="myTab" role="tablist">
+									  <li class="nav-item" id="script-tab-li">
+									    <a class="nav-link active" id="flow-tab" data-toggle="tab" href="#flow" role="tab" aria-controls="flow" aria-selected="true">Flow</a>
+									  </li>
+									</ul>
+									
+									
+									<div class="tab-content" id="myTabContent">
+									  <!--  Flow -->
+									  <div class="tab-pane fade show active" id="flow" role="tabpanel" aria-labelledby="flow-tab">
+	
+								    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+									  
+								    	<div class="row mb-2" style="margin-left:10px">
+								    		<div class="col-xs-2" style="margin-right:5px">
+								    			<a href="#"  style="margin-right:5px;display:none"><i  id="btn_edit" class="fas fa-edit fa-lg"></i></a>
+												<a href="#"><i  id="btn_save" class="fas fa-save fa-lg"></i></a>
+												<a href="#"><i  id="btn_publish" class="fas fa-upload fa-lg"></i></a>
 											</div>
-											<p style="display:none">
-										    	 [ <span id="flowId"></span> ]
-										    	 <span id="instanceId"></span>
-										    </p>
-						  			</td>
-						  			<td align="right" style="padding-right:10px">
-						  				<span id="menu"></span>
-						  			</td>
-			  					</tr>
-			  				</table>
-			  			</td>
-			  		</tr>
-			  		<tr>
-			  			<!--  Middle -->
-			  			<td valign="top">
-			  				<div id="folderMessagePanel" style="width:750px;display:none;margin-left:10px">
-								<button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create Flow</button>
-								<button type="button" class="btn btn-success btn-sm" onclick="demo_create_folder();"><i class="glyphicon glyphicon-asterisk"></i> Create Folder</button>
-			  				</div>
-							<div id="flowPanel" style="display:none">
-			
-								<ul class="nav nav-tabs" id="myTab" role="tablist">
-								  <li class="nav-item" id="script-tab-li">
-								    <a class="nav-link active" id="flow-tab" data-toggle="tab" href="#flow" role="tab" aria-controls="flow" aria-selected="true">Flow</a>
-								  </li>
-								</ul>
-								
-								
-								<div class="tab-content" id="myTabContent">
-								  <!--  Flow -->
-								  <div class="tab-pane fade show active" id="flow" role="tabpanel" aria-labelledby="flow-tab">
-
-							    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
-								  
-							    	<div class="row mb-2" style="margin-left:10px">
-							    		<div class="col-xs-2" style="margin-right:5px">
-							    			<a href="#"  style="margin-right:5px;display:none"><i  id="btn_edit" class="fas fa-edit fa-lg"></i></a>
-											<a href="#"><i  id="btn_save" class="fas fa-save fa-lg"></i></a>
-											<a href="#"><i  id="btn_publish" class="fas fa-upload fa-lg"></i></a>
-										</div>
-										<div class="custom-control custom-switch" style="display:none">
-										  <input type="checkbox" class="custom-control-input" id="customSwitch1">
-										  <label class="custom-control-label" for="customSwitch1"></label>
-										</div>
-										<div class="col-11" style="text-align:right">
-											UPDATE:<span id="update_time" class="col">2022/05/21 21:49:20</span>
-											PUBLISH:<span id="publish_time" class="col">2022/05/21 21:49:20</span>
+											<div class="custom-control custom-switch" style="display:none">
+											  <input type="checkbox" class="custom-control-input" id="customSwitch1">
+											  <label class="custom-control-label" for="customSwitch1"></label>
+											</div>
+											<div class="col-11" style="text-align:right">
+												UPDATE:<span id="update_time" class="col">2022/05/21 21:49:20</span>
+												PUBLISH:<span id="publish_time" class="col">2022/05/21 21:49:20</span>
+											</div>
 										</div>
 									</div>
-								</div>
-			
-									<table>
-										<tr>
-											<td valign="top">
-												<div class="loader-inner ball-pulse" style="display:none"></div>
-												<div style="padding:3px"></div>
-													<div id="mynetwork"></div>
-											    <div style="padding:3px"></div>
-											</td>
-								  			<!--  Right -->
-								  			<td valign="top" style="padding-left:10px;">
-								  			
-								  				<!-- £ Node properties -->
-								  				<div id="nodePropDiv" style="display:none">
-							  						<div class="row mb-2" style="margin-left:10px">
-							  							<div class="col-xs-2" style="margin-right:5px">
-															<a href="#"><i  id="btn_node_info_save" class="fas fa-save fa-lg"></i></a>
-														</div>
-														<div class="custom-control custom-switch" style="display:none">
-														  <input type="checkbox" class="custom-control-input" id="customSwitch2">
-														  <label class="custom-control-label" for="customSwitch2"></label>
-														</div>
-													</div>
-													
-													<ul class="nav nav-tabs" id="myTab" role="tablist">
-													  <li class="nav-item" id="profile-tab-li">
-													    <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
-													  </li>
-													  <li class="nav-item" id="triger-tab-li">
-													    <a class="nav-link" id="triger-tab" data-toggle="tab" href="#triger" role="tab" aria-controls="triger" aria-selected="true">Triger</a>
-													  </li>
-													  <li class="nav-item" id="excutor-tab-li">
-													    <a class="nav-link" id="executor-tab" data-toggle="tab" href="#executor" role="tab" aria-controls="executor" aria-selected="true">Executor</a>
-													  </li>
-													</ul>
-													
-													<!-- £ Node/Main -->
-													<div class="tab-content" id="myTabContent">
-													  <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-															<form id="profile_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
-															  <div class="form-group" style="display:none">
-															    <label id="node_info_id"></label>
-															  </div>
-															  <div class="form-group" style="display:none">
-															  	<div class="form-check form-check-inline">
-																    <input type="radio" class="form-check-input" name="node_info_type" id="node_info_type_1" value="1">
-																    <label class="form-check-label" for="node_info_type_1">Start</label>	
-															  	</div>
-																<div class="form-check form-check-inline">
-																    <input type="radio" class="form-check-input" name="node_info_type" id="node_info_type_2" value="2" checked>
-																    <label class="form-check-label" for="node_info_type_2">Normal</label>
-															    </div>
-															  </div>
-															  <div class="form-group" style="display:none">
-															    <label for="formGroupExampleInput">RefName</label>
-															    <input type="text" id="node_info_ref_name" class="form-control" placeholder="">
-															  </div>
-															  <div class="form-group">
-															    <label for="formGroupExampleInput">Name</label>
-															    <input type="text" id="node_info_name" class="form-control" placeholder="" required pattern=".{1,25}">
-															    <div class="invalid-feedback">
-														          Please input node name with(1 to 25 characters).
-														        </div>
-															  </div>
-															  <div class="form-group" style="display:none">
-															    <label for="formGroupExampleInput">LayoutX</label>
-															    <input type="text" id="node_info_layout_x" class="form-control" placeholder="">
-															  </div>
-															  <div class="form-group" style="display:none">
-															    <label for="formGroupExampleInput">layoutY</label>
-															    <input type="text" id="node_info_layout_y" class="form-control" placeholder="">
-															  </div>
-															</form>
-													 		
-													  </div>
-													  
-													  <div class="tab-pane fade" id="triger" role="tabpanel" aria-labelledby="triger-tab">
-													      <form id="triger_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
-															  <div class="form-group">
-																  <div class="form-check form-check-inline">
-																    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_1" value="1">
-																    <label class="form-check-label" for="node_info_start_type_1">Default</label>	
-																  </div>
-																  <div class="form-check form-check-inline" style="display:none">
-																    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_2" value="2">
-																    <label class="form-check-label" for="node_info_start_type_2">Wait Request</label>	
-																  </div>
-																  <div class="form-check form-check-inline">
-																    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_3" value="3">
-																    <label class="form-check-label" for="node_info_start_type_3">Timer</label>	
-																  </div>
-															  </div>
-															  <div id="node_info_start_type_1_div" style="display:none">
-															  </div>
-															  <div id="node_info_start_type_2_div" style="display:none">
-															  	  <div class="form-group">
-																  	<div class="form-check form-check-inline">
-																	    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck1" value="1">
-																	    <label class="form-check-label" for="rolesCheck1">Staff</label>	
-																  	</div>
-																  	<div class="form-check form-check-inline">
-																	    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck2" value="2">
-																	    <label class="form-check-label" for="rolesCheck2">Leader</label>	
-																  	</div>
-																  	<div class="form-check form-check-inline">
-																	    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck3" value="3">
-																	    <label class="form-check-label" for="rolesCheck3">Manager</label>	
-																  	</div>
-																  </div>
-															  </div>
-															  <div  id="node_info_start_type_3_div" style="display:none">
-																  <div class="form-group">
-																  	<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
-																	  CRON
-																	</button>
-																    <label for="formGroupExampleInput"></label>
-																    <input type="text" id="node_info_cron" class="form-control" placeholder="" pattern=".{1,100}">
-																    <div class="invalid-feedback">
-															          Please input cron with(1 to 100 characters).
-															        </div>
-																  </div>
-															  </div>
-													      </form>
-													  </div>
-													  
-													  
-													  
-														<!-- Modal -->
-														<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-														  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-														    <div class="modal-content">
-														      <div class="modal-header">
-														        <h5 class="modal-title" id="exampleModalCenterTitle">Cron</h5>
-														        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-														          <span aria-hidden="true">&times;</span>
-														        </button>
-														      </div>
-														      <div class="modal-body">
-<div id="easy_warning"></div>
-<table id="cron_table" style="width:100%">
-<tr>
-<th>min</th>
-<th>hour</th>
-<th>day</th>
-<th>month</th>
-<th>week</th>
-</tr>
-<tr>
-<td>
-<ul>
-<li><label><input type="checkbox" value="*" name="min" /> *</label></li>
-<li>
-<label><input type="checkbox" value="0" name="min"> 00</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="5" name="min"> 05</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="10" name="min"> 10</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="15" name="min"> 15</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="20" name="min"> 20</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="25" name="min"> 25</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="30" name="min"> 30</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="35" name="min"> 35</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="40" name="min"> 40</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="45" name="min"> 45</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="50" name="min"> 50</input></li>
-</label>
-<li>
-<label><input type="checkbox" value="55" name="min"> 55</input></li>
-</label>
-</ul>
-</td>
-<td>
-<ul>
-<li><label><input type="checkbox" value="*" name="hour" /> *</label></li>
-<li><label><input type="checkbox" value="0" name="hour" /> 00</label></li>
-<li><label><input type="checkbox" value="1" name="hour" /> 01</label></li>
-<li><label><input type="checkbox" value="2" name="hour" /> 02</label></li>
-<li><label><input type="checkbox" value="3" name="hour" /> 03</label></li>
-<li><label><input type="checkbox" value="4" name="hour" /> 04</label></li>
-<li><label><input type="checkbox" value="5" name="hour" /> 05</label></li>
-<li><label><input type="checkbox" value="6" name="hour" /> 06</label></li>
-<li><label><input type="checkbox" value="7" name="hour" /> 07</label></li>
-<li><label><input type="checkbox" value="8" name="hour" /> 08</label></li>
-<li><label><input type="checkbox" value="9" name="hour" /> 09</label></li>
-<li><label><input type="checkbox" value="10" name="hour" /> 10</label></li>
-<li><label><input type="checkbox" value="11" name="hour" /> 11</label></li>
-<li><label><input type="checkbox" value="12" name="hour" /> 12</label></li>
-<li><label><input type="checkbox" value="13" name="hour" /> 13</label></li>
-<li><label><input type="checkbox" value="14" name="hour" /> 14</label></li>
-<li><label><input type="checkbox" value="15" name="hour" /> 15</label></li>
-<li><label><input type="checkbox" value="16" name="hour" /> 16</label></li>
-<li><label><input type="checkbox" value="17" name="hour" /> 17</label></li>
-<li><label><input type="checkbox" value="18" name="hour" /> 18</label></li>
-<li><label><input type="checkbox" value="19" name="hour" /> 19</label></li>
-<li><label><input type="checkbox" value="20" name="hour" /> 20</label></li>
-<li><label><input type="checkbox" value="21" name="hour" /> 21</label></li>
-<li><label><input type="checkbox" value="22" name="hour" /> 22</label></li>
-<li><label><input type="checkbox" value="23" name="hour" /> 23</label></li>
-</ul>
-</td>
-<td>
-<ul>
-<li><label><input type="checkbox" value="*" name="day" /> *</label></li>
-<li><label><input type="checkbox" value="1" name="day" /> 01</label></li>
-<li><label><input type="checkbox" value="2" name="day" /> 02</label></li>
-<li><label><input type="checkbox" value="3" name="day" /> 03</label></li>
-<li><label><input type="checkbox" value="4" name="day" /> 04</label></li>
-<li><label><input type="checkbox" value="5" name="day" /> 05</label></li>
-<li><label><input type="checkbox" value="6" name="day" /> 06</label></li>
-<li><label><input type="checkbox" value="7" name="day" /> 07</label></li>
-<li><label><input type="checkbox" value="8" name="day" /> 08</label></li>
-<li><label><input type="checkbox" value="9" name="day" /> 09</label></li>
-<li><label><input type="checkbox" value="10" name="day" /> 10</label></li>
-<li><label><input type="checkbox" value="11" name="day" /> 11</label></li>
-<li><label><input type="checkbox" value="12" name="day" /> 12</label></li>
-<li><label><input type="checkbox" value="13" name="day" /> 13</label></li>
-<li><label><input type="checkbox" value="14" name="day" /> 14</label></li>
-<li><label><input type="checkbox" value="15" name="day" /> 15</label></li>
-<li><label><input type="checkbox" value="16" name="day" /> 16</label></li>
-<li><label><input type="checkbox" value="17" name="day" /> 17</label></li>
-<li><label><input type="checkbox" value="18" name="day" /> 18</label></li>
-<li><label><input type="checkbox" value="19" name="day" /> 19</label></li>
-<li><label><input type="checkbox" value="20" name="day" /> 20</label></li>
-<li><label><input type="checkbox" value="21" name="day" /> 21</label></li>
-<li><label><input type="checkbox" value="22" name="day" /> 22</label></li>
-<li><label><input type="checkbox" value="23" name="day" /> 23</label></li>
-<li><label><input type="checkbox" value="24" name="day" /> 24</label></li>
-<li><label><input type="checkbox" value="25" name="day" /> 25</label></li>
-<li><label><input type="checkbox" value="26" name="day" /> 26</label></li>
-<li><label><input type="checkbox" value="27" name="day" /> 27</label></li>
-<li><label><input type="checkbox" value="28" name="day" /> 28</label></li>
-<li><label><input type="checkbox" value="29" name="day" /> 29</label></li>
-<li><label><input type="checkbox" value="30" name="day" /> 30</label></li>
-<li><label><input type="checkbox" value="31" name="day" /> 31</label></li>
-</ul>
-</td>
-<td>
-<ul>
-<li><label><input type="checkbox" value="*" name="month" /> *</label></li>
-<li><label><input type="checkbox" value="1" name="month" /> 01</label></li>
-<li><label><input type="checkbox" value="2" name="month" /> 02</label></li>
-<li><label><input type="checkbox" value="3" name="month" /> 03</label></li>
-<li><label><input type="checkbox" value="4" name="month" /> 04</label></li>
-<li><label><input type="checkbox" value="5" name="month" /> 05</label></li>
-<li><label><input type="checkbox" value="6" name="month" /> 06</label></li>
-<li><label><input type="checkbox" value="7" name="month" /> 07</label></li>
-<li><label><input type="checkbox" value="8" name="month" /> 08</label></li>
-<li><label><input type="checkbox" value="9" name="month" /> 09</label></li>
-<li><label><input type="checkbox" value="10" name="month" /> 10</label></li>
-<li><label><input type="checkbox" value="11" name="month" /> 11</label></li>
-<li><label><input type="checkbox" value="12" name="month" /> 12</label></li>
-</ul>
-</td>
-<td>
-<ul>
-<li><label><input type="checkbox" value="0" name="week" /> Sunday</label></li>
-<li><label><input type="checkbox" value="1" name="week" /> Monday</label></li>
-<li><label><input type="checkbox" value="2" name="week" /> Tuesday</label></li>
-<li><label><input type="checkbox" value="3" name="week" /> Wednesday</label></li>
-<li><label><input type="checkbox" value="4" name="week" /> Thursday</label></li>
-<li><label><input type="checkbox" value="5" name="week" /> Friday</label></li>
-<li><label><input type="checkbox" value="6" name="week" /> Saturday</label></li>
-</ul>
-</td>
-</tr>
-<tr>
-<th colspan="5"></th>
-</tr>
-<tr style="display:none">
-<td colspan="5"><input type="text" style="width:95%"
- id="command" /></td>
-</tr>
-</table>
-
-<pre class="cmd" style="padding-top:30px;color: red;;font-weight: bold;text-align: center;font-size: larger;" id="cron_command">
-</pre>
-
-														      </div>
-														      <div class="modal-footer">
-														        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-														        <button type="button" id="updateCron" class="btn btn-primary">Save changes</button>
-														      </div>
-														    </div>
-														  </div>
-														</div>
-														
-														
-														
-													  <div class="tab-pane fade" id="executor" role="tabpanel" aria-labelledby="executor-tab">
-														<form id="executor_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
-															<div class="form-group">
-																  <div class="form-check form-check-inline">
-																    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_1" value="1">
-																    <label class="form-check-label" for="node_info_execute_type_1">None</label>	
-																  </div>
-																  <div class="form-check form-check-inline">
-																    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_2" value="2">
-																    <label class="form-check-label" for="node_info_execute_type_2">Shell</label>	
-																  </div>
-																  <div class="form-check form-check-inline">
-																    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_3" value="3">
-																    <label class="form-check-label" for="node_info_execute_type_3">HTTP</label>	
-																  </div>
-															  </div>
-															  <div id="node_info_execute_type_1_div" style="display:none">
-															  </div>
-															  <div id="node_info_execute_type_2_div" style="display:none">
-															  	 <div class="form-group">
-																    <label for="formGroupExampleInput">Success Code</label>
-																    <input type="text" id="node_info_shell_success_code" value="0" class="form-control" placeholder="" pattern=".{1,10}">
-																    <div class="invalid-feedback">
-															          Please input location with(1 to 10 characters).
-															        </div>
-																 </div>
-																 <div class="form-group">
-																    <label for="formGroupExampleInput">Exception</label>
-																    <div class="form-check form-check-inline">
-																      <input type="radio" class="form-check-input" name="node_info_shell_error_type" id="node_info_shell_error_type_1" value="1">
-																      <label class="form-check-label" for="node_info_shell_error_type_1">Continue flow</label>	
-																    </div>
-																    <div class="form-check form-check-inline">
-																      <input type="radio" class="form-check-input" name="node_info_shell_error_type" id="node_info_shell_error_type_2" value="2" checked>
-																      <label class="form-check-label" for="node_info_shell_error_type_2">Stop flow</label>	
-																    </div>
-																 </div>
-																 <div style="display:none">
-																	 <div class="form-group">
-																	    <div class="form-check form-check-inline">
-																	      <input type="radio" class="form-check-input" name="node_info_shell_sync_flag" id="node_info_shell_sync_flag_1" value="1" checked>
-																	      <label class="form-check-label" for="node_info_shell_sync_flag_1">SYNC</label>	
-																	    </div>
-																	    <div class="form-check form-check-inline">
-																	      <input type="radio" class="form-check-input" name="node_info_shell_sync_flag" id="node_info_shell_sync_flag_2" value="2">
-																	      <label class="form-check-label" for="node_info_shell_sync_flag_2">ASYNC</label>	
-																	    </div>
-																	 </div>
-																	 <div id="node_info_shell_sync_flag_2_div" style="display:none">
-																	 	http://{host}:{port}/api/async?flowId={flowId}&nodeId={nodeId}&historyId={historyId}&result={success:0,fail:1}
-																  	 </div>
-																 </div>
-															  	 <div class="form-group">
-																    <label for="formGroupExampleInput">location</label>
-																    <input type="text" id="node_info_shell_location" class="form-control" placeholder="" pattern=".{1,250}">
-																    <div class="invalid-feedback">
-															          Please input location with(1 to 250 characters).
-															        </div>
-																 </div>
-															  </div>
-															  <div id="node_info_execute_type_3_div" style="display:none">
-																 <div class="form-group">
-																    <label for="formGroupExampleInput">Success Code</label>
-																    <input type="text" id="node_info_http_success_code" value="200" class="form-control" placeholder="" pattern=".{1,10}">
-																    <div class="invalid-feedback">
-															          Please input location with(1 to 10 characters).
-															        </div>
-																 </div>
-																 <div class="form-group">
-																    <label for="formGroupExampleInput">Exception</label>
-																    <div class="form-check form-check-inline">
-																      <input type="radio" class="form-check-input" name="node_info_http_error_type" id="node_info_http_error_type_1" value="1">
-																      <label class="form-check-label" for="node_info_http_error_type_1">Continue flow</label>	
-																    </div>
-																    <div class="form-check form-check-inline">
-																      <input type="radio" class="form-check-input" name="node_info_http_error_type" id="node_info_http_error_type_2" value="2" checked>
-																      <label class="form-check-label" for="node_info_http_error_type_2">Stop flow</label>	
-																    </div>
-																 </div>
-																 <div class="form-group">
-																    <div class="form-check form-check-inline">
-																      <input type="radio" class="form-check-input" name="node_info_http_sync_flag" id="node_info_http_sync_flag_1" value="1" checked>
-																      <label class="form-check-label" for="node_info_http_sync_flag_1">SYNC</label>	
-																    </div>
-																    <div class="form-check form-check-inline">
-																      <input type="radio" class="form-check-input" name="node_info_http_sync_flag" id="node_info_http_sync_flag_2" value="2">
-																      <label class="form-check-label" for="node_info_http_sync_flag_2">ASYNC</label>	
-																    </div>
-																 </div>
-																 <div id="node_info_http_sync_flag_2_div" style="display:none">
-																 	http://{host}:{port}/api/async?flowId={flowId}&nodeId={nodeId}&historyId={historyId}&result={success:0,fail:1}
-															  	 </div>
-																  <div class="form-group">
-																    <label for="formGroupExampleInput2">Url</label>
-																    <input type="text" class="form-control" id="node_info_location" placeholder="" pattern=".{1,250}">
-																    <div class="invalid-feedback">
-															          Please input url with(1 to 250 characters).
-															        </div>
-																  </div>
-																  <div class="form-group">
-																    <label for="formGroupExampleInput2">Method</label>
-																    <select class="form-control" id="node_info_http_method" aria-label="">
-																	  <option selected value="GET">Get</option>
-																	  <option value="POST">Post</option>
-																	  <option value="PUT">put</option>
-																	  <option value="DELETE">Delete</option>
-																	</select>
-																  </div>
-																  <div class="form-group">
-																    <label for="formGroupExampleInput2">Content-Type</label>
-																    <input type="text" class="form-control" id="node_info_http_content_type" placeholder="" value="application/json" pattern=".{1,25}">
-																    <div class="invalid-feedback">
-															          Please input Content-Type with(1 to 25 characters).
-															        </div>
-																  </div>
-																  <div class="form-group">
-																    <label for="formGroupExampleInput2">Header</label>
-																    <textarea class="form-control" id="node_info_http_header" rows="3" maxlength="250"></textarea>
-																    <div class="invalid-feedback">
-															          Please input header with(1 to 250 characters).
-															        </div>
-																  </div>
-																  <div class="form-group">
-																    <label for="formGroupExampleInput2">Body</label>
-																    <textarea class="form-control" id="node_info_http_body" rows="10" maxlength="250"></textarea>
-																    <div class="invalid-feedback">
-															          Please input body with(1 to 250 characters).
-															        </div>
-																  </div>
-																</div>
-															</form>
-													 		
-													  </div>
-													  
-													</div>
-								  				
-									  			</div>
+				
+										<table>
+											<tr>
+												<td valign="top">
+													<div class="loader-inner ball-pulse" style="display:none"></div>
+													<div style="padding:3px"></div>
+														<div id="mynetwork"></div>
+												    <div style="padding:3px"></div>
+												</td>
+									  			<!--  Right -->
+									  			<td valign="top" style="padding-left:10px;">
 									  			
-									  			<!-- £ Edge properties -->
-									  			<div id="edgePropDiv" style="display:none">
-
-									  				<div style="display:none">
-									  					<span id="edge_info_from"></span>
-									  					<span id="edge_info_to"></span>
-									  				</div>
-
-								  					<div class="form-group">
-								  						<b><span id="edge_info_from_name"></span>-><span id="edge_info_to_name"></span></b>
-								  					</div>
-									  				<form style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+									  				<!-- ¡ì Node properties -->
+									  				<div id="nodePropDiv" style="display:none">
 								  						<div class="row mb-2" style="margin-left:10px">
 								  							<div class="col-xs-2" style="margin-right:5px">
-																<a href="#"><i  id="btn_edge_info_save" class="fas fa-save fa-lg"></i></a>
+																<a href="#"><i  id="btn_node_info_save" class="fas fa-save fa-lg"></i></a>
 															</div>
-															<div class="custom-control custom-switch">
-															  <input type="checkbox" class="custom-control-input" id="customSwitch1">
-															  <label class="custom-control-label" for="customSwitch1"></label>
+															<div class="custom-control custom-switch" style="display:none">
+															  <input type="checkbox" class="custom-control-input" id="customSwitch2">
+															  <label class="custom-control-label" for="customSwitch2"></label>
 															</div>
 														</div>
+														
+														<ul class="nav nav-tabs" id="myTab" role="tablist">
+														  <li class="nav-item" id="profile-tab-li">
+														    <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+														  </li>
+														  <li class="nav-item" id="triger-tab-li">
+														    <a class="nav-link" id="triger-tab" data-toggle="tab" href="#triger" role="tab" aria-controls="triger" aria-selected="true">Triger</a>
+														  </li>
+														  <li class="nav-item" id="excutor-tab-li">
+														    <a class="nav-link" id="executor-tab" data-toggle="tab" href="#executor" role="tab" aria-controls="executor" aria-selected="true">Executor</a>
+														  </li>
+														</ul>
+														
+														<!-- ¡ì Node/Main -->
+														<div class="tab-content" id="myTabContent">
+														  <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+																<form id="profile_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+																  <div class="form-group" style="display:none">
+																    <label id="node_info_id"></label>
+																  </div>
+																  <div class="form-group" style="display:none">
+																  	<div class="form-check form-check-inline">
+																	    <input type="radio" class="form-check-input" name="node_info_type" id="node_info_type_1" value="1">
+																	    <label class="form-check-label" for="node_info_type_1">Start</label>	
+																  	</div>
+																	<div class="form-check form-check-inline">
+																	    <input type="radio" class="form-check-input" name="node_info_type" id="node_info_type_2" value="2" checked>
+																	    <label class="form-check-label" for="node_info_type_2">Normal</label>
+																    </div>
+																  </div>
+																  <div class="form-group" style="display:none">
+																    <label for="formGroupExampleInput">RefName</label>
+																    <input type="text" id="node_info_ref_name" class="form-control" placeholder="">
+																  </div>
+																  <div class="form-group">
+																    <label for="formGroupExampleInput">Name</label>
+																    <input type="text" id="node_info_name" class="form-control" placeholder="" required pattern=".{1,25}">
+																    <div class="invalid-feedback">
+															          Please input node name with(1 to 25 characters).
+															        </div>
+																  </div>
+																  <div class="form-group" style="display:none">
+																    <label for="formGroupExampleInput">LayoutX</label>
+																    <input type="text" id="node_info_layout_x" class="form-control" placeholder="">
+																  </div>
+																  <div class="form-group" style="display:none">
+																    <label for="formGroupExampleInput">layoutY</label>
+																    <input type="text" id="node_info_layout_y" class="form-control" placeholder="">
+																  </div>
+																</form>
+														 		
+														  </div>
+														  
+														  <div class="tab-pane fade" id="triger" role="tabpanel" aria-labelledby="triger-tab">
+														      <form id="triger_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+																  <div class="form-group">
+																	  <div class="form-check form-check-inline">
+																	    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_1" value="1">
+																	    <label class="form-check-label" for="node_info_start_type_1">Default</label>	
+																	  </div>
+																	  <div class="form-check form-check-inline" style="display:none">
+																	    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_2" value="2">
+																	    <label class="form-check-label" for="node_info_start_type_2">Wait Request</label>	
+																	  </div>
+																	  <div class="form-check form-check-inline">
+																	    <input type="radio" class="form-check-input" name="node_info_start_type" id="node_info_start_type_3" value="3">
+																	    <label class="form-check-label" for="node_info_start_type_3">Timer</label>	
+																	  </div>
+																  </div>
+																  <div id="node_info_start_type_1_div" style="display:none">
+																  </div>
+																  <div id="node_info_start_type_2_div" style="display:none">
+																  	  <div class="form-group">
+																	  	<div class="form-check form-check-inline">
+																		    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck1" value="1">
+																		    <label class="form-check-label" for="rolesCheck1">Staff</label>	
+																	  	</div>
+																	  	<div class="form-check form-check-inline">
+																		    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck2" value="2">
+																		    <label class="form-check-label" for="rolesCheck2">Leader</label>	
+																	  	</div>
+																	  	<div class="form-check form-check-inline">
+																		    <input type="checkbox" class="form-check-input" name="rolesCheck" id="rolesCheck3" value="3">
+																		    <label class="form-check-label" for="rolesCheck3">Manager</label>	
+																	  	</div>
+																	  </div>
+																  </div>
+																  <div  id="node_info_start_type_3_div" style="display:none">
+																	  <div class="form-group">
+																	  	<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+																		  CRON
+																		</button>
+																	    <label for="formGroupExampleInput"></label>
+																	    <input type="text" id="node_info_cron" class="form-control" placeholder="" pattern=".{1,100}">
+																	    <div class="invalid-feedback">
+																          Please input cron with(1 to 100 characters).
+																        </div>
+																	  </div>
+																  </div>
+														      </form>
+														  </div>
+														  
+														  
+														  
+															<!-- Modal -->
+															<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+															  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+															    <div class="modal-content">
+															      <div class="modal-header">
+															        <h5 class="modal-title" id="exampleModalCenterTitle">Cron</h5>
+															        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															          <span aria-hidden="true">&times;</span>
+															        </button>
+															      </div>
+															      <div class="modal-body">
+	<div id="easy_warning"></div>
+	<table id="cron_table" style="width:100%">
+	<tr>
+	<th>min</th>
+	<th>hour</th>
+	<th>day</th>
+	<th>month</th>
+	<th>week</th>
+	</tr>
+	<tr>
+	<td>
+	<ul>
+	<li><label><input type="checkbox" value="*" name="min" /> *</label></li>
+	<li>
+	<label><input type="checkbox" value="0" name="min"> 00</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="5" name="min"> 05</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="10" name="min"> 10</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="15" name="min"> 15</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="20" name="min"> 20</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="25" name="min"> 25</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="30" name="min"> 30</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="35" name="min"> 35</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="40" name="min"> 40</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="45" name="min"> 45</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="50" name="min"> 50</input></li>
+	</label>
+	<li>
+	<label><input type="checkbox" value="55" name="min"> 55</input></li>
+	</label>
+	</ul>
+	</td>
+	<td>
+	<ul>
+	<li><label><input type="checkbox" value="*" name="hour" /> *</label></li>
+	<li><label><input type="checkbox" value="0" name="hour" /> 00</label></li>
+	<li><label><input type="checkbox" value="1" name="hour" /> 01</label></li>
+	<li><label><input type="checkbox" value="2" name="hour" /> 02</label></li>
+	<li><label><input type="checkbox" value="3" name="hour" /> 03</label></li>
+	<li><label><input type="checkbox" value="4" name="hour" /> 04</label></li>
+	<li><label><input type="checkbox" value="5" name="hour" /> 05</label></li>
+	<li><label><input type="checkbox" value="6" name="hour" /> 06</label></li>
+	<li><label><input type="checkbox" value="7" name="hour" /> 07</label></li>
+	<li><label><input type="checkbox" value="8" name="hour" /> 08</label></li>
+	<li><label><input type="checkbox" value="9" name="hour" /> 09</label></li>
+	<li><label><input type="checkbox" value="10" name="hour" /> 10</label></li>
+	<li><label><input type="checkbox" value="11" name="hour" /> 11</label></li>
+	<li><label><input type="checkbox" value="12" name="hour" /> 12</label></li>
+	<li><label><input type="checkbox" value="13" name="hour" /> 13</label></li>
+	<li><label><input type="checkbox" value="14" name="hour" /> 14</label></li>
+	<li><label><input type="checkbox" value="15" name="hour" /> 15</label></li>
+	<li><label><input type="checkbox" value="16" name="hour" /> 16</label></li>
+	<li><label><input type="checkbox" value="17" name="hour" /> 17</label></li>
+	<li><label><input type="checkbox" value="18" name="hour" /> 18</label></li>
+	<li><label><input type="checkbox" value="19" name="hour" /> 19</label></li>
+	<li><label><input type="checkbox" value="20" name="hour" /> 20</label></li>
+	<li><label><input type="checkbox" value="21" name="hour" /> 21</label></li>
+	<li><label><input type="checkbox" value="22" name="hour" /> 22</label></li>
+	<li><label><input type="checkbox" value="23" name="hour" /> 23</label></li>
+	</ul>
+	</td>
+	<td>
+	<ul>
+	<li><label><input type="checkbox" value="*" name="day" /> *</label></li>
+	<li><label><input type="checkbox" value="1" name="day" /> 01</label></li>
+	<li><label><input type="checkbox" value="2" name="day" /> 02</label></li>
+	<li><label><input type="checkbox" value="3" name="day" /> 03</label></li>
+	<li><label><input type="checkbox" value="4" name="day" /> 04</label></li>
+	<li><label><input type="checkbox" value="5" name="day" /> 05</label></li>
+	<li><label><input type="checkbox" value="6" name="day" /> 06</label></li>
+	<li><label><input type="checkbox" value="7" name="day" /> 07</label></li>
+	<li><label><input type="checkbox" value="8" name="day" /> 08</label></li>
+	<li><label><input type="checkbox" value="9" name="day" /> 09</label></li>
+	<li><label><input type="checkbox" value="10" name="day" /> 10</label></li>
+	<li><label><input type="checkbox" value="11" name="day" /> 11</label></li>
+	<li><label><input type="checkbox" value="12" name="day" /> 12</label></li>
+	<li><label><input type="checkbox" value="13" name="day" /> 13</label></li>
+	<li><label><input type="checkbox" value="14" name="day" /> 14</label></li>
+	<li><label><input type="checkbox" value="15" name="day" /> 15</label></li>
+	<li><label><input type="checkbox" value="16" name="day" /> 16</label></li>
+	<li><label><input type="checkbox" value="17" name="day" /> 17</label></li>
+	<li><label><input type="checkbox" value="18" name="day" /> 18</label></li>
+	<li><label><input type="checkbox" value="19" name="day" /> 19</label></li>
+	<li><label><input type="checkbox" value="20" name="day" /> 20</label></li>
+	<li><label><input type="checkbox" value="21" name="day" /> 21</label></li>
+	<li><label><input type="checkbox" value="22" name="day" /> 22</label></li>
+	<li><label><input type="checkbox" value="23" name="day" /> 23</label></li>
+	<li><label><input type="checkbox" value="24" name="day" /> 24</label></li>
+	<li><label><input type="checkbox" value="25" name="day" /> 25</label></li>
+	<li><label><input type="checkbox" value="26" name="day" /> 26</label></li>
+	<li><label><input type="checkbox" value="27" name="day" /> 27</label></li>
+	<li><label><input type="checkbox" value="28" name="day" /> 28</label></li>
+	<li><label><input type="checkbox" value="29" name="day" /> 29</label></li>
+	<li><label><input type="checkbox" value="30" name="day" /> 30</label></li>
+	<li><label><input type="checkbox" value="31" name="day" /> 31</label></li>
+	</ul>
+	</td>
+	<td>
+	<ul>
+	<li><label><input type="checkbox" value="*" name="month" /> *</label></li>
+	<li><label><input type="checkbox" value="1" name="month" /> 01</label></li>
+	<li><label><input type="checkbox" value="2" name="month" /> 02</label></li>
+	<li><label><input type="checkbox" value="3" name="month" /> 03</label></li>
+	<li><label><input type="checkbox" value="4" name="month" /> 04</label></li>
+	<li><label><input type="checkbox" value="5" name="month" /> 05</label></li>
+	<li><label><input type="checkbox" value="6" name="month" /> 06</label></li>
+	<li><label><input type="checkbox" value="7" name="month" /> 07</label></li>
+	<li><label><input type="checkbox" value="8" name="month" /> 08</label></li>
+	<li><label><input type="checkbox" value="9" name="month" /> 09</label></li>
+	<li><label><input type="checkbox" value="10" name="month" /> 10</label></li>
+	<li><label><input type="checkbox" value="11" name="month" /> 11</label></li>
+	<li><label><input type="checkbox" value="12" name="month" /> 12</label></li>
+	</ul>
+	</td>
+	<td>
+	<ul>
+	<li><label><input type="checkbox" value="0" name="week" /> Sunday</label></li>
+	<li><label><input type="checkbox" value="1" name="week" /> Monday</label></li>
+	<li><label><input type="checkbox" value="2" name="week" /> Tuesday</label></li>
+	<li><label><input type="checkbox" value="3" name="week" /> Wednesday</label></li>
+	<li><label><input type="checkbox" value="4" name="week" /> Thursday</label></li>
+	<li><label><input type="checkbox" value="5" name="week" /> Friday</label></li>
+	<li><label><input type="checkbox" value="6" name="week" /> Saturday</label></li>
+	</ul>
+	</td>
+	</tr>
+	<tr>
+	<th colspan="5"></th>
+	</tr>
+	<tr style="display:none">
+	<td colspan="5"><input type="text" style="width:95%"
+	 id="command" /></td>
+	</tr>
+	</table>
+	
+	<pre class="cmd" style="padding-top:30px;color: red;;font-weight: bold;text-align: center;font-size: larger;" id="cron_command">
+	</pre>
+	
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															        <button type="button" id="updateCron" class="btn btn-primary">Save changes</button>
+															      </div>
+															    </div>
+															  </div>
+															</div>
+															
+															
+															
+														  <div class="tab-pane fade" id="executor" role="tabpanel" aria-labelledby="executor-tab">
+															<form id="executor_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+																<div class="form-group">
+																	  <div class="form-check form-check-inline">
+																	    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_1" value="1">
+																	    <label class="form-check-label" for="node_info_execute_type_1">None</label>	
+																	  </div>
+																	  <div class="form-check form-check-inline">
+																	    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_2" value="2">
+																	    <label class="form-check-label" for="node_info_execute_type_2">Shell</label>	
+																	  </div>
+																	  <div class="form-check form-check-inline">
+																	    <input type="radio" class="form-check-input" name="node_info_execute_type" id="node_info_execute_type_3" value="3">
+																	    <label class="form-check-label" for="node_info_execute_type_3">HTTP</label>	
+																	  </div>
+																  </div>
+																  <div id="node_info_execute_type_1_div" style="display:none">
+																  </div>
+																  <div id="node_info_execute_type_2_div" style="display:none">
+																  	 <div class="form-group">
+																	    <label for="formGroupExampleInput">Success Code</label>
+																	    <input type="text" id="node_info_shell_success_code" value="0" class="form-control" placeholder="" pattern=".{1,10}">
+																	    <div class="invalid-feedback">
+																          Please input location with(1 to 10 characters).
+																        </div>
+																	 </div>
+																	 <div class="form-group">
+																	    <label for="formGroupExampleInput">Exception</label>
+																	    <div class="form-check form-check-inline">
+																	      <input type="radio" class="form-check-input" name="node_info_shell_error_type" id="node_info_shell_error_type_1" value="1">
+																	      <label class="form-check-label" for="node_info_shell_error_type_1">Continue flow</label>	
+																	    </div>
+																	    <div class="form-check form-check-inline">
+																	      <input type="radio" class="form-check-input" name="node_info_shell_error_type" id="node_info_shell_error_type_2" value="2" checked>
+																	      <label class="form-check-label" for="node_info_shell_error_type_2">Stop flow</label>	
+																	    </div>
+																	 </div>
+																	 <div style="display:none">
+																		 <div class="form-group">
+																		    <div class="form-check form-check-inline">
+																		      <input type="radio" class="form-check-input" name="node_info_shell_sync_flag" id="node_info_shell_sync_flag_1" value="1" checked>
+																		      <label class="form-check-label" for="node_info_shell_sync_flag_1">SYNC</label>	
+																		    </div>
+																		    <div class="form-check form-check-inline">
+																		      <input type="radio" class="form-check-input" name="node_info_shell_sync_flag" id="node_info_shell_sync_flag_2" value="2">
+																		      <label class="form-check-label" for="node_info_shell_sync_flag_2">ASYNC</label>	
+																		    </div>
+																		 </div>
+																		 <div id="node_info_shell_sync_flag_2_div" style="display:none">
+																		 	http://{host}:{port}/api/async?flowId={flowId}&nodeId={nodeId}&historyId={historyId}&result={success:0,fail:1}
+																	  	 </div>
+																	 </div>
+																  	 <div class="form-group">
+																	    <label for="formGroupExampleInput">location</label>
+																	    <input type="text" id="node_info_shell_location" class="form-control" placeholder="" pattern=".{1,250}">
+																	    <div class="invalid-feedback">
+																          Please input location with(1 to 250 characters).
+																        </div>
+																	 </div>
+																  </div>
+																  <div id="node_info_execute_type_3_div" style="display:none">
+																	 <div class="form-group">
+																	    <label for="formGroupExampleInput">Success Code</label>
+																	    <input type="text" id="node_info_http_success_code" value="200" class="form-control" placeholder="" pattern=".{1,10}">
+																	    <div class="invalid-feedback">
+																          Please input location with(1 to 10 characters).
+																        </div>
+																	 </div>
+																	 <div class="form-group">
+																	    <label for="formGroupExampleInput">Exception</label>
+																	    <div class="form-check form-check-inline">
+																	      <input type="radio" class="form-check-input" name="node_info_http_error_type" id="node_info_http_error_type_1" value="1">
+																	      <label class="form-check-label" for="node_info_http_error_type_1">Continue flow</label>	
+																	    </div>
+																	    <div class="form-check form-check-inline">
+																	      <input type="radio" class="form-check-input" name="node_info_http_error_type" id="node_info_http_error_type_2" value="2" checked>
+																	      <label class="form-check-label" for="node_info_http_error_type_2">Stop flow</label>	
+																	    </div>
+																	 </div>
+																	 <div class="form-group">
+																	    <div class="form-check form-check-inline">
+																	      <input type="radio" class="form-check-input" name="node_info_http_sync_flag" id="node_info_http_sync_flag_1" value="1" checked>
+																	      <label class="form-check-label" for="node_info_http_sync_flag_1">SYNC</label>	
+																	    </div>
+																	    <div class="form-check form-check-inline">
+																	      <input type="radio" class="form-check-input" name="node_info_http_sync_flag" id="node_info_http_sync_flag_2" value="2">
+																	      <label class="form-check-label" for="node_info_http_sync_flag_2">ASYNC</label>	
+																	    </div>
+																	 </div>
+																	 <div id="node_info_http_sync_flag_2_div" style="display:none">
+																	 	http://{host}:{port}/api/async?flowId={flowId}&nodeId={nodeId}&historyId={historyId}&result={success:0,fail:1}
+																  	 </div>
+																	  <div class="form-group">
+																	    <label for="formGroupExampleInput2">Url</label>
+																	    <input type="text" class="form-control" id="node_info_location" placeholder="" pattern=".{1,250}">
+																	    <div class="invalid-feedback">
+																          Please input url with(1 to 250 characters).
+																        </div>
+																	  </div>
+																	  <div class="form-group">
+																	    <label for="formGroupExampleInput2">Method</label>
+																	    <select class="form-control" id="node_info_http_method" aria-label="">
+																		  <option selected value="GET">Get</option>
+																		  <option value="POST">Post</option>
+																		  <option value="PUT">put</option>
+																		  <option value="DELETE">Delete</option>
+																		</select>
+																	  </div>
+																	  <div class="form-group">
+																	    <label for="formGroupExampleInput2">Content-Type</label>
+																	    <input type="text" class="form-control" id="node_info_http_content_type" placeholder="" value="application/json" pattern=".{1,25}">
+																	    <div class="invalid-feedback">
+																          Please input Content-Type with(1 to 25 characters).
+																        </div>
+																	  </div>
+																	  <div class="form-group">
+																	    <label for="formGroupExampleInput2">Header</label>
+																	    <textarea class="form-control" id="node_info_http_header" rows="3" maxlength="250"></textarea>
+																	    <div class="invalid-feedback">
+																          Please input header with(1 to 250 characters).
+																        </div>
+																	  </div>
+																	  <div class="form-group">
+																	    <label for="formGroupExampleInput2">Body</label>
+																	    <textarea class="form-control" id="node_info_http_body" rows="10" maxlength="250"></textarea>
+																	    <div class="invalid-feedback">
+																          Please input body with(1 to 250 characters).
+																        </div>
+																	  </div>
+																	</div>
+																</form>
+														 		
+														  </div>
+														  
+														</div>
+									  				
+										  			</div>
+										  			
+										  			<!-- ¡ì Edge properties -->
+										  			<div id="edgePropDiv" style="display:none">
+	
+										  				<div style="display:none">
+										  					<span id="edge_info_from"></span>
+										  					<span id="edge_info_to"></span>
+										  				</div>
+	
 									  					<div class="form-group">
-									  						<label for="edge_condition">condition</label>
-									  						<input type="text" class="form-control"  id="edge_condition"></input>
+									  						<b><span id="edge_info_from_name"></span>-><span id="edge_info_to_name"></span></b>
 									  					</div>
-										  				<input type="hidden" class="form-control"  id="edge_info_id" name="edge_info_id"></input>
-									  				</form>
-									  			</div>
-									  			
-								  			</td>
-
-										</tr>
-								    </table>
-								  </div>
-								  <!--  Console -->
-								  <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="console-tab">
-								  
-								    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
-								    	<div class="row" style="margin-left:10px">
-								    		<div class="col-xs-2" style="margin-right:5px">
-												<a href="#"><i  id="btn_refresh_log" class="fas fa-sync fa-lg"></i></a>
-												<a href="#"><i  id="btn_clear_log" class="fas fa-ban fa-lg"></i></a>
+										  				<form style="border: 1px solid #ccc4c3; padding:5px;width:320px">
+									  						<div class="row mb-2" style="margin-left:10px">
+									  							<div class="col-xs-2" style="margin-right:5px">
+																	<a href="#"><i  id="btn_edge_info_save" class="fas fa-save fa-lg"></i></a>
+																</div>
+																<div class="custom-control custom-switch">
+																  <input type="checkbox" class="custom-control-input" id="customSwitch1">
+																  <label class="custom-control-label" for="customSwitch1"></label>
+																</div>
+															</div>
+										  					<div class="form-group">
+										  						<label for="edge_condition">condition</label>
+										  						<input type="text" class="form-control"  id="edge_condition"></input>
+										  					</div>
+											  				<input type="hidden" class="form-control"  id="edge_info_id" name="edge_info_id"></input>
+										  				</form>
+										  			</div>
+										  			
+									  			</td>
+	
+											</tr>
+									    </table>
+									  </div>
+									  <!--  Console -->
+									  <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="console-tab">
+									  
+									    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+									    	<div class="row" style="margin-left:10px">
+									    		<div class="col-xs-2" style="margin-right:5px">
+													<a href="#"><i  id="btn_refresh_log" class="fas fa-sync fa-lg"></i></a>
+													<a href="#"><i  id="btn_clear_log" class="fas fa-ban fa-lg"></i></a>
+												</div>
 											</div>
 										</div>
-									</div>
-								
-									<div style="padding:3px"></div>
-								    <div id="console_div" style="width:925px;height:500px"></div>
-								    <div style="padding:3px"></div>
-								    
-								  </div>
-								  <!--  History -->
-								  <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
-								  
-								    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
-								    	<div class="row" style="margin-left:10px">
-								    		<div class="col-xs-2" style="margin-right:5px">
-												<a href="#"><i  id="btn_refresh_history" class="fas fa-sync fa-lg"></i></a>
-												<a href="#"><i  id="btn_clear_log_history" class="fas fa-ban fa-lg"></i></a>
+									
+										<div style="padding:3px"></div>
+									    <div id="console_div" style="width:925px;height:500px"></div>
+									    <div style="padding:3px"></div>
+									    
+									  </div>
+									  <!--  History -->
+									  <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+									  
+									    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+									    	<div class="row" style="margin-left:10px">
+									    		<div class="col-xs-2" style="margin-right:5px">
+													<a href="#"><i  id="btn_refresh_history" class="fas fa-sync fa-lg"></i></a>
+													<a href="#"><i  id="btn_clear_log_history" class="fas fa-ban fa-lg"></i></a>
+												</div>
 											</div>
 										</div>
-									</div>
-								
-									<div style="padding:3px"></div>
-										<div id="history_div">
-											<table>
-												<tr>
-													<td><a href="#">2022/01/05 18:55:01</a></td>
-												</tr>
-												<tr>
-													<td><a href="#">2022/01/04 16:25:03</a></td>
-												</tr>
-												<tr>
-													<td><a href="#">2022/01/04 20:32:15</a></td>
-												</tr>
-											</table>
-										</div>
-								    <div style="padding:3px"></div>
-								    
-								  </div>
-								  <!--  Terminal -->
-								  <div class="tab-pane fade" id="terminal" role="terminalpanel" aria-labelledby="terminal-tab">
-								  
-								    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
-								    	<div class="row" style="margin-left:10px">
-								    		<div class="col-xs-2" style="margin-right:5px">
-												<a href="#"><i  id="btn_clear_terminal" class="fas fa-ban fa-lg"></i></a>
+									
+										<div style="padding:3px"></div>
+											<div id="history_div">
+												<table>
+													<tr>
+														<td><a href="#">2022/01/05 18:55:01</a></td>
+													</tr>
+													<tr>
+														<td><a href="#">2022/01/04 16:25:03</a></td>
+													</tr>
+													<tr>
+														<td><a href="#">2022/01/04 20:32:15</a></td>
+													</tr>
+												</table>
+											</div>
+									    <div style="padding:3px"></div>
+									    
+									  </div>
+									  <!--  Terminal -->
+									  <div class="tab-pane fade" id="terminal" role="terminalpanel" aria-labelledby="terminal-tab">
+									  
+									    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+									    	<div class="row" style="margin-left:10px">
+									    		<div class="col-xs-2" style="margin-right:5px">
+													<a href="#"><i  id="btn_clear_terminal" class="fas fa-ban fa-lg"></i></a>
+												</div>
 											</div>
 										</div>
+									
+										<div style="padding:3px"></div>
+									    <div id="terminal_div" style="width:925px;height:500px"></div>
+									    <div style="padding:3px"></div>
+									    
+									  </div>
 									</div>
-								
-									<div style="padding:3px"></div>
-								    <div id="terminal_div" style="width:925px;height:500px"></div>
-								    <div style="padding:3px"></div>
-								    
-								  </div>
+									
+				
 								</div>
-								
-			
-							</div>
-			  			</td>
-			  			
-						<!-- Right -->
-						<td></td>
-			  		</tr>
-  				</table>
-  			</td>
-  		</tr>
-  	</table>
-
+				  			</td>
+				  			
+							<!-- Right -->
+							<td></td>
+				  		</tr>
+	  				</table>
+	  			</td>
+	  		</tr>
+	  	</table>
+	</div>
 
 
 <!-- Modal -->

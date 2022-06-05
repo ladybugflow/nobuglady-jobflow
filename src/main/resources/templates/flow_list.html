@@ -54,6 +54,7 @@
 		}
 	</style>
 	
+	<link rel="stylesheet" href="css/common.css" />
   </head>
   <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -81,12 +82,15 @@
 	</nav>
 
 	<div class="container">
+		<div class="bd-callout bd-callout-info">
+			<b>Create Flow</b>
+		</div>
 		<form class="form-inline">
-		  <div class="form-group mb-2">
-		    <label for="flowName">Flow Name:</label>
-		    <input type="text" class="form-control" id="flowName">
+		  <div class="form-group mb-2" style="margin-left:18px;margin-right:5px">
+		    <label for="flowName"></label>
+		    <input type="text" class="form-control" id="flowName" placeHolder="Enter flow name">
 		  </div>
-		  <button type="button" id="btn_create_flow" class="btn btn-primary mb-2">Create Flow</button>
+		  <button type="button" id="btn_create_flow" class="btn btn-primary mb-2">Create</button>
 		</form>
 		<table class="table table-hover table-striped">
 		  <thead>

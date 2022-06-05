@@ -1,0 +1,49 @@
+.bg-light {
+    background-color: #6FB2D2!important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #EF6D6D;
+    border-color: #524A4E;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #524A4E;
+    border-color: #524A4E;
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #524A4E;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.bd-callout-info {
+    border-left-color: #EF6D6D!important;
+}
+.bd-callout {
+    padding: 0.6rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid #eee;
+    border-left-width: 0.25rem;
+    border-radius: 0.25rem;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    margin-top: 1em;
+}
+thead {
+	background-color: #a2d2d8;
+}

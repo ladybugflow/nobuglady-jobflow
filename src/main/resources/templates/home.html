@@ -56,20 +56,8 @@
 		.nav-tabs {
 		    margin-bottom: 0;
 		}
-		
-		.bd-callout-info {
-		    border-left-color: #5bc0de!important;
-		}
-		.bd-callout {
-		    padding: 1.25rem;
-		    margin-top: 1.25rem;
-		    margin-bottom: 1.25rem;
-		    border: 1px solid #eee;
-		    border-left-width: 0.25rem;
-		    border-radius: 0.25rem;
-		}
 	</style>
-	
+	<link rel="stylesheet" href="css/common.css" />
   </head>
   <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -100,10 +88,15 @@
 			<canvas id="myChart"></canvas>
 		</div>
 		<div class="bd-callout bd-callout-info">
-			processing instance
+			<b>Processing</b>
 		</div>
 		<div>
-			<table class="table table-hover table-striped">
+			<div class="card" id="processingInstanceListNoresult" style="display:none">
+			  <div class="card-body">
+			    No Results Found.
+			  </div>
+			</div>
+			<table class="table table-hover table-striped" id="processingInstanceListTable">
 			  <thead>
 			    <tr>
 			      <th scope="col"></th>
@@ -123,10 +116,15 @@
 			</table>
 		</div>
 		<div class="bd-callout bd-callout-info">
-			error instance
+			<b>Error</b>
 		</div>
 		<div>
-			<table class="table table-hover table-striped">
+			<div class="card" id="errorInstanceListNoresult" style="display:none">
+			  <div class="card-body">
+			    No Results Found.
+			  </div>
+			</div>
+			<table class="table table-hover table-striped" id="errorInstanceListTable">
 			  <thead>
 			    <tr>
 			      <th scope="col"></th>
@@ -146,10 +144,15 @@
 			</table>
 		</div>
 		<div class="bd-callout bd-callout-info">
-			today complete
+			<b>Complete(today)</b>
 		</div>
 		<div>
-			<table class="table table-hover table-striped">
+			<div class="card" id="completeInstanceListNoresult" style="display:none">
+			  <div class="card-body">
+			    No Results Found.
+			  </div>
+			</div>
+			<table class="table table-hover table-striped" id="completeInstanceListTable">
 			  <thead>
 			    <tr>
 			      <th scope="col"></th>
