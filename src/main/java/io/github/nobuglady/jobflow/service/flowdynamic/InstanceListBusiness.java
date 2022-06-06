@@ -35,11 +35,16 @@ public class InstanceListBusiness {
 	/**
 	 * 
 	 * @param curPage
+	 * @param flowName
+	 * @param flowStatus
+	 * @param flowStartDate
 	 * @return
 	 */
-	public List<HistoryFlowEntity> requestInstanceList(int curPage) {
+	public List<HistoryFlowEntity> requestInstanceList(int curPage, String flowName, String flowStatus,
+			String flowStartDate) {
 
-		return flowHistoryDao.selectAll(PagingUtil.getFrom(curPage), PagingUtil.getFetchCount(curPage));
+		return flowHistoryDao.selectAll(PagingUtil.getFrom(curPage), PagingUtil.getFetchCount(curPage), flowName,
+				flowStatus, flowStartDate);
 	}
 
 	/**

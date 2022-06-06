@@ -42,13 +42,19 @@ public class InstanceListController {
 	/**
 	 * 
 	 * @param curPage
+	 * @param flowName
+	 * @param flowName
+	 * @param flowStartDate
 	 * @return
 	 */
 	@RequestMapping(value = "/request_instance_list", method = RequestMethod.POST)
 	@ResponseBody
-	public List<HistoryFlowEntityVo> requestInstanceList(@RequestParam(value = "curPage") int curPage) {
+	public List<HistoryFlowEntityVo> requestInstanceList(@RequestParam(value = "curPage") int curPage,
+			@RequestParam(value = "flowName") String flowName, @RequestParam(value = "flowStatus") String flowStatus,
+			@RequestParam(value = "flowStartDate") String flowStartDate) {
 
-		return BeanUtil.copyList(flowBusiness.requestInstanceList(curPage), HistoryFlowEntityVo.class);
+		return BeanUtil.copyList(flowBusiness.requestInstanceList(curPage, flowName, flowStatus, flowStartDate),
+				HistoryFlowEntityVo.class);
 	}
 
 	/**

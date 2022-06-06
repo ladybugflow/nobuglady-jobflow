@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import io.github.nobuglady.jobflow.constant.FlowStatus;
@@ -24,6 +26,7 @@ import io.github.nobuglady.jobflow.persistance.db.entity.PublishFlowEntity;
 import io.github.nobuglady.jobflow.persistance.db.mapper.HistoryFlowMapper;
 import io.github.nobuglady.jobflow.persistance.db.mapper.PublishFlowMapper;
 import io.github.nobuglady.jobflow.security.AuthHolder;
+import io.github.nobuglady.jobflow.util.StringUtil;
 
 /**
  * FlowHistory table operation class
@@ -39,6 +42,9 @@ public class HistoryFlowDao {
 
 	@Autowired
 	private PublishFlowMapper publishFlowMapper;
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	//////////////////////////////////////
 	// Base
@@ -70,11 +76,34 @@ public class HistoryFlowDao {
 	 * 
 	 * @param from
 	 * @param fetchCount
+	 * @param flowName
+	 * @param flowStatus
+	 * @param flowStartDate
 	 * @return
 	 */
-	public List<HistoryFlowEntity> selectAll(int from, int fetchCount) {
+	public List<HistoryFlowEntity> selectAll(int from, int fetchCount, String flowName, String flowStatus,
+			String flowStartDate) {
 
-		return flowHistoryMapper.selectAll(from, fetchCount);
+		String sql = "select * from (SELECT * FROM history_flow" + " where 1=1 ";
+
+		if (StringUtil.isNotEmpty(flowName)) {
+			sql += " and flow_name like '%" + flowName + "%' ";
+		}
+
+		if (StringUtil.isNotEmpty(flowStatus)) {
+			sql += " and flow_status = " + flowStatus + " ";
+		}
+
+		if (StringUtil.isNotEmpty(flowStartDate)) {
+			sql += " and DATE_FORMAT(start_time,'%Y/%m/%d') = '" + flowStartDate + "' ";
+		}
+
+		sql += " order by update_time desc) t1 LIMIT #{param1}, #{param2} ";
+		sql = sql.replace("#{param1}", String.valueOf(from));
+		sql = sql.replace("#{param2}", String.valueOf(fetchCount));
+
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<HistoryFlowEntity>(HistoryFlowEntity.class));
+//		return flowHistoryMapper.selectAll(from, fetchCount);
 	}
 
 	/**

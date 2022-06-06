@@ -7,15 +7,27 @@ var pageCountStatic = 1;
 var pageSizeStatic = 10;
 
 $(document).ready(function() {
+	$("#btn_search").on("click", searchClick);
 	request_instance_list(1);
 });
 
+function searchClick(){
+	request_instance_list(1);
+}
 
 function request_instance_list(curPage){
+
+	var flowName = $("#flowName").val();
+	var flowStatus = $("#flowStatus").val();
+	var flowStartDate = $("#flowStartDate").val();
+	
 	post(
 		'/request_instance_list',
 		{
-			curPage:curPage
+			curPage:curPage,
+			flowName:flowName,
+			flowStatus:flowStatus,
+			flowStartDate:flowStartDate
 		},
 		function (data) {
 			var responseObj = data;

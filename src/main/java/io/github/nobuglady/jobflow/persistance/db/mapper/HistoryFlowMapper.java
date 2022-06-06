@@ -46,8 +46,8 @@ public interface HistoryFlowMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("select * from (SELECT * FROM history_flow" + " order by update_time desc) t1 LIMIT #{param1}, #{param2} ")
-	public List<HistoryFlowEntity> selectAll(int from, int fetchCount);
+//	@Select("select * from (SELECT * FROM history_flow" + " order by update_time desc) t1 LIMIT #{param1}, #{param2} ")
+//	public List<HistoryFlowEntity> selectAll(int from, int fetchCount);
 
 	@Select("SELECT * FROM history_flow " + " WHERE" + " flow_status <> #{param1} " + " order by update_time desc ")
 	public List<HistoryFlowEntity> selectAllError(int completeStatus);
