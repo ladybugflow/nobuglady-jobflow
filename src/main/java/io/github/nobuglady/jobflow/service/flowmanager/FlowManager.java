@@ -127,8 +127,13 @@ public class FlowManager {
 		// initialize flow
 		historyNodeDao.updateStatusByHistoryId(flowId, historyId, NodeStatus.WAIT);
 
+		// set first node ready
+		String firstNodeId = getFirstNodeId(flowId);
+
+		historyNodeDao.updateStatusByNodeId(flowId, historyId, firstNodeId, NodeStatus.READY);
+
 		// start first node
-		startNode(flowId, historyId, getFirstNodeId(flowId));
+		startNode(flowId, historyId, firstNodeId);
 
 		return historyId;
 	}
@@ -162,8 +167,16 @@ public class FlowManager {
 		// initialize flow
 		historyNodeDao.updateStatusByHistoryId(flowId, historyId, NodeStatus.WAIT);
 
+		// set first node ready
+		String firstNodeId = getFirstNodeId(flowId);
+
+		historyNodeDao.updateStatusByNodeId(flowId, historyId, firstNodeId, NodeStatus.READY);
+
 		// start first node
-		startNode(flowId, historyId, getFirstNodeId(flowId));
+		startNode(flowId, historyId, firstNodeId);
+
+		// start first node
+		startNode(flowId, historyId, firstNodeId);
 
 		return historyId;
 	}
@@ -181,6 +194,9 @@ public class FlowManager {
 
 		// initialize flow
 		historyNodeDao.updateStatusByHistoryId(flowId, historyId, NodeStatus.WAIT);
+
+		// set node ready
+		historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.READY);
 
 		// start node
 		startNode(flowId, historyId, nodeId);
@@ -221,8 +237,13 @@ public class FlowManager {
 		// initialize flow
 		historyNodeDao.updateStatusByHistoryId(flowId, historyId, NodeStatus.WAIT);
 
+		// set first node ready
+		String firstNodeId = getFirstNodeId(flowId);
+
+		historyNodeDao.updateStatusByNodeId(flowId, historyId, firstNodeId, NodeStatus.READY);
+
 		// start first node
-		startNode(flowId, historyId, getFirstNodeId(flowId));
+		startNode(flowId, historyId, firstNodeId);
 
 		return historyId;
 	}

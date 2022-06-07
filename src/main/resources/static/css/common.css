@@ -2,6 +2,15 @@
     background-color: #6FB2D2!important;
 }
 
+.container{
+	min-height:647px;
+}
+footer {
+  width: 100%;
+  height: 30px;
+  background-color: #000000;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #EF6D6D;

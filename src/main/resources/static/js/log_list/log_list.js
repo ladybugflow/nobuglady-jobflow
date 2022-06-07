@@ -19,7 +19,7 @@ function request_log_list(){
 				
 				html += "<tr>";
 				
-				html += "	<td><i class=\"fas fa-cogs\"></i></td>";
+				html += "	<td><i class=\"fas fa-folder\"></i></td>";
 				html += "	<td>"+element.flowId+"</td>";
 				html += "	<td><a href='log_list_file?flowId="+element.flowId+"'>show files</a></td>";
 				html += "</tr>";

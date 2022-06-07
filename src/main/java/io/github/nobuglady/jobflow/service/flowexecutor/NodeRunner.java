@@ -21,7 +21,6 @@ import io.github.nobuglady.jobflow.constant.NodeExecuteType;
 import io.github.nobuglady.jobflow.constant.NodeStartType;
 import io.github.nobuglady.jobflow.constant.NodeStatus;
 import io.github.nobuglady.jobflow.constant.NodeStatusDetail;
-import io.github.nobuglady.jobflow.constant.NodeType;
 import io.github.nobuglady.jobflow.logger.ConsoleLogger;
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryFlowDao;
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeDao;
@@ -98,69 +97,47 @@ public class NodeRunner implements Runnable {
 			HistoryFlowEntity flowEntity = historyFlowDao.selectByKey(flowId, historyId);
 			String flowId = flowEntity.getFlowId();
 
+			if (NodeStatus.READY != historyNodeEntity.getNodeStatus()) {
+				consoleLogger.info(sdf.format(new Date()) + " [NOT READY]" + historyNodeEntity.getNodeStatus());
+				return;
+			}
+
 			/*
-			 * check node type
+			 * check node start type
 			 */
-			if (NodeType.NODE_TYPE_START == DataUtil.getNodeType(historyNodeEntity.getNodeType())) {
+			if (NodeStartType.NODE_START_TYPE_WAIT_REQUEST == DataUtil
+					.getNodeStartType(historyNodeEntity.getStartType())) {
+
+				consoleLogger.info(sdf.format(new Date()) + " [NODE OPENING]" + historyNodeEntity.getNodeName());
+				historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.OPENNING);
+				consoleLogger.info(sdf.format(new Date()) + " [NODE OPENED]" + historyNodeEntity.getNodeName());
+
+			} else {
+
+				String returnValue = null;
+
+				/*
+				 * check node execute type
+				 */
+				if (NodeExecuteType.NODE_EXECUTE_TYPE_NONE != DataUtil
+						.getNodeExecuteType(historyNodeEntity.getExecuteType())) {
+
+					historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.RUNNING);
+
+					NodeInf nodeInf = nodeDelegator.getNodeDelegator(flowId, nodeId, historyId);
+					if (nodeInf != null) {
+						consoleLogger
+								.info(sdf.format(new Date()) + " [NODE RUNNING]" + historyNodeEntity.getNodeName());
+						returnValue = nodeInf.execute();
+					}
+
+				}
 
 				historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
 						NodeStatusDetail.COMPLETE_SUCCESS);
 				CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
-			} else {
-
-				if (NodeStatus.READY == historyNodeEntity.getNodeStatus()) {
-
-					consoleLogger.info(sdf.format(new Date()) + " [NODE OPENING]" + historyNodeEntity.getNodeName());
-					historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.OPENNING);
-
-					/*
-					 * check node start type
-					 */
-					if (NodeStartType.NODE_START_TYPE_WAIT_REQUEST == DataUtil
-							.getNodeStartType(historyNodeEntity.getStartType())) {
-
-						consoleLogger.info(sdf.format(new Date()) + " [NODE OPENED]" + historyNodeEntity.getNodeName());
-
-					} else {
-
-						String returnValue = null;
-
-						// OPENINGÅ®CLOSED
-						historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.CLOSED);
-						consoleLogger.info(sdf.format(new Date()) + " [NODE CLOSED]" + historyNodeEntity.getNodeName());
-
-						/*
-						 * check node execute type
-						 */
-						if (NodeExecuteType.NODE_EXECUTE_TYPE_NONE == DataUtil
-								.getNodeExecuteType(historyNodeEntity.getExecuteType())) {
-
-							historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
-									NodeStatusDetail.COMPLETE_SUCCESS);
-
-						} else {
-
-							historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.READY_RUN);
-							historyNodeDao.updateStatusByNodeId(flowId, historyId, nodeId, NodeStatus.RUNNING);
-
-							NodeInf nodeInf = nodeDelegator.getNodeDelegator(flowId, nodeId, historyId);
-							if (nodeInf != null) {
-								consoleLogger.info(
-										sdf.format(new Date()) + " [NODE RUNNING]" + historyNodeEntity.getNodeName());
-								returnValue = nodeInf.execute();
-							}
-
-							// RUNNINGÅ®COMPLETE
-							historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
-									NodeStatusDetail.COMPLETE_SUCCESS);
-
-						}
-
-						CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
-						consoleLogger.info(sdf.format(new Date()) + " [NODE COMPLETE][" + returnValue + "]"
-								+ historyNodeEntity.getNodeName());
-					}
-				}
+				consoleLogger.info(sdf.format(new Date()) + " [NODE COMPLETE][" + returnValue + "]"
+						+ historyNodeEntity.getNodeName());
 			}
 
 		} catch (InterruptedException e) {

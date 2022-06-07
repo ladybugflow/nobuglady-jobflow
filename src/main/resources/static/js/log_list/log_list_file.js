@@ -22,7 +22,7 @@ function request_log_list_file(flowId){
 				
 				html += "<tr>";
 				
-				html += "	<td><i class=\"fas fa-cogs\"></i></td>";
+				html += "	<td><i class=\"fas fa-file\"></i></td>";
 				html += "	<td>"+element.fileId+"</td>";
 				html += "	<td><a href='request_log_list_file_download?flowId="+flowId+"&fileId="+element.fileId+"'>download</a> | <a href='javascript:doDelete(\""+flowId+"\",\""+element.fileId+"\");'>delete</a></td>";
 				html += "</tr>";

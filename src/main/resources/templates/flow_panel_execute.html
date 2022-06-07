@@ -92,6 +92,23 @@
 				<b><span id="flowName"></span></b>
 				 [<span id="flowId"></span><span id="instanceId"></span>]
 			</div>
+			<div style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
+				<table style="width:60%">
+					<tr>
+						<td style="border: 0px solid black;border-radius: 10px;background-color:#E8F9FD;text-align:center">Wait</td>
+						<td></td>
+						<td style="border: 0px solid black;border-radius: 10px;background-color:#79DAE8;text-align:center">Ready</td>
+						<td></td>
+						<td style="border: 0px solid black;border-radius: 10px;background-color:#187498;text-align:center">Opening</td>
+						<td></td>
+						<td style="border: 0px solid black;border-radius: 10px;background-color:#F9D923;text-align:center">Running</td>
+						<td></td>
+						<td style="border: 0px solid black;border-radius: 10px;background-color:#36AE7C;text-align:center">Success</td>
+						<td></td>
+						<td style="border: 0px solid black;border-radius: 10px;background-color:#EB5353;text-align:center">Error</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	  	<table>
 	  		<tr>
@@ -129,36 +146,36 @@
 									<div class="tab-content" id="myTabContent">
 									  <!--  Flow -->
 									  <div class="tab-pane fade show active" id="flow" role="tabpanel" aria-labelledby="flow-tab">
-	
-								    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
-									  
-								    	<div class="row mb-2" style="margin-left:10px">
-											<div class="custom-control custom-switch" style="display:none">
-											  <input type="checkbox" class="custom-control-input" id="customSwitch1">
-											  <label class="custom-control-label" for="customSwitch1"></label>
-											</div>
-											<div class="col">
-												<a href="#"><i  id="btn_start" class="far fa-play-circle fa-lg"></i></a>
-												<a href="#" style="margin-left:10px;display:none"><i  id="btn_stop" class="far fa-stop-circle fa-lg fa-disabled"></i></a>
-												<a href="#" style="margin-left:10px"><i  id="btn_refresh" class="fas fa-sync fa-lg"></i></a>
-												<a href="#"><i  id="btn_restart" class="fas fa-reply fa-lg"></i></a>
-											</div>
-											<div id="update_time" class="col" style="float:right"></div>
-										</div>
-									</div>
-				
 										<table>
 											<tr>
 												<td valign="top">
+
+												    <div style="border: 1px solid #ccc4c3; padding:5px; border-radius:0.5em">
+													  
+												    	<div class="row mb-2" style="margin-left:10px">
+															<div class="custom-control custom-switch" style="display:none">
+															  <input type="checkbox" class="custom-control-input" id="customSwitch1">
+															  <label class="custom-control-label" for="customSwitch1"></label>
+															</div>
+															<div class="col">
+																<a href="#"><i  id="btn_start" class="far fa-play-circle fa-lg"></i></a>
+																<a href="#" style="margin-left:10px;display:none"><i  id="btn_stop" class="far fa-stop-circle fa-lg fa-disabled"></i></a>
+																<a href="#" style="margin-left:10px"><i  id="btn_refresh" class="fas fa-sync fa-lg"></i></a>
+																<a href="#"><i  id="btn_restart" class="fas fa-reply fa-lg"></i></a>
+															</div>
+															<div id="update_time" class="col" style="display:none;margin-left:250px"></div>
+														</div>
+													</div>
+				
 													<div class="loader-inner ball-pulse" style="display:none"></div>
 													<div style="padding:3px"></div>
 														<div id="mynetwork"></div>
 												    <div style="padding:3px"></div>
 												</td>
 									  			<!--  Right -->
-									  			<td valign="top" style="padding-left:10px;">
+									  			<td valign="top" style="padding-left:5px;background-color: #E9EFC0;">
 									  			
-									  				<!-- ˜ Node properties -->
+									  				<!-- ¡ì Node properties -->
 									  				<div id="nodePropDiv" style="display:none">
 														<ul class="nav nav-tabs" id="myTab" role="tablist">
 														  <li class="nav-item" id="profile-tab-li">
@@ -172,7 +189,7 @@
 														  </li>
 														</ul>
 														
-														<!-- ˜ Node/Main -->
+														<!-- ¡ì Node/Main -->
 														<div class="tab-content" id="myTabContent">
 														  <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 																<form id="profile_form" class="needs-validation" novalidate style="border: 1px solid #ccc4c3; padding:5px;width:320px">
@@ -394,7 +411,7 @@
 									  				
 										  			</div>
 										  			
-										  			<!-- ˜ Edge properties -->
+										  			<!-- ¡ì Edge properties -->
 										  			<div id="edgePropDiv" style="display:none">
 	
 										  				<div style="display:none">
@@ -495,5 +512,8 @@
 	  		</tr>
 	  	</table>
 	</div>
+	<footer>
+	   <small><span style="color:#FFFFFF">Copyright &copy; 2021-2022 nobuglady All Rights Reserved.</span></small>
+	</footer>
   </body>
 </html>

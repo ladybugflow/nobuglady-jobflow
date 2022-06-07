@@ -18,7 +18,6 @@ import java.util.List;
 import io.github.nobuglady.jobflow.constant.Const;
 import io.github.nobuglady.jobflow.constant.NodeStatus;
 import io.github.nobuglady.jobflow.constant.NodeStatusDetail;
-import io.github.nobuglady.jobflow.constant.NodeType;
 import io.github.nobuglady.jobflow.util.StringUtil;
 
 /**
@@ -70,41 +69,50 @@ public class FlowDto {
 			json.append("\"label\": \"" + jobNodeDto.label + "\" ");
 
 			// color
-			if (jobNodeDto.type == NodeType.NODE_TYPE_START) {
+
+			if (Const.FLAG_ON == jobNodeDto.disabled) {
 				json.append(",");
-				json.append("\"color\": \"#ed674c\"");
+				json.append("\"color\": \"#999999\"");
 			} else {
 
-				if (Const.FLAG_ON == jobNodeDto.disabled) {
+				// wait E8F9FD
+				// ready 79DAE8
+				// open 187498
+				// running F9D923
+				// success 36AE7C
+				// error EB5353
+
+				if (NodeStatus.SKIPED == jobNodeDto.status) {
 					json.append(",");
 					json.append("\"color\": \"#999999\"");
-				} else {
-					if (NodeStatus.GO == jobNodeDto.status) {
+				} else if (NodeStatus.WAIT == jobNodeDto.status) {
+					json.append(",");
+					json.append("\"color\": \"#E8F9FD\"");
+				} else if (NodeStatus.READY == jobNodeDto.status) {
+					json.append(",");
+					json.append("\"color\": \"#79DAE8\"");
+				} else if (NodeStatus.OPENNING == jobNodeDto.status) {
+					json.append(",");
+					json.append("\"color\": \"#187498\"");
+				} else if (NodeStatus.RUNNING == jobNodeDto.status) {
+					json.append(",");
+					json.append("\"color\": \"#F9D923\"");
+				} else if (NodeStatus.COMPLETE == jobNodeDto.status || NodeStatus.GO == jobNodeDto.status) {
+
+					if (NodeStatusDetail.COMPLETE_SUCCESS == jobNodeDto.status_detail) {
 						json.append(",");
-						json.append("\"color\": \"#6fe13f\"");
+						json.append("\"color\": \"#36AE7C\"");
+					} else if (NodeStatusDetail.COMPLETE_ERROR == jobNodeDto.status_detail) {
+						json.append(",");
+						json.append("\"color\": \"#EB5353\"");
+					} else if (NodeStatusDetail.COMPLETE_TIMEOUT == jobNodeDto.status_detail) {
+						json.append(",");
+						json.append("\"color\": \"#EB5353\"");
+					} else if (NodeStatusDetail.COMPLETE_CANCEL == jobNodeDto.status_detail) {
+						json.append(",");
+						json.append("\"color\": \"#EB5353\"");
 					}
-//					else if(NodeStatus.ERROR == jobNodeDto.status) {
-//						json.append(",");
-//						json.append("\"color\": \"#FF0000\"");
-//					}
-					else if (NodeStatus.OPENNING == jobNodeDto.status) {
-						json.append(",");
-						json.append("\"color\": \"#008b8b\"");
-					} else if (NodeStatus.WAIT == jobNodeDto.status) {
-//						json.append(",");
-//						json.append("\"color\": \"#FF0000\"");
-					} else if (NodeStatus.COMPLETE == jobNodeDto.status) {
-						if (NodeStatusDetail.COMPLETE_ERROR == jobNodeDto.status_detail) {
-							json.append(",");
-							json.append("\"color\": \"#FF0000\"");
-						} else {
-							json.append(",");
-							json.append("\"color\": \"#FFFF00\"");
-						}
-					} else {
-						json.append(",");
-						json.append("\"color\": \"#FFFF00\"");
-					}
+
 				}
 
 			}
