@@ -12,12 +12,10 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeEntity;
+import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeHttpEntity;
 
 /**
  * 
@@ -25,24 +23,15 @@ import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeEntity;
  *
  */
 @Mapper
-public interface PublishNodeMapper {
+public interface PublishNodeHttpMapper {
 
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_node " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
-	public PublishNodeEntity selectByKey(String flowId, String nodeId);
+	@Select("SELECT * FROM publish_node_http " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
+	public PublishNodeHttpEntity selectByKey(String flowId, String nodeId);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_node " + " WHERE" + " flow_id = #{param1}")
-	public List<PublishNodeEntity> selectByFlowId(String flowId);
-
-	@Select("SELECT * FROM publish_node " + " where flow_id = #{param1} " + " and node_type = #{param2}")
-	public List<PublishNodeEntity> selectStartByFlowId(String flowIds, int nodeType);
-
-	@Select("SELECT * FROM publish_node " + " where start_type = #{param1}")
-	public List<PublishNodeEntity> selectAllCronNode(int nodeStartType);
-
 }

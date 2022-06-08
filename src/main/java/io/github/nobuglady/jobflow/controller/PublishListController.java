@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import io.github.nobuglady.jobflow.service.flowstatic.PublishListBusiness;
-import io.github.nobuglady.jobflow.service.flowstatic.dto.PublishListResponseDto;
+import io.github.nobuglady.jobflow.service.flowpublish.PublishListBusiness;
+import io.github.nobuglady.jobflow.service.flowpublish.dto.PublishListResponseDto;
 
 /**
  * 

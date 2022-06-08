@@ -49,8 +49,6 @@ function request_flow_list(curPage){
 				html += "	<td>"+element.flow_id+"</td>";
 				html += "	<td>"+element.flow_name+"</td>";
 				html += "	<td>"+nodeStartTypeMap[element.flow_start_type]+"<br/>";
-				html += "   " +element.cron+"<br/>";
-				html += "   " +element.nextStartTime+"<br/>";
 				html += "   </td>"
 				html += "	<td>"+element.update_time.split(".")[0].split("T").join(" ")+"</td>";
 				html += "	<td>"+"<a href='flow_panel_editor?flow_id="+element.flow_id+"&flow_name="+element.flow_name+"' target='_tab'>Detail</a>"+"</td>";

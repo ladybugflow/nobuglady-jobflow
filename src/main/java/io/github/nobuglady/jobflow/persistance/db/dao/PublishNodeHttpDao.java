@@ -12,27 +12,23 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import io.github.nobuglady.jobflow.constant.NodeStartType;
-import io.github.nobuglady.jobflow.constant.NodeType;
-import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeEntity;
-import io.github.nobuglady.jobflow.persistance.db.mapper.PublishNodeMapper;
+import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeHttpEntity;
+import io.github.nobuglady.jobflow.persistance.db.mapper.PublishNodeHttpMapper;
 
 /**
- * Flow table operation class
+ * Node table operation class
  * 
  * @author NoBugLady
  *
  */
 @Component
-public class PublishNodeDao {
+public class PublishNodeHttpDao {
 
 	@Autowired
-	private PublishNodeMapper publishNodeMapper;
+	private PublishNodeHttpMapper publishNodeHttpMapper;
 
 	//////////////////////////////////////
 	// Base
@@ -43,38 +39,13 @@ public class PublishNodeDao {
 	 * @param nodeId
 	 * @return
 	 */
-	public PublishNodeEntity selectByKey(String flowId, String nodeId) {
+	public PublishNodeHttpEntity selectByKey(String flowId, String nodeId) {
 
-		return publishNodeMapper.selectByKey(flowId, nodeId);
+		return publishNodeHttpMapper.selectByKey(flowId, nodeId);
 	}
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	/**
-	 * 
-	 * @param flowId
-	 * @return
-	 */
-	public List<PublishNodeEntity> selectByFlowId(String flowId) {
-		return publishNodeMapper.selectByFlowId(flowId);
-	}
 
-	/**
-	 * 
-	 * @param flowId
-	 * @return
-	 */
-	public List<PublishNodeEntity> selectStartByFlowId(String flowId) {
-		return publishNodeMapper.selectStartByFlowId(flowId, NodeType.NODE_TYPE_START);
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public List<PublishNodeEntity> selectAllCronNode() {
-
-		return publishNodeMapper.selectAllCronNode(NodeStartType.NODE_START_TYPE_TIMER);
-	}
 }

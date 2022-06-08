@@ -10,7 +10,7 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See
  * the License for the specific language governing permissions and limitations under the License.
  */
-package io.github.nobuglady.jobflow.service.flowstatic;
+package io.github.nobuglady.jobflow.service.flowpublish;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +26,7 @@ import io.github.nobuglady.jobflow.persistance.db.dao.PublishFlowDao;
 import io.github.nobuglady.jobflow.persistance.db.dao.PublishNodeDao;
 import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeEntity;
 import io.github.nobuglady.jobflow.persistance.db.entity.custom.FlowPublishCatagoryEntity;
-import io.github.nobuglady.jobflow.service.flowstatic.dto.PublishListResponseDto;
+import io.github.nobuglady.jobflow.service.flowpublish.dto.PublishListResponseDto;
 import io.github.nobuglady.jobflow.util.DataUtil;
 import io.github.nobuglady.jobflow.util.PagingUtil;
 import io.github.nobuglady.jobflow.util.StringUtil;

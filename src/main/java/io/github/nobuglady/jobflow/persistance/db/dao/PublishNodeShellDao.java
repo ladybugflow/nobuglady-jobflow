@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Shell://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See
@@ -12,26 +12,23 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.dao;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import io.github.nobuglady.jobflow.persistance.db.entity.PublishFlowEntity;
-import io.github.nobuglady.jobflow.persistance.db.entity.custom.FlowPublishCatagoryEntity;
-import io.github.nobuglady.jobflow.persistance.db.mapper.PublishFlowMapper;
+import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeShellEntity;
+import io.github.nobuglady.jobflow.persistance.db.mapper.PublishNodeShellMapper;
 
 /**
- * Flow table operation class
+ * Node table operation class
  * 
  * @author NoBugLady
  *
  */
 @Component
-public class PublishFlowDao {
+public class PublishNodeShellDao {
 
 	@Autowired
-	private PublishFlowMapper publishFlowMapper;
+	private PublishNodeShellMapper publishNodeShellMapper;
 
 	//////////////////////////////////////
 	// Base
@@ -39,23 +36,16 @@ public class PublishFlowDao {
 	/**
 	 * 
 	 * @param flowId
+	 * @param nodeId
 	 * @return
 	 */
-	public PublishFlowEntity selectByKey(String flowId) {
-		return publishFlowMapper.selectByKey(flowId);
+	public PublishNodeShellEntity selectByKey(String flowId, String nodeId) {
+
+		return publishNodeShellMapper.selectByKey(flowId, nodeId);
 	}
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	/**
-	 * 
-	 * @param from
-	 * @param fetchCount
-	 * @return
-	 */
-	public List<FlowPublishCatagoryEntity> selectFlowPublishCatagoryList(int from, int fetchCount) {
 
-		return publishFlowMapper.selectFlowPublishCatagoryList(from, fetchCount);
-	}
 }

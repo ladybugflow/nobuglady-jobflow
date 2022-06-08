@@ -10,23 +10,15 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See
  * the License for the specific language governing permissions and limitations under the License.
  */
-package io.github.nobuglady.jobflow.service.flowstatic.dto;
-
-import java.util.Date;
+package io.github.nobuglady.jobflow.service.flowpublish.dto;
 
 /**
  * 
  * @author NoBugLady
  *
  */
-public class PublishListResponseDto {
-	public String flow_id;
-	public String file_id;
-	public String flow_name;
-	public Integer flow_start_type;
-	public Integer disable_flag;
-	public Date update_time;
+public class NodeInfoPublishRequestDto {
 
-	public String cron;
-	public String nextStartTime;
+	public String flowId;
+	public String nodeId;
 }

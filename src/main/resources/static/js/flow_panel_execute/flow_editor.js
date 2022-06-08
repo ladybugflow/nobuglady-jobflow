@@ -3,7 +3,7 @@
 ///////////////////////////////////////
 function request_flow_static(flowid, manipulation){
 	post(
-		'/request_flow_static',
+		'/request_flow_static_publish',
 		{
 			'flowid':flowid
 		},
@@ -45,7 +45,7 @@ function request_flow_save_on_off(flowId,onOff){
 
 function request_node_info(flowid,nodeid){
 	post(
-		'/request_node_info',
+		'/request_node_info_publish',
 		{
 			'flowid':flowid,
 			'nodeid':nodeid
@@ -188,7 +188,7 @@ function request_node_save_on_off(flowId,nodeId,onOff){
 ///////////////////////////////////////
 function request_edge_info(flowid,edgeid,from,to){
 	post(
-		'/request_edge_info',
+		'/request_edge_info_publish',
 		{
 			'flowid':flowid,
 			'edgeid':edgeid,

@@ -17,22 +17,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import io.github.nobuglady.jobflow.constant.NodeStartType;
-import io.github.nobuglady.jobflow.constant.NodeType;
-import io.github.nobuglady.jobflow.persistance.db.entity.PublishNodeEntity;
-import io.github.nobuglady.jobflow.persistance.db.mapper.PublishNodeMapper;
+import io.github.nobuglady.jobflow.persistance.db.entity.PublishEdgeEntity;
+import io.github.nobuglady.jobflow.persistance.db.mapper.PublishEdgeMapper;
 
 /**
- * Flow table operation class
+ * Edge table operation class
  * 
  * @author NoBugLady
  *
  */
 @Component
-public class PublishNodeDao {
+public class PublishEdgeDao {
 
 	@Autowired
-	private PublishNodeMapper publishNodeMapper;
+	private PublishEdgeMapper publishEdgeMapper;
 
 	//////////////////////////////////////
 	// Base
@@ -40,12 +38,12 @@ public class PublishNodeDao {
 	/**
 	 * 
 	 * @param flowId
-	 * @param nodeId
+	 * @param edgeId
 	 * @return
 	 */
-	public PublishNodeEntity selectByKey(String flowId, String nodeId) {
+	public PublishEdgeEntity selectByKey(String flowId, String edgeId) {
 
-		return publishNodeMapper.selectByKey(flowId, nodeId);
+		return publishEdgeMapper.selectByKey(flowId, edgeId);
 	}
 
 	//////////////////////////////////////
@@ -56,25 +54,9 @@ public class PublishNodeDao {
 	 * @param flowId
 	 * @return
 	 */
-	public List<PublishNodeEntity> selectByFlowId(String flowId) {
-		return publishNodeMapper.selectByFlowId(flowId);
+	public List<PublishEdgeEntity> selectByFlowId(String flowId) {
+
+		return publishEdgeMapper.selectByFlowId(flowId);
 	}
 
-	/**
-	 * 
-	 * @param flowId
-	 * @return
-	 */
-	public List<PublishNodeEntity> selectStartByFlowId(String flowId) {
-		return publishNodeMapper.selectStartByFlowId(flowId, NodeType.NODE_TYPE_START);
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public List<PublishNodeEntity> selectAllCronNode() {
-
-		return publishNodeMapper.selectAllCronNode(NodeStartType.NODE_START_TYPE_TIMER);
-	}
 }
