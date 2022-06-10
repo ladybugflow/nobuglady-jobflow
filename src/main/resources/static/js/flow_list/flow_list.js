@@ -98,7 +98,7 @@ function request_create_flow(flowId, flowName){
 		},
 		function (data) {
 			var responseObj = data;
-			request_flow_list();
+			request_flow_list(1);
 		}
 	);
 }
