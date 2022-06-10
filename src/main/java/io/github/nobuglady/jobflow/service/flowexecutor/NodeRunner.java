@@ -24,13 +24,18 @@ import io.github.nobuglady.jobflow.constant.NodeStatusDetail;
 import io.github.nobuglady.jobflow.logger.ConsoleLogger;
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryFlowDao;
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeDao;
+import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeHttpDao;
+import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeShellDao;
 import io.github.nobuglady.jobflow.persistance.db.entity.HistoryFlowEntity;
 import io.github.nobuglady.jobflow.persistance.db.entity.HistoryNodeEntity;
+import io.github.nobuglady.jobflow.persistance.db.entity.HistoryNodeHttpEntity;
+import io.github.nobuglady.jobflow.persistance.db.entity.HistoryNodeShellEntity;
 import io.github.nobuglady.jobflow.persistance.db.entity.UserEntity;
 import io.github.nobuglady.jobflow.security.AuthHolder;
 import io.github.nobuglady.jobflow.service.flowexecutor.delegator.NodeDelegator;
 import io.github.nobuglady.jobflow.service.flowqueue.complete.CompleteQueueManager;
 import io.github.nobuglady.jobflow.util.DataUtil;
+import io.github.nobuglady.jobflow.util.StringUtil;
 
 /**
  * 
@@ -47,6 +52,9 @@ public class NodeRunner implements Runnable {
 
 	private HistoryFlowDao historyFlowDao;
 	private HistoryNodeDao historyNodeDao;
+	private HistoryNodeHttpDao historyNodeHttpDao;
+	private HistoryNodeShellDao historyNodeShellDao;
+
 	private NodeDelegator nodeDelegator;
 
 	/**
@@ -56,16 +64,21 @@ public class NodeRunner implements Runnable {
 	 * @param nodeId
 	 * @param historyFlowDao
 	 * @param historyNodeDao
+	 * @param historyNodeHttpDao
+	 * @param historyNodeShellDao
 	 * @param nodeDelegator
 	 */
 	public NodeRunner(String flowId, String historyId, String nodeId, HistoryFlowDao historyFlowDao,
-			HistoryNodeDao historyNodeDao, NodeDelegator nodeDelegator) {
+			HistoryNodeDao historyNodeDao, HistoryNodeHttpDao historyNodeHttpDao,
+			HistoryNodeShellDao historyNodeShellDao, NodeDelegator nodeDelegator) {
 
 		this.flowId = flowId;
 		this.historyId = historyId;
 		this.nodeId = nodeId;
 		this.historyFlowDao = historyFlowDao;
 		this.historyNodeDao = historyNodeDao;
+		this.historyNodeHttpDao = historyNodeHttpDao;
+		this.historyNodeShellDao = historyNodeShellDao;
 		this.nodeDelegator = nodeDelegator;
 	}
 
@@ -131,13 +144,49 @@ public class NodeRunner implements Runnable {
 						returnValue = nodeInf.execute();
 					}
 
+					// check return value
+					String expectReturnCode = null;
+
+					if (NodeExecuteType.NODE_EXECUTE_TYPE_HTTP == historyNodeEntity.getExecuteType()) {
+
+						HistoryNodeHttpEntity historyNodeHttpEntity = historyNodeHttpDao.selectByKey(flowId, nodeId,
+								historyId);
+						expectReturnCode = historyNodeHttpEntity.getSuccessCode();
+
+					} else if (NodeExecuteType.NODE_EXECUTE_TYPE_SHELL == historyNodeEntity.getExecuteType()) {
+
+						HistoryNodeShellEntity historyNodeShellEntity = historyNodeShellDao.selectByKey(flowId, nodeId,
+								historyId);
+						expectReturnCode = historyNodeShellEntity.getSuccessCode();
+
+					}
+
+					if (StringUtil.isNotEmpty(expectReturnCode) && !expectReturnCode.equals(returnValue)) {
+
+						consoleLogger.info(sdf.format(new Date()) + " [NODE RETRUN VALUE ERROR][" + returnValue + "]"
+								+ historyNodeEntity.getNodeName());
+						historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+								NodeStatusDetail.COMPLETE_ERROR);
+						CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
+
+					} else {
+
+						consoleLogger.info(sdf.format(new Date()) + " [NODE COMPLETE][" + returnValue + "]"
+								+ historyNodeEntity.getNodeName());
+						historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+								NodeStatusDetail.COMPLETE_SUCCESS);
+						CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
+					}
+
+				} else {
+
+					consoleLogger.info(sdf.format(new Date()) + " [NODE COMPLETE][" + returnValue + "]"
+							+ historyNodeEntity.getNodeName());
+					historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
+							NodeStatusDetail.COMPLETE_SUCCESS);
+					CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
 				}
 
-				historyNodeDao.updateStatusDetailByNodeId(flowId, historyId, nodeId, NodeStatus.COMPLETE,
-						NodeStatusDetail.COMPLETE_SUCCESS);
-				CompleteQueueManager.getInstance().putCompleteNode(flowId, historyId, nodeId);
-				consoleLogger.info(sdf.format(new Date()) + " [NODE COMPLETE][" + returnValue + "]"
-						+ historyNodeEntity.getNodeName());
 			}
 
 		} catch (InterruptedException e) {

@@ -315,7 +315,7 @@
 																	      <label class="form-check-label" for="node_info_shell_error_type_2">Stop flow</label>	
 																	    </div>
 																	 </div>
-																	 <div class="form-group">
+																	 <div class="form-group" style="display:none">
 																	    <div class="form-check form-check-inline">
 																	      <input type="radio" class="form-check-input" name="node_info_shell_sync_flag" id="node_info_shell_sync_flag_1" value="1" checked>
 																	      <label class="form-check-label" for="node_info_shell_sync_flag_1">SYNC</label>	
@@ -330,7 +330,7 @@
 																  	 </div>
 																  	<div class="form-group">
 																	    <label for="formGroupExampleInput">location</label>
-																	    <input type="text" id="node_info_shell_location" class="form-control" placeholder="" pattern=".{1,250}">
+																	    <textarea type="text" id="node_info_shell_location" class="form-control" placeholder="" pattern=".{1,250}" rows="10" maxlength="250"></textarea>
 																	    <div class="invalid-feedback">
 																          Please input location with(1 to 250 characters).
 																        </div>
@@ -355,7 +355,7 @@
 																	      <label class="form-check-label" for="node_info_http_error_type_2">Stop flow</label>	
 																	    </div>
 																	 </div>
-																	 <div class="form-group">
+																	 <div class="form-group" style="display:none">
 																	    <div class="form-check form-check-inline">
 																	      <input type="radio" class="form-check-input" name="node_info_http_sync_flag" id="node_info_http_sync_flag_1" value="1" checked>
 																	      <label class="form-check-label" for="node_info_http_sync_flag_1">SYNC</label>	
@@ -370,7 +370,7 @@
 																  	 </div>
 																	  <div class="form-group">
 																	    <label for="formGroupExampleInput2">Url</label>
-																	    <input type="text" class="form-control" id="node_info_location" placeholder="" pattern=".{1,250}">
+																	    <textarea type="text" class="form-control" id="node_info_location" placeholder="" pattern=".{1,250}" rows="10" maxlength="250"></textarea>
 																	    <div class="invalid-feedback">
 																          Please input url with(1 to 250 characters).
 																        </div>

@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryFlowDao;
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeDao;
+import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeHttpDao;
+import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeShellDao;
 import io.github.nobuglady.jobflow.service.flowexecutor.delegator.NodeDelegator;
 import io.github.nobuglady.jobflow.service.flowqueue.ready.ReadyNodeResult;
 
@@ -36,6 +38,12 @@ public class NodePool {
 
 	@Autowired
 	private HistoryFlowDao historyFlowDao;
+
+	@Autowired
+	private HistoryNodeHttpDao historyNodeHttpDao;
+
+	@Autowired
+	private HistoryNodeShellDao historyNodeShellDao;
 
 	@Autowired
 	private NodeDelegator nodeDelegator;
@@ -62,7 +70,7 @@ public class NodePool {
 		String nodeId = nodeResult.getNodeId();
 
 		NodeRunner nodeRunner = new NodeRunner(flowId, historyId, nodeId, historyFlowDao, historyNodeDao,
-				nodeDelegator);
+				historyNodeHttpDao, historyNodeShellDao, nodeDelegator);
 
 		nodePool.submit(nodeRunner);
 	}
