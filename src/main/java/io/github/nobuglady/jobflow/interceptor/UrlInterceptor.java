@@ -51,32 +51,20 @@ public class UrlInterceptor implements AsyncHandlerInterceptor {
 		String uri = getRequestUrl(request);
 		String reqFullPath = uri.substring(request.getContextPath().length());
 
-		AuthHolder.refreshUser(request.getSession());
-
-		if (reqFullPath.startsWith("/home")) {
-			UserEntity userEntity = AuthHolder.getUser();
-			if (userEntity == null) {
-				response.sendRedirect("/login");
-				return false;
-			}
-			return true;
-		} else if (reqFullPath.startsWith("/admin")) {
-			UserEntity userEntity = AuthHolder.getUser();
-			if (userEntity == null) {
-				response.sendRedirect("/login");
-				return false;
-			}
-
-			if (userEntity.getAdminFlag() == null || userEntity.getAdminFlag() != 1) {
-				response.sendError(403);
-				return false;
-			}
-
-			return true;
-		} else {
+		if (reqFullPath.startsWith("/favicon.png") || reqFullPath.startsWith("/css")
+				|| reqFullPath.startsWith("/images") || reqFullPath.startsWith("/js") || reqFullPath.startsWith("/lib")
+				|| reqFullPath.startsWith("/login")) {
 			return true;
 		}
 
+		AuthHolder.refreshUser(request.getSession());
+
+		UserEntity userEntity = AuthHolder.getUser();
+		if (userEntity == null) {
+			response.sendRedirect("/login");
+			return false;
+		}
+		return true;
 	}
 
 	/**
