@@ -1,7 +1,7 @@
 # LADYBUG-JOBFLOW
-![](https://img.shields.io/badge/license-Apache-blue)
-![](https://img.shields.io/badge/database-mysql-blue)
-![](https://img.shields.io/badge/build-gradle-blue)
+![](https://img.shields.io/badge/license-Apache-green)
+![](https://img.shields.io/badge/database-mysql-red)
+![](https://img.shields.io/badge/build-gradle-yellow)
 ![](https://img.shields.io/badge/framework-springboot-blue)
 # Build
 ```
