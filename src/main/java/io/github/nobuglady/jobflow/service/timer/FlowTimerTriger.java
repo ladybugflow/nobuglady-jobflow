@@ -91,9 +91,13 @@ public class FlowTimerTriger implements Runnable {
 
 				for (Map.Entry<String, String> entry : scheduledFlowIdCronMap.entrySet()) {
 					if (!flowIdSet.contains(entry.getKey())) {
-						boolean cancelResult = scheduledFutureMap.get(entry.getKey()).cancel(true);
+						boolean cancelResult = scheduledFutureMap.get(entry.getKey()).cancel(false);
 						if (!cancelResult) {
 							System.out.println("task cancel faild:" + entry.getKey());
+						} else {
+							System.out.println("task cancel success:" + entry.getKey());
+							scheduledFlowIdCronMap.remove(entry.getKey());
+							scheduledFutureMap.remove(entry.getKey());
 						}
 					}
 				}
@@ -114,7 +118,7 @@ public class FlowTimerTriger implements Runnable {
 								System.out.println("already scheduled:" + historyNodeEntity.getFlowId());
 							} else {
 								boolean cancelResult = scheduledFutureMap.get(historyNodeEntity.getFlowId())
-										.cancel(true);
+										.cancel(false);
 
 								if (cancelResult) {
 									ScheduledFuture<?> future = register(historyNodeEntity.getStartCron(),
