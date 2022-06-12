@@ -14,8 +14,10 @@ package io.github.nobuglady.jobflow.service.timer;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 
@@ -43,7 +45,9 @@ public class FlowTimerTriger implements Runnable {
 
 	private ThreadPoolTaskScheduler taskScheduler;
 
-	private static Set<String> scheduledFlowIdSet = new HashSet<String>();
+	private static Map<String, String> scheduledFlowIdCronMap = new HashMap<String, String>();
+
+	private static Map<String, ScheduledFuture<?>> scheduledFutureMap = new HashMap<String, ScheduledFuture<?>>();
 
 	/**
 	 * 
@@ -77,13 +81,53 @@ public class FlowTimerTriger implements Runnable {
 				// check flow
 				List<PublishNodeEntity> publishNodeList = publishNodeDao.selectAllCronNode();
 
+				// cancel old task
+				Set<String> flowIdSet = new HashSet<String>();
+				if (publishNodeList != null) {
+					for (PublishNodeEntity historyNodeEntity : publishNodeList) {
+						flowIdSet.add(historyNodeEntity.getFlowId());
+					}
+				}
+
+				for (Map.Entry<String, String> entry : scheduledFlowIdCronMap.entrySet()) {
+					if (!flowIdSet.contains(entry.getKey())) {
+						boolean cancelResult = scheduledFutureMap.get(entry.getKey()).cancel(true);
+						if (!cancelResult) {
+							System.out.println("task cancel faild:" + entry.getKey());
+						}
+					}
+				}
+
 				// add to start list
 				if (publishNodeList != null) {
 					for (PublishNodeEntity historyNodeEntity : publishNodeList) {
-						if (scheduledFlowIdSet.add(historyNodeEntity.getFlowId())) {
-							register(historyNodeEntity.getStartCron(), historyNodeEntity.getFlowId());
+
+						String existCron = scheduledFlowIdCronMap.get(historyNodeEntity.getFlowId());
+
+						if (existCron == null) {
+							ScheduledFuture<?> future = register(historyNodeEntity.getStartCron(),
+									historyNodeEntity.getFlowId());
+							scheduledFlowIdCronMap.put(historyNodeEntity.getFlowId(), historyNodeEntity.getStartCron());
+							scheduledFutureMap.put(historyNodeEntity.getFlowId(), future);
 						} else {
-							System.out.println("already scheduled:" + historyNodeEntity.getFlowId());
+							if (existCron.equals(historyNodeEntity.getStartCron())) {
+								System.out.println("already scheduled:" + historyNodeEntity.getFlowId());
+							} else {
+								boolean cancelResult = scheduledFutureMap.get(historyNodeEntity.getFlowId())
+										.cancel(true);
+
+								if (cancelResult) {
+									ScheduledFuture<?> future = register(historyNodeEntity.getStartCron(),
+											historyNodeEntity.getFlowId());
+									scheduledFlowIdCronMap.put(historyNodeEntity.getFlowId(),
+											historyNodeEntity.getStartCron());
+									scheduledFutureMap.put(historyNodeEntity.getFlowId(), future);
+								} else {
+									System.out.println("task cancel faild:" + historyNodeEntity.getFlowId());
+								}
+
+							}
+
 						}
 
 					}
