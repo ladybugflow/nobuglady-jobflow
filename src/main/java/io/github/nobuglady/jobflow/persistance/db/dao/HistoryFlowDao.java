@@ -72,6 +72,36 @@ public class HistoryFlowDao {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
+
+	/**
+	 * 
+	 * @param flowName
+	 * @param flowStatus
+	 * @param flowStartDate
+	 * @return
+	 */
+	public int selectAllCount(String flowName, String flowStatus, String flowStartDate) {
+
+		String sql = "select count(1) from (SELECT * FROM history_flow" + " where 1=1 ";
+
+		if (StringUtil.isNotEmpty(flowName)) {
+			sql += " and flow_name like '%" + flowName + "%' ";
+		}
+
+		if (StringUtil.isNotEmpty(flowStatus)) {
+			sql += " and flow_status = " + flowStatus + " ";
+		}
+
+		if (StringUtil.isNotEmpty(flowStartDate)) {
+			sql += " and DATE_FORMAT(start_time,'%Y/%m/%d') = '" + flowStartDate + "' ";
+		}
+
+		sql += " order by start_time desc) t1 ";
+
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+//		return flowHistoryMapper.selectAll(from, fetchCount);
+	}
+
 	/**
 	 * 
 	 * @param from
@@ -98,7 +128,7 @@ public class HistoryFlowDao {
 			sql += " and DATE_FORMAT(start_time,'%Y/%m/%d') = '" + flowStartDate + "' ";
 		}
 
-		sql += " order by update_time desc) t1 LIMIT #{param1}, #{param2} ";
+		sql += " order by start_time desc) t1 order by t1.start_time desc LIMIT #{param1}, #{param2} ";
 		sql = sql.replace("#{param1}", String.valueOf(from));
 		sql = sql.replace("#{param2}", String.valueOf(fetchCount));
 

@@ -52,6 +52,14 @@ public class FlowListBusiness {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int requestFlowListCount() {
+		return flowDao.selectFlowCatagoryListCount();
+	}
+
+	/**
+	 * 
 	 * @param curPage
 	 * @return
 	 */

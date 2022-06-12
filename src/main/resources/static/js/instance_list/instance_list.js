@@ -34,7 +34,7 @@ function request_instance_list(curPage){
 			$("#instanceListBody").html("");
 			var html = "";
 			html += "";
-			responseObj.forEach(element => {
+			responseObj.result.forEach(element => {
 				
 				html += "<tr>";
 				
@@ -60,7 +60,7 @@ function request_instance_list(curPage){
 			/////////////////////////////
 			// paging start
 			/////////////////////////////
-			var rowCount = responseObj.length;
+			var rowCount = responseObj.rowCount;
 			
 			var pageCount = parseInt(rowCount / pageSizeStatic);
 			if(rowCount % pageSizeStatic > 0){

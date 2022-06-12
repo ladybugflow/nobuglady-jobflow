@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.github.nobuglady.jobflow.controller.dto.CommonResponse;
+import io.github.nobuglady.jobflow.controller.dto.PagingDto;
 import io.github.nobuglady.jobflow.service.flowstatic.FlowListBusiness;
 import io.github.nobuglady.jobflow.service.flowstatic.dto.FlowListResponseDto;
 
@@ -46,9 +47,12 @@ public class FlowListController {
 	 */
 	@RequestMapping(value = "/request_flow_list", method = RequestMethod.POST)
 	@ResponseBody
-	public List<FlowListResponseDto> requestFlowList(@RequestParam(value = "curPage") int curPage) {
+	public PagingDto requestFlowList(@RequestParam(value = "curPage") int curPage) {
 
-		return flowBusiness.requestFlowList(curPage);
+		int count = flowBusiness.requestFlowListCount();
+		List<FlowListResponseDto> result = flowBusiness.requestFlowList(curPage);
+
+		return new PagingDto(count, result);
 	}
 
 	/**

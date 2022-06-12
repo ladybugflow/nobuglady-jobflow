@@ -22,7 +22,7 @@ function request_publish_list(curPage){
 			$("#publishListBody").html("");
 			var html = "";
 			html += "";
-			responseObj.forEach(element => {
+			responseObj.result.forEach(element => {
 				html += "<tr>";
 				html += "	<td><i class=\"fas fa-cog\"></i></td>";
 				html += "	<td>"+element.flow_id+"</td>";
@@ -42,7 +42,7 @@ function request_publish_list(curPage){
 			/////////////////////////////
 			// paging start
 			/////////////////////////////
-			var rowCount = responseObj.length;
+			var rowCount = responseObj.rowCount;
 			
 			var pageCount = parseInt(rowCount / pageSizeStatic);
 			if(rowCount % pageSizeStatic > 0){

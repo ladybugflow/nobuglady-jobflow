@@ -68,6 +68,15 @@ public class FlowDao {
 	//////////////////////////////////////
 	/**
 	 * 
+	 * @return
+	 */
+	public int selectFlowCatagoryListCount() {
+
+		return flowMapper.selectFlowCatagoryListCount();
+	}
+
+	/**
+	 * 
 	 * @param from
 	 * @param fetchCount
 	 * @return

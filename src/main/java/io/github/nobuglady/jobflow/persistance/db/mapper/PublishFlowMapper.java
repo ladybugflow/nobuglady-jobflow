@@ -37,6 +37,9 @@ public interface PublishFlowMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
+	@Select("select count(1) from (SELECT * FROM publish_flow " + " order by update_time desc) t1 ")
+	public int selectFlowPublishCatagoryListCount();
+
 	@Select("select * from (SELECT * FROM publish_flow " + " order by update_time desc) t1 LIMIT #{param1}, #{param2} ")
 	public List<FlowPublishCatagoryEntity> selectFlowPublishCatagoryList(int from, int fetchCount);
 

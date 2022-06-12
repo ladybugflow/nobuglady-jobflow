@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import io.github.nobuglady.jobflow.controller.dto.PagingDto;
 import io.github.nobuglady.jobflow.service.flowpublish.PublishListBusiness;
 import io.github.nobuglady.jobflow.service.flowpublish.dto.PublishListResponseDto;
 
@@ -45,8 +46,11 @@ public class PublishListController {
 	 */
 	@RequestMapping(value = "/request_publish_list", method = RequestMethod.POST)
 	@ResponseBody
-	public List<PublishListResponseDto> requestPublishList(@RequestParam(value = "curPage") int curPage) {
+	public PagingDto requestPublishList(@RequestParam(value = "curPage") int curPage) {
 
-		return flowBusiness.requestPublishList(curPage);
+		int count = flowBusiness.requestPublishListCount();
+		List<PublishListResponseDto> result = flowBusiness.requestPublishList(curPage);
+
+		return new PagingDto(count, result);
 	}
 }

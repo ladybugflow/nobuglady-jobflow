@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import io.github.nobuglady.jobflow.controller.dto.PagingDto;
 import io.github.nobuglady.jobflow.controller.dto.model.HistoryFlowEntityVo;
 import io.github.nobuglady.jobflow.service.flowdynamic.InstanceListBusiness;
 import io.github.nobuglady.jobflow.util.BeanUtil;
@@ -49,12 +50,16 @@ public class InstanceListController {
 	 */
 	@RequestMapping(value = "/request_instance_list", method = RequestMethod.POST)
 	@ResponseBody
-	public List<HistoryFlowEntityVo> requestInstanceList(@RequestParam(value = "curPage") int curPage,
+	public PagingDto requestInstanceList(@RequestParam(value = "curPage") int curPage,
 			@RequestParam(value = "flowName") String flowName, @RequestParam(value = "flowStatus") String flowStatus,
 			@RequestParam(value = "flowStartDate") String flowStartDate) {
 
-		return BeanUtil.copyList(flowBusiness.requestInstanceList(curPage, flowName, flowStatus, flowStartDate),
+		int count = flowBusiness.requestInstanceListCount(flowName, flowStatus, flowStartDate);
+		List<HistoryFlowEntityVo> result = BeanUtil.copyList(
+				flowBusiness.requestInstanceList(curPage, flowName, flowStatus, flowStartDate),
 				HistoryFlowEntityVo.class);
+
+		return new PagingDto(count, result);
 	}
 
 	/**

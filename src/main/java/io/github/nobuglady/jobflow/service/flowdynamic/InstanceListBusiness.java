@@ -34,6 +34,18 @@ public class InstanceListBusiness {
 
 	/**
 	 * 
+	 * @param flowName
+	 * @param flowStatus
+	 * @param flowStartDate
+	 * @return
+	 */
+	public int requestInstanceListCount(String flowName, String flowStatus, String flowStartDate) {
+
+		return flowHistoryDao.selectAllCount(flowName, flowStatus, flowStartDate);
+	}
+
+	/**
+	 * 
 	 * @param curPage
 	 * @param flowName
 	 * @param flowStatus

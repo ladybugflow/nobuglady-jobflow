@@ -50,6 +50,15 @@ public class PublishFlowDao {
 	//////////////////////////////////////
 	/**
 	 * 
+	 * @return
+	 */
+	public int selectFlowPublishCatagoryListCount() {
+
+		return publishFlowMapper.selectFlowPublishCatagoryListCount();
+	}
+
+	/**
+	 * 
 	 * @param from
 	 * @param fetchCount
 	 * @return

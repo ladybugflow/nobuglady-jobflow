@@ -47,6 +47,14 @@ public class PublishListBusiness {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int requestPublishListCount() {
+		return publishFlowDao.selectFlowPublishCatagoryListCount();
+	}
+
+	/**
+	 * 
 	 * @param curPage
 	 * @return
 	 */

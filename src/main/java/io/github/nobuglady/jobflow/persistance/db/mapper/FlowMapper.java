@@ -50,6 +50,9 @@ public interface FlowMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
+	@Select("select count(1) from (SELECT * FROM flow " + " order by update_time desc) t1 ")
+	public int selectFlowCatagoryListCount();
+
 	@Select("select * from (SELECT * FROM flow " + " order by update_time desc) t1 LIMIT #{param1}, #{param2} ")
 	public List<FlowCatagoryEntity> selectFlowCatagoryList(int from, int fetchCount);
 

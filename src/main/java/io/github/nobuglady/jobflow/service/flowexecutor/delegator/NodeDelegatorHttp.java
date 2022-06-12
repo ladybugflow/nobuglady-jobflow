@@ -26,6 +26,7 @@ import io.github.nobuglady.jobflow.logger.ConsoleLogger;
 import io.github.nobuglady.jobflow.persistance.db.dao.HistoryNodeHttpDao;
 import io.github.nobuglady.jobflow.persistance.db.entity.HistoryNodeHttpEntity;
 import io.github.nobuglady.jobflow.service.flowexecutor.NodeInf;
+import io.github.nobuglady.jobflow.util.StringUtil;
 
 /**
  * 
@@ -84,22 +85,21 @@ public class NodeDelegatorHttp implements NodeInf {
 			httpConnection.connect();
 		} else {
 			httpConnection.setDoOutput(true);
-			if (historyNodeHttpEntity.getHttpContentType() != null
-					&& !"".equals(historyNodeHttpEntity.getHttpContentType())) {
+			if (StringUtil.isNotEmpty(historyNodeHttpEntity.getHttpContentType())) {
 				httpConnection.setRequestProperty("Content-Type", historyNodeHttpEntity.getHttpContentType());
 			}
 
 			httpConnection.setRequestProperty("Content-Length", String.valueOf(body.length()));
 
-			printRequestInfo(httpConnection);
-
-			updateRequest(body);
-
 			OutputStreamWriter out = new OutputStreamWriter(new BufferedOutputStream(httpConnection.getOutputStream()));
 			if (body != null && !"".equals(body)) {
 				out.write(body);
 			}
+
 			out.close();
+
+			printRequestInfo(httpConnection);
+			updateRequest(body);
 		}
 
 		/*
