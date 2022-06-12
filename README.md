@@ -1,15 +1,20 @@
-# LADYBUG-JOBFLOW
+## NobugLady-jobflow
 ![](https://img.shields.io/badge/license-Apache-green)
 ![](https://img.shields.io/badge/database-mysql-red)
 ![](https://img.shields.io/badge/build-gradle-yellow)
 ![](https://img.shields.io/badge/framework-springboot-blue)
-# Build
+### Build
 ```
 $ gradlew build -x test 
 ```
-# StartUp
+### Setup database
+Checkout [script.sql](https://github.com/nobuglady/nobuglady-jobflow-db/blob/main/script.sql) and connect your mysql server, run below command.
 ```
-$ java -jar build/libs/ladybug-jobflow-0.0.1-SNAPSHOT.jar 
+mysql> source script.sql;
 ```
-# Overview
+### Startup
+```
+$ java -jar build/libs/nobuglady-jobflow-0.0.1-SNAPSHOT.jar 
+```
+### Overview
 ![](https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/1.jpg?raw=true)
