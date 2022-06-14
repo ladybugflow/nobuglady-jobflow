@@ -14,6 +14,7 @@ package io.github.nobuglady.jobflow.persistance.db.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -38,5 +39,8 @@ public interface PublishEdgeMapper {
 	//////////////////////////////////////
 	@Select("SELECT * FROM publish_edge " + " WHERE" + " flow_id = #{param1}")
 	public List<PublishEdgeEntity> selectByFlowId(String flowId);
+
+	@Delete("DELETE FROM publish_edge " + " WHERE" + " flow_id = #{param1}" + "")
+	public int deleteByFlowId(String flowId);
 
 }

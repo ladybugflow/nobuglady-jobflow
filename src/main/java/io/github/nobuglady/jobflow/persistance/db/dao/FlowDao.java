@@ -21,7 +21,12 @@ import org.springframework.stereotype.Component;
 import io.github.nobuglady.jobflow.security.AuthHolder;
 import io.github.nobuglady.jobflow.persistance.db.entity.FlowEntity;
 import io.github.nobuglady.jobflow.persistance.db.entity.custom.FlowCatagoryEntity;
+import io.github.nobuglady.jobflow.persistance.db.mapper.EdgeMapper;
 import io.github.nobuglady.jobflow.persistance.db.mapper.FlowMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.NodeHttpMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.NodeMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.NodeRolesMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.NodeShellMapper;
 
 /**
  * Flow table operation class
@@ -34,6 +39,21 @@ public class FlowDao {
 
 	@Autowired
 	private FlowMapper flowMapper;
+
+	@Autowired
+	private EdgeMapper edgeMapper;
+
+	@Autowired
+	private NodeHttpMapper nodeHttpMapper;
+
+	@Autowired
+	private NodeMapper nodeMapper;
+
+	@Autowired
+	private NodeRolesMapper nodeRolesMapper;
+
+	@Autowired
+	private NodeShellMapper nodeShellMapper;
 
 	//////////////////////////////////////
 	// Base
@@ -114,4 +134,18 @@ public class FlowDao {
 		return flowEntity;
 	}
 
+	/**
+	 * 
+	 * @param flowId
+	 * @return
+	 */
+	public void deleteAllByKey(String flowId) {
+
+		flowMapper.deleteByKey(flowId);
+		edgeMapper.deleteByFlowId(flowId);
+		nodeHttpMapper.deleteByFlowId(flowId);
+		nodeMapper.deleteByFlowId(flowId);
+		nodeRolesMapper.deleteByFlowId(flowId);
+		nodeShellMapper.deleteByFlowId(flowId);
+	}
 }

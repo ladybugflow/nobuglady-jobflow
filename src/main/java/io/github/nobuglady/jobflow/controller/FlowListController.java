@@ -70,4 +70,18 @@ public class FlowListController {
 
 		return new CommonResponse();
 	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @return
+	 */
+	@RequestMapping(value = "/request_flow_remove", method = RequestMethod.POST)
+	@ResponseBody
+	public CommonResponse requestFlowRemove(@RequestParam(value = "flowId") String flowId) {
+
+		flowBusiness.requestFlowRemove(flowId);
+
+		return new CommonResponse();
+	}
 }

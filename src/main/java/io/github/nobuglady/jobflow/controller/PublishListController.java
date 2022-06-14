@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import io.github.nobuglady.jobflow.controller.dto.CommonResponse;
 import io.github.nobuglady.jobflow.controller.dto.PagingDto;
 import io.github.nobuglady.jobflow.service.flowpublish.PublishListBusiness;
 import io.github.nobuglady.jobflow.service.flowpublish.dto.PublishListResponseDto;
@@ -52,5 +53,19 @@ public class PublishListController {
 		List<PublishListResponseDto> result = flowBusiness.requestPublishList(curPage);
 
 		return new PagingDto(count, result);
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @return
+	 */
+	@RequestMapping(value = "/request_publish_remove", method = RequestMethod.POST)
+	@ResponseBody
+	public CommonResponse requestPublishRemove(@RequestParam(value = "flowId") String flowId) {
+
+		flowBusiness.requestPublishRemove(flowId);
+
+		return new CommonResponse();
 	}
 }

@@ -103,6 +103,15 @@ public class PublishListBusiness {
 		return resultList;
 	}
 
+	/**
+	 * 
+	 * @param flowId
+	 * @return
+	 */
+	public void requestPublishRemove(String flowId) {
+		publishFlowDao.deleteAllByKey(flowId);
+	}
+
 	///////////////////////////////////////
 	// help function
 	///////////////////////////////////////

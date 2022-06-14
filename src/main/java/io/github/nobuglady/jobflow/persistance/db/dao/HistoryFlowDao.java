@@ -23,7 +23,11 @@ import org.springframework.stereotype.Component;
 import io.github.nobuglady.jobflow.constant.FlowStatus;
 import io.github.nobuglady.jobflow.persistance.db.entity.HistoryFlowEntity;
 import io.github.nobuglady.jobflow.persistance.db.entity.PublishFlowEntity;
+import io.github.nobuglady.jobflow.persistance.db.mapper.HistoryEdgeMapper;
 import io.github.nobuglady.jobflow.persistance.db.mapper.HistoryFlowMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.HistoryNodeHttpMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.HistoryNodeMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.HistoryNodeShellMapper;
 import io.github.nobuglady.jobflow.persistance.db.mapper.PublishFlowMapper;
 import io.github.nobuglady.jobflow.security.AuthHolder;
 import io.github.nobuglady.jobflow.util.StringUtil;
@@ -38,10 +42,25 @@ import io.github.nobuglady.jobflow.util.StringUtil;
 public class HistoryFlowDao {
 
 	@Autowired
-	private HistoryFlowMapper flowHistoryMapper;
+	private HistoryFlowMapper historyFlowMapper;
 
 	@Autowired
 	private PublishFlowMapper publishFlowMapper;
+
+	@Autowired
+	private HistoryEdgeMapper historyEdgeMapper;
+
+	@Autowired
+	private HistoryNodeHttpMapper historyNodeHttpMapper;
+
+	@Autowired
+	private HistoryNodeMapper historyNodeMapper;
+
+//	@Autowired
+//	private HistoryNodeRolesMapper historyNodeRolesMapper;
+
+	@Autowired
+	private HistoryNodeShellMapper historyNodeShellMapper;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -57,7 +76,7 @@ public class HistoryFlowDao {
 	 */
 	public HistoryFlowEntity selectByKey(String flowId, String historyId) {
 
-		return flowHistoryMapper.selectByKey(flowId, historyId);
+		return historyFlowMapper.selectByKey(flowId, historyId);
 	}
 
 	/**
@@ -66,7 +85,7 @@ public class HistoryFlowDao {
 	 */
 	public void save(HistoryFlowEntity entity) {
 
-		flowHistoryMapper.save(entity);
+		historyFlowMapper.save(entity);
 	}
 
 	//////////////////////////////////////
@@ -142,7 +161,7 @@ public class HistoryFlowDao {
 	 */
 	public List<HistoryFlowEntity> selectAllError() {
 
-		return flowHistoryMapper.selectAllError(FlowStatus.COMPLETE);
+		return historyFlowMapper.selectAllError(FlowStatus.COMPLETE);
 	}
 
 	/**
@@ -151,7 +170,7 @@ public class HistoryFlowDao {
 	 */
 	public List<HistoryFlowEntity> selectTodayComplete() {
 
-		return flowHistoryMapper.selectTodayComplete$CustomFunction(FlowStatus.COMPLETE);
+		return historyFlowMapper.selectTodayComplete$CustomFunction(FlowStatus.COMPLETE);
 	}
 
 	/**
@@ -160,7 +179,7 @@ public class HistoryFlowDao {
 	 */
 	public List<HistoryFlowEntity> selectRunningFlow() {
 
-		return flowHistoryMapper.selectRunningFlow(FlowStatus.READY);
+		return historyFlowMapper.selectRunningFlow(FlowStatus.READY);
 	}
 
 	/**
@@ -171,7 +190,7 @@ public class HistoryFlowDao {
 	 */
 	public void updateFlowStatus(String flowId, String historyId, int status) {
 
-		flowHistoryMapper.updateStatus(flowId, historyId, status, AuthHolder.getUser().email);
+		historyFlowMapper.updateStatus(flowId, historyId, status, AuthHolder.getUser().email);
 	}
 
 	/**
@@ -199,27 +218,27 @@ public class HistoryFlowDao {
 		/*
 		 * insert history_node
 		 */
-		flowHistoryMapper.createHistoryNode(flowId, historyId, AuthHolder.getUser().email);
+		historyFlowMapper.createHistoryNode(flowId, historyId, AuthHolder.getUser().email);
 
 		/*
 		 * insert history_node_http
 		 */
-		flowHistoryMapper.createHistoryNodeHttp(flowId, historyId, AuthHolder.getUser().email);
+		historyFlowMapper.createHistoryNodeHttp(flowId, historyId, AuthHolder.getUser().email);
 
 		/*
 		 * insert history_node_shell
 		 */
-		flowHistoryMapper.createHistoryNodeShell(flowId, historyId, AuthHolder.getUser().email);
+		historyFlowMapper.createHistoryNodeShell(flowId, historyId, AuthHolder.getUser().email);
 
 		/*
 		 * insert history_node_roles
 		 */
-		flowHistoryMapper.createHistoryNodeRoles(flowId, historyId, AuthHolder.getUser().email);
+		historyFlowMapper.createHistoryNodeRoles(flowId, historyId, AuthHolder.getUser().email);
 
 		/*
 		 * insert history_edge
 		 */
-		flowHistoryMapper.createHistoryEdge(flowId, historyId, AuthHolder.getUser().email);
+		historyFlowMapper.createHistoryEdge(flowId, historyId, AuthHolder.getUser().email);
 
 		return historyId;
 
@@ -231,11 +250,26 @@ public class HistoryFlowDao {
 	 */
 	private synchronized void saveWithId(HistoryFlowEntity flowHistoryEntity) {
 
-		int maxHistoryId = flowHistoryMapper.selectMaxHistoryId$CustomFunction();
+		int maxHistoryId = historyFlowMapper.selectMaxHistoryId$CustomFunction();
 
 		maxHistoryId++;
 		flowHistoryEntity.setHistoryId(String.valueOf(maxHistoryId));
 
-		flowHistoryMapper.save(flowHistoryEntity);
+		historyFlowMapper.save(flowHistoryEntity);
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 */
+	public void deleteAllByKey(String flowId, String historyId) {
+
+		historyFlowMapper.deleteByKey(flowId, historyId);
+		historyEdgeMapper.deleteByFlowHistoryId(flowId, historyId);
+		historyNodeHttpMapper.deleteByFlowHistoryId(flowId, historyId);
+		historyNodeMapper.deleteByFlowHistoryId(flowId, historyId);
+//		historyNodeRolesMapper.deleteByFlowHistoryId(flowId,historyId);
+		historyNodeShellMapper.deleteByFlowHistoryId(flowId, historyId);
 	}
 }

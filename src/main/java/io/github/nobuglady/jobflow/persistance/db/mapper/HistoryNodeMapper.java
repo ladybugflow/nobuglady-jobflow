@@ -14,6 +14,7 @@ package io.github.nobuglady.jobflow.persistance.db.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -68,4 +69,7 @@ public interface HistoryNodeMapper {
 	@Update("delete from history_node " + " where" + " node_id in "
 			+ " ( select node_id from node where flow_id = #{param1})")
 	public void deleteByFlowId(String flowId);
+
+	@Delete("DELETE FROM history_node " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
+	public int deleteByFlowHistoryId(String flowId, String historyId);
 }

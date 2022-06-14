@@ -14,6 +14,7 @@ package io.github.nobuglady.jobflow.persistance.db.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -43,6 +44,8 @@ public interface HistoryFlowMapper {
 			+ "#{disableFlag}," + "#{createUser}," + "#{updateUser}," + "now()," + "now()" + " ) ")
 	public void save(HistoryFlowEntity entity);
 
+	@Delete("DELETE FROM history_flow " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
+	public int deleteByKey(String flowId, String historyId);
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////

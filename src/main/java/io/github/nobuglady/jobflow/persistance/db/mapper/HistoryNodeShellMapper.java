@@ -12,6 +12,7 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -35,4 +36,6 @@ public interface HistoryNodeShellMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
+	@Delete("DELETE FROM history_node_shell " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
+	public int deleteByFlowHistoryId(String flowId, String historyId);
 }

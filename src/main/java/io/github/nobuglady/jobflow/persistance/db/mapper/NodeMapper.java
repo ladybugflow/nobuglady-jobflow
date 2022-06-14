@@ -14,6 +14,7 @@ package io.github.nobuglady.jobflow.persistance.db.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -61,5 +62,8 @@ public interface NodeMapper {
 
 	@Select("SELECT * FROM node " + " where flow_id = #{param1} " + " and node_type = #{param2}")
 	public List<NodeEntity> selectStartByFlowId(String flowIds, int nodeType);
+
+	@Delete("DELETE FROM node " + " WHERE" + " flow_id = #{param1}")
+	public int deleteByFlowId(String flowId);
 
 }

@@ -86,6 +86,15 @@ public class InstanceListBusiness {
 		return flowHistoryDao.selectTodayComplete();
 	}
 
+	/**
+	 * 
+	 * @param flowId
+	 * @param historyId
+	 */
+	public void requestFlowHistoryRemove(String flowId, String historyId) {
+		flowHistoryDao.deleteAllByKey(flowId, historyId);
+	}
+
 	///////////////////////////////////////
 	// help function
 	///////////////////////////////////////

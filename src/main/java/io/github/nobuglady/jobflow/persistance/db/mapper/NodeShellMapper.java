@@ -12,6 +12,7 @@
  */
 package io.github.nobuglady.jobflow.persistance.db.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -51,4 +52,7 @@ public interface NodeShellMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
+	@Delete("delete FROM node_shell " + " WHERE" + " flow_id = #{param1}")
+	public int deleteByFlowId(String flowId);
+
 }

@@ -148,6 +148,15 @@ public class FlowListBusiness {
 		}
 	}
 
+	/**
+	 * 
+	 * @param flowId
+	 * @return
+	 */
+	public void requestFlowRemove(String flowId) {
+		flowDao.deleteAllByKey(flowId);
+	}
+
 	///////////////////////////////////////
 	// help function
 	///////////////////////////////////////

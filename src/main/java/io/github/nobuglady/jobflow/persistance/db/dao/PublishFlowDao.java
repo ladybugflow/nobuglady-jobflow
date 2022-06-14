@@ -19,7 +19,12 @@ import org.springframework.stereotype.Component;
 
 import io.github.nobuglady.jobflow.persistance.db.entity.PublishFlowEntity;
 import io.github.nobuglady.jobflow.persistance.db.entity.custom.FlowPublishCatagoryEntity;
+import io.github.nobuglady.jobflow.persistance.db.mapper.PublishEdgeMapper;
 import io.github.nobuglady.jobflow.persistance.db.mapper.PublishFlowMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.PublishNodeHttpMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.PublishNodeMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.PublishNodeRolesMapper;
+import io.github.nobuglady.jobflow.persistance.db.mapper.PublishNodeShellMapper;
 
 /**
  * Flow table operation class
@@ -32,6 +37,21 @@ public class PublishFlowDao {
 
 	@Autowired
 	private PublishFlowMapper publishFlowMapper;
+
+	@Autowired
+	private PublishEdgeMapper publishEdgeMapper;
+
+	@Autowired
+	private PublishNodeHttpMapper publishNodeHttpMapper;
+
+	@Autowired
+	private PublishNodeMapper publishNodeMapper;
+
+	@Autowired
+	private PublishNodeRolesMapper publishNodeRolesMapper;
+
+	@Autowired
+	private PublishNodeShellMapper publishNodeShellMapper;
 
 	//////////////////////////////////////
 	// Base
@@ -67,4 +87,20 @@ public class PublishFlowDao {
 
 		return publishFlowMapper.selectFlowPublishCatagoryList(from, fetchCount);
 	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @return
+	 */
+	public void deleteAllByKey(String flowId) {
+
+		publishFlowMapper.deleteByKey(flowId);
+		publishEdgeMapper.deleteByFlowId(flowId);
+		publishNodeHttpMapper.deleteByFlowId(flowId);
+		publishNodeMapper.deleteByFlowId(flowId);
+		publishNodeRolesMapper.deleteByFlowId(flowId);
+		publishNodeShellMapper.deleteByFlowId(flowId);
+	}
+
 }

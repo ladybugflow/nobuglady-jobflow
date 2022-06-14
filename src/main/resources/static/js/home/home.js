@@ -39,8 +39,10 @@ function request_processing_instance_list(){
 					html += "<td></td>";
 				}
 				html += "	<td>"+element.spendTimeVo+"</td>";
-				html += "	<td>"+flowStatusMap[element.flowStatus]+"</td>";
-				html += "	<td>"+"<a href='flow_panel_execute?flow_id="+element.flowId+"&history_id="+element.historyId+"&flow_name="+element.flowName+"' target='_tab'>Detail</a>"+"</td>";
+				html += "	<td>"+getLabel(flowStatusMap[element.flowStatus])+"</td>";
+				html += "	<td>";
+				html += " <button type='button' class='btn-sm btn-info mb-2' onClick='javascript:window.location.href=\"flow_panel_execute?flow_id="+element.flowId+"&history_id="+element.historyId+"&flow_name="+element.flowName+"\";'>Detail</button>";
+				html += "</td>";
 				html += "</tr>";
 				
 			});
@@ -81,8 +83,10 @@ function request_error_instance_list(){
 					html += "<td></td>";
 				}
 				html += "	<td>"+element.spendTimeVo+"</td>";
-				html += "	<td>"+flowStatusMap[element.flowStatus]+"</td>";
-				html += "	<td>"+"<a href='flow_panel_execute?flow_id="+element.flowId+"&history_id="+element.historyId+"&flow_name="+element.flowName+"' target='_tab'>Detail</a>"+"</td>";
+				html += "	<td>"+getLabel(flowStatusMap[element.flowStatus])+"</td>";
+				html += "	<td>";
+				html += " <button type='button' class='btn-sm btn-info mb-2' onClick='javascript:window.location.href=\"flow_panel_execute?flow_id="+element.flowId+"&history_id="+element.historyId+"&flow_name="+element.flowName+"\";'>Detail</button>";
+				html += "</td>";
 				html += "</tr>";
 				
 			});
@@ -123,8 +127,10 @@ function request_complete_instance_list(){
 					html += "<td></td>";
 				}
 				html += "	<td>"+element.spendTimeVo+"</td>";
-				html += "	<td>"+flowStatusMap[element.flowStatus]+"</td>";
-				html += "	<td>"+"<a href='flow_panel_execute?flow_id="+element.flowId+"&history_id="+element.historyId+"&flow_name="+element.flowName+"' target='_tab'>Detail</a>"+"</td>";
+				html += "	<td>"+getLabel(flowStatusMap[element.flowStatus])+"</td>";
+				html += "	<td>";
+				html += " <button type='button' class='btn-sm btn-info mb-2' onClick='javascript:window.location.href=\"flow_panel_execute?flow_id="+element.flowId+"&history_id="+element.historyId+"&flow_name="+element.flowName+"\";'>Detail</button>";
+				html += "</td>";
 				html += "</tr>";
 				
 			});

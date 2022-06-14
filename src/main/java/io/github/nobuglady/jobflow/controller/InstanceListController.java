@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import io.github.nobuglady.jobflow.controller.dto.CommonResponse;
 import io.github.nobuglady.jobflow.controller.dto.PagingDto;
 import io.github.nobuglady.jobflow.controller.dto.model.HistoryFlowEntityVo;
 import io.github.nobuglady.jobflow.service.flowdynamic.InstanceListBusiness;
@@ -93,5 +94,20 @@ public class InstanceListController {
 	public List<HistoryFlowEntityVo> requestCompleteInstanceList() {
 
 		return BeanUtil.copyList(flowBusiness.requestCompleteInstanceList(), HistoryFlowEntityVo.class);
+	}
+
+	/**
+	 * 
+	 * @param flowId
+	 * @return
+	 */
+	@RequestMapping(value = "/request_flow_history_remove", method = RequestMethod.POST)
+	@ResponseBody
+	public CommonResponse requestFlowRemove(@RequestParam(value = "flowId") String flowId,
+			@RequestParam(value = "historyId") String historyId) {
+
+		flowBusiness.requestFlowHistoryRemove(flowId, historyId);
+
+		return new CommonResponse();
 	}
 }

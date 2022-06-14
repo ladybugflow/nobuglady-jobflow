@@ -49,8 +49,11 @@ function request_instance_list(curPage){
 					html += "<td></td>";
 				}
 				html += "	<td>"+element.spendTimeVo+"</td>";
-				html += "	<td>"+flowStatusMap[element.flowStatus]+"</td>";
-				html += "	<td>"+"<a href='flow_panel_execute?flow_id="+element.flowId+"&history_id="+element.historyId+"&flow_name="+element.flowName+"' target='_tab'>Detail</a>"+"</td>";
+				html += "	<td>"+getLabel(flowStatusMap[element.flowStatus])+"</td>";
+				html += "	<td>";
+				html += " <button type='button' class='btn-sm btn-info mb-2' onClick='javascript:window.location.href=\"flow_panel_execute?flow_id="+element.flowId+"&history_id="+element.historyId+"&flow_name="+element.flowName+"\";'>Detail</button>";
+				html += "  <button type='button' class='btn-sm btn-danger mb-2' onClick='javascript:doDelete(\""+element.flowId+"\",\""+element.historyId+"\");'>Remove</button>";
+				html += "</td>";
 				html += "</tr>";
 				
 			});
@@ -88,6 +91,22 @@ function request_instance_list(curPage){
 	);
 }
 
+
+function doDelete(flowId, historyId){
+	if(window.confirm("Are you shure Delete?")){
+		post(
+			'/request_flow_history_remove',
+			{
+				flowId:flowId,
+				historyId:historyId
+			},
+			function (data) {
+				var responseObj = data;
+				request_instance_list(1);
+			}
+		);
+	}
+}
 
 function post(requestUrl, requestData, callBack){
     $.ajax({

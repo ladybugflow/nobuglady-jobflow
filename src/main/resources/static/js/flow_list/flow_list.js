@@ -48,10 +48,13 @@ function request_flow_list(curPage){
 				html += "	<td><i class=\"fas fa-cog\"></i></td>";
 				html += "	<td>"+element.flow_id+"</td>";
 				html += "	<td>"+element.flow_name+"</td>";
-				html += "	<td>"+nodeStartTypeMap[element.flow_start_type]+"<br/>";
+				html += "	<td>"+getLabel(nodeStartTypeMap[element.flow_start_type])+"<br/>";
 				html += "   </td>"
 				html += "	<td>"+element.update_time.split(".")[0].split("T").join(" ")+"</td>";
-				html += "	<td>"+"<a href='flow_panel_editor?flow_id="+element.flow_id+"&flow_name="+element.flow_name+"' target='_tab'>Detail</a>"+"</td>";
+				html += "	<td>";
+				html += " <button type='button' class='btn-sm btn-info mb-2' onClick='javascript:window.location.href=\"flow_panel_editor?flow_id="+element.flow_id+"&flow_name="+element.flow_name+"\";'>Detail</button>";
+				html += "  <button type='button' class='btn-sm btn-danger mb-2' onClick='javascript:doDelete(\""+element.flow_id+"\");'>Remove</button>";
+				html += "</td>";
 				html += "</tr>";
 			});
 			html += "";
@@ -103,6 +106,21 @@ function request_create_flow(flowId, flowName){
 	);
 }
 
+
+function doDelete(flowId){
+	if(window.confirm("Are you shure Delete?")){
+		post(
+			'/request_flow_remove',
+			{
+				flowId:flowId
+			},
+			function (data) {
+				var responseObj = data;
+				request_flow_list(1);
+			}
+		);
+	}
+}
 
 function post(requestUrl, requestData, callBack){
     $.ajax({
