@@ -20,4 +20,5 @@ package io.github.nobuglady.jobflow.service.log.dto;
 public class LogFolderDto {
 
 	public String flowId;
+	public String flowName;
 }

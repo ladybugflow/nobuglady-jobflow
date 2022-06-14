@@ -24,13 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-
-import io.github.nobuglady.jobflow.constant.Const;
+import io.github.nobuglady.jobflow.util.PropertiesUtil;
 
 /**
  * ConsoleLogger
@@ -45,6 +40,8 @@ public class ConsoleLogger {
 //	private String flowId;
 //	private String historyId;
 
+	private static String logDir = PropertiesUtil.getLogDir();
+
 	File logFile;
 	private PrintWriter pw;
 
@@ -56,10 +53,10 @@ public class ConsoleLogger {
 //		this.flowId = flowId;
 //		this.historyId = historyId;
 
-		File dir = new File(Const.LOG_ROOT_DIR + flowId + "/");
+		File dir = new File(logDir + flowId + File.separator);
 		dir.mkdirs();
 
-		logFile = new File(Const.LOG_ROOT_DIR + flowId + "/" + historyId + ".log");
+		logFile = new File(logDir + flowId + File.separator + historyId + ".log");
 
 		if (!logFile.exists()) {
 			try {
@@ -76,16 +73,6 @@ public class ConsoleLogger {
 			pw = new PrintWriter(osw, true);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
-		}
-
-		Resource resource = new ClassPathResource("/application.properties");
-		Integer logSize = 64;
-		try {
-			Properties props = PropertiesLoaderUtils.loadProperties(resource);
-			logSize = Integer.parseInt(props.getOrDefault("log.size", 64).toString());
-			System.out.println("log size:" + logSize);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 	}

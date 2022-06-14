@@ -21,4 +21,6 @@ public class LogFileDto {
 
 	public String flowId;
 	public String fileId;
+	public String updateTime;
+	public String size;
 }

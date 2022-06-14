@@ -21,6 +21,7 @@ function request_log_list(){
 				
 				html += "	<td><i class=\"fas fa-folder\"></i></td>";
 				html += "	<td>"+element.flowId+"</td>";
+				html += "	<td>"+element.flowName+"</td>";
 				html += "	<td><a href='log_list_file?flowId="+element.flowId+"'>show files</a></td>";
 				html += "</tr>";
 				

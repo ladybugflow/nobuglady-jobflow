@@ -47,8 +47,8 @@ var labelMap = {
 	
 	"READY":"READY",
 	"PROCESSING":"PROCESSING",
-	"COMPLETE":"<i class='fas fa-check-circle' style='color:green'></i>COMPLETE",
-	"ERROR":"<i class='fas fa-times-circle' style='color:red'></i>ERROR",
+	"COMPLETE":"<i class='fas fa-check-circle' style='color:green;margin-right:5px'></i>COMPLETE",
+	"ERROR":"<i class='fas fa-times-circle' style='color:red;margin-right:5px'></i>ERROR",
 	"CANCEL":"CANCEL",
 
     "SKIPED":"SKIPED",
@@ -59,7 +59,7 @@ var labelMap = {
     "CLOSED":"CLOSED",
     "READY_RUN":"READY_RUN",
     "RUNNING":"RUNNING",
-    "COMPLETE":"<i class='fas fa-check-circle' style='color:green'></i>COMPLETE",
+    "COMPLETE":"<i class='fas fa-check-circle' style='color:green;margin-right:5px'></i>COMPLETE",
     "GO":"GO",
 
 	"COMPLETE_SUCCESS":"COMPLETE_SUCCESS",
@@ -76,7 +76,7 @@ var labelMap = {
 
 	"NODE_START_TYPE_DEFAULT":"DEFAULT",
 	"NODE_START_TYPE_WAIT_REQUEST":"WAIT_REQUEST",
-	"NODE_START_TYPE_TIMER":"<i class='fas fa-clock' style='color:blue'></i>TIMER",
+	"NODE_START_TYPE_TIMER":"<i class='fas fa-calendar-alt' style='color:blue;margin-right:5px'></i>TIMER",
 
 }
 

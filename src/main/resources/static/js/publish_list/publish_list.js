@@ -30,7 +30,7 @@ function request_publish_list(curPage){
 				html += "	<td>"+getLabel(nodeStartTypeMap[element.flow_start_type])+"<br/>";
 				if(element.flow_start_type == 3){
 					html += "   " +element.cron+"<br/>";
-					html += "   " +element.nextStartTime+"<br/>";
+					html += "   <i class='fas fa-clock' style='color:blue;margin-right:5px'></i>" +element.nextStartTime+"<br/>";
 				}				html += "   </td>"
 				html += "	<td>"+element.update_time.split(".")[0].split("T").join(" ")+"</td>";
 				html += "	<td>";

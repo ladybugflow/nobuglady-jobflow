@@ -34,5 +34,4 @@ public class Const {
 	public static final int LOGIN_FAILED = 1;
 	public static final int LOGIN_SUCCESS = 0;
 
-	public static final String LOG_ROOT_DIR = "/tmp/";
 }

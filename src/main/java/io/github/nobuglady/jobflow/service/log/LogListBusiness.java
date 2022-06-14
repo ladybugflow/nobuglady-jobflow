@@ -14,13 +14,18 @@ package io.github.nobuglady.jobflow.service.log;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.github.nobuglady.jobflow.constant.Const;
+import io.github.nobuglady.jobflow.persistance.db.dao.FlowDao;
+import io.github.nobuglady.jobflow.persistance.db.entity.FlowEntity;
 import io.github.nobuglady.jobflow.service.log.dto.LogFileDto;
 import io.github.nobuglady.jobflow.service.log.dto.LogFolderDto;
+import io.github.nobuglady.jobflow.util.DateUtil;
+import io.github.nobuglady.jobflow.util.PropertiesUtil;
 
 /**
  * 
@@ -30,21 +35,35 @@ import io.github.nobuglady.jobflow.service.log.dto.LogFolderDto;
 @Service
 public class LogListBusiness {
 
+	private static String logDir = PropertiesUtil.getLogDir();
+
+	@Autowired
+	private FlowDao flowDao;
+
 	/**
 	 * 
 	 * @return
 	 */
 	public List<LogFolderDto> requestLogList() {
 
-		File root = new File(Const.LOG_ROOT_DIR);
+		File root = new File(logDir);
 		File[] files = root.listFiles();
 
 		List<LogFolderDto> resultList = new ArrayList<>();
 		if (files != null) {
 			for (File file : files) {
-				LogFolderDto logFolderDto = new LogFolderDto();
-				logFolderDto.flowId = file.getName();
-				resultList.add(logFolderDto);
+				if (file.isDirectory()) {
+
+					FlowEntity flowEntity = flowDao.selectByKey(file.getName());
+
+					LogFolderDto logFolderDto = new LogFolderDto();
+					logFolderDto.flowId = file.getName();
+					if (flowEntity != null) {
+						logFolderDto.flowName = flowEntity.getFlowName();
+					}
+
+					resultList.add(logFolderDto);
+				}
 			}
 		}
 		return resultList;
@@ -58,16 +77,21 @@ public class LogListBusiness {
 	 */
 	public List<LogFileDto> requestLogListFile(String flowId) {
 
-		File root = new File(Const.LOG_ROOT_DIR + flowId);
+		File root = new File(logDir + flowId);
 		File[] files = root.listFiles();
 
 		List<LogFileDto> resultList = new ArrayList<>();
 		if (files != null) {
 			for (File file : files) {
-				LogFileDto logFolderDto = new LogFileDto();
-				logFolderDto.flowId = flowId;
-				logFolderDto.fileId = file.getName();
-				resultList.add(logFolderDto);
+				if (file.isFile() && !file.isHidden()) {
+					LogFileDto logFileDto = new LogFileDto();
+					logFileDto.flowId = flowId;
+					logFileDto.fileId = file.getName();
+					logFileDto.updateTime = DateUtil.dateToString(new Date(file.lastModified()),
+							DateUtil.FMT_YYYYMMDD_HHMMSS);
+					logFileDto.size = file.length() / 1024 + "kb";
+					resultList.add(logFileDto);
+				}
 			}
 		}
 		return resultList;
@@ -80,7 +104,7 @@ public class LogListBusiness {
 	 */
 	public File requestLogListFileDownload(String flowId, String fileId) {
 
-		File file = new File(Const.LOG_ROOT_DIR + flowId + "/" + fileId);
+		File file = new File(logDir + flowId + "/" + fileId);
 		if (file.exists()) {
 			return file;
 		}
@@ -95,7 +119,7 @@ public class LogListBusiness {
 	 */
 	public void requestLogListFileDelete(String flowId, String fileId) {
 
-		File file = new File(Const.LOG_ROOT_DIR + flowId + "/" + fileId);
+		File file = new File(logDir + flowId + "/" + fileId);
 		if (file.exists()) {
 			file.delete();
 		}
