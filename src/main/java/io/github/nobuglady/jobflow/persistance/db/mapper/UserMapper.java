@@ -32,6 +32,15 @@ public interface UserMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("select " + " * " + " from " + " tuser" + " where" + " email = #{param1}" + " and passwd = #{param2}" + " ")
+	// @formatter:off
+	@Select("select " 
+			+ " * " 
+			+ " from " 
+			+ " tuser" 
+			+ " where" 
+			+ " email = #{param1}" 
+			+ " and passwd = #{param2}" 
+			+ " ")
+	// @formatter:on
 	public UserEntity getByEmailPassword(String email, String password);
 }

@@ -32,19 +32,33 @@ public interface PublishFlowMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_flow " + " WHERE" + " flow_id = #{param1}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_flow " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}")
+	// @formatter:on
 	public PublishFlowEntity selectByKey(String flowId);
 
-	@Delete("DELETE from publish_flow " + " WHERE" + " flow_id = #{param1}")
+	// @formatter:off
+	@Delete("DELETE from publish_flow " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}")
+	// @formatter:on
 	public int deleteByKey(String flowId);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("select count(1) from (SELECT * FROM publish_flow " + " order by update_time desc) t1 ")
+	// @formatter:off
+	@Select("select count(1) from (SELECT * FROM publish_flow " 
+			+ " order by update_time desc) t1 ")
+	// @formatter:on
 	public int selectFlowPublishCatagoryListCount();
 
-	@Select("select * from (SELECT * FROM publish_flow " + " order by update_time desc) t1 LIMIT #{param1}, #{param2} ")
+	// @formatter:off
+	@Select("select * from (SELECT * FROM publish_flow " 
+			+ " order by update_time desc) t1 LIMIT #{param1}, #{param2} ")
+	// @formatter:on
 	public List<FlowPublishCatagoryEntity> selectFlowPublishCatagoryList(int from, int fetchCount);
 
 }

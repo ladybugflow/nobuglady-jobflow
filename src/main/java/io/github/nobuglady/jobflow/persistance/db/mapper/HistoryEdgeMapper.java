@@ -35,9 +35,19 @@ public interface HistoryEdgeMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM history_edge " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM history_edge " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and history_id = #{param2}")
+	// @formatter:on
 	public List<HistoryEdgeEntity> selectByFlowHistoryId(String flowId, String historyId);
 
-	@Delete("DELETE FROM history_edge " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
+	// @formatter:off
+	@Delete("DELETE FROM history_edge " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and history_id = #{param2}")
+	// @formatter:on
 	public int deleteByFlowHistoryId(String flowId, String historyId);
 }

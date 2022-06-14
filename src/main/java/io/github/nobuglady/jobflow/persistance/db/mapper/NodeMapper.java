@@ -33,37 +33,110 @@ public interface NodeMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM node " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and node_id = #{param2}")
+	// @formatter:on
 	public NodeEntity selectByKey(String flowId, String nodeId);
 
-	@Insert("insert into node" + " (" + " flow_id, " + " node_id, " + " node_name, " + " ref_name, " + " node_type, "
-			+ " start_type, " + " execute_type, " + " start_cron, " + " sub_flow_id, " + " sub_node_id, "
-			+ " layout_x, " + " layout_y, " + " skip_flag, " + " skip_value, " + " disable_flag, " + " create_user, "
-			+ " update_user, " + " create_time, " + " update_time " + " )" + " values" + " (" + "#{flowId},"
-			+ "#{nodeId}," + "#{nodeName}," + "#{refName}," + "#{nodeType}," + "#{startType}," + "#{executeType},"
-			+ "#{startCron}," + "#{subFlowId}," + "#{subNodeId}," + "#{layoutX}," + "#{layoutY}," + "#{skipFlag},"
-			+ "#{skipValue}," + "#{disableFlag}," + "#{createUser}," + "#{updateUser}," + "now()," + "now()" + " ) ")
+	// @formatter:off
+	@Insert("insert into node" 
+			+ " (" 
+			+ " flow_id, " 
+			+ " node_id, " 
+			+ " node_name, " 
+			+ " ref_name, " 
+			+ " node_type, "
+			+ " start_type, " 
+			+ " execute_type, " 
+			+ " start_cron, " 
+			+ " sub_flow_id, " 
+			+ " sub_node_id, "
+			+ " layout_x, " 
+			+ " layout_y, " 
+			+ " skip_flag, " 
+			+ " skip_value, " 
+			+ " disable_flag, " 
+			+ " create_user, "
+			+ " update_user, " 
+			+ " create_time, " 
+			+ " update_time " 
+			+ " )" 
+			+ " values" 
+			+ " (" 
+			+ "#{flowId},"
+			+ "#{nodeId}," 
+			+ "#{nodeName}," 
+			+ "#{refName}," 
+			+ "#{nodeType}," 
+			+ "#{startType}," 
+			+ "#{executeType},"
+			+ "#{startCron}," 
+			+ "#{subFlowId}," 
+			+ "#{subNodeId}," 
+			+ "#{layoutX}," 
+			+ "#{layoutY}," 
+			+ "#{skipFlag},"
+			+ "#{skipValue}," 
+			+ "#{disableFlag}," 
+			+ "#{createUser}," 
+			+ "#{updateUser}," 
+			+ "now()," 
+			+ "now()" 
+			+ " ) ")
+	// @formatter:on
 	public void save(NodeEntity entity);
 
-	@Update("update node " + " set" + " flow_id=#{flowId}" + " ,node_id=#{nodeId}" + " ,node_name=#{nodeName}"
-			+ " ,ref_name=#{nodeName}" + " ,node_type=#{nodeType}" + " ,start_type=#{startType}"
-			+ " ,execute_type=#{executeType}" + " ,start_cron=#{startCron}" + " ,sub_flow_id=#{subFlowId}"
-			+ " ,sub_node_id=#{subNodeId}" + " ,layout_x=#{layoutX}" + " ,layout_y=#{layoutY}"
-			+ " ,skip_flag=#{skipFlag}" + " ,skip_value=#{skipValue}" + " ,disable_flag=#{disableFlag}"
-			+ " ,update_user=#{updateUser}" + " ,update_time=now()" + " where" + " flow_id=#{flowId}"
+	// @formatter:off
+	@Update("update node " 
+			+ " set" 
+			+ " flow_id=#{flowId}" 
+			+ " ,node_id=#{nodeId}" 
+			+ " ,node_name=#{nodeName}"
+			+ " ,ref_name=#{nodeName}" 
+			+ " ,node_type=#{nodeType}" 
+			+ " ,start_type=#{startType}"
+			+ " ,execute_type=#{executeType}" 
+			+ " ,start_cron=#{startCron}" 
+			+ " ,sub_flow_id=#{subFlowId}"
+			+ " ,sub_node_id=#{subNodeId}" 
+			+ " ,layout_x=#{layoutX}" 
+			+ " ,layout_y=#{layoutY}"
+			+ " ,skip_flag=#{skipFlag}" 
+			+ " ,skip_value=#{skipValue}" 
+			+ " ,disable_flag=#{disableFlag}"
+			+ " ,update_user=#{updateUser}" 
+			+ " ,update_time=now()" 
+			+ " where" 
+			+ " flow_id=#{flowId}"
 			+ " and node_id=#{nodeId}")
+	// @formatter:on
 	public void update(NodeEntity entity);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM node " + " WHERE" + " flow_id = #{param1}")
+	// @formatter:off
+	@Select("SELECT * FROM node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}")
+	// @formatter:on
 	public List<NodeEntity> selectByFlowId(String flowId);
 
-	@Select("SELECT * FROM node " + " where flow_id = #{param1} " + " and node_type = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM node " 
+			+ " where flow_id = #{param1} " 
+			+ " and node_type = #{param2}")
+	// @formatter:on
 	public List<NodeEntity> selectStartByFlowId(String flowIds, int nodeType);
 
-	@Delete("DELETE FROM node " + " WHERE" + " flow_id = #{param1}")
+	// @formatter:off
+	@Delete("DELETE FROM node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}")
+	// @formatter:on
 	public int deleteByFlowId(String flowId);
 
 }

@@ -31,28 +31,78 @@ public interface NodeShellMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM node_shell " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM node_shell " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and node_id = #{param2}")
+	// @formatter:on
 	public NodeShellEntity selectByKey(String flowId, String nodeId);
 
-	@Insert("insert into node_shell" + " (" + " flow_id, " + " node_id, " + " timeout, " + " timeout_type, "
-			+ " success_code, " + " error_type, " + " sync_flag, " + " shell_location, " + " shell_param, "
-			+ " create_user, " + " update_user, " + " create_time, " + " update_time " + " )" + " values" + " ("
-			+ "#{flowId}," + "#{nodeId}," + "#{timeout}," + "#{timeoutType}," + "#{successCode}," + "#{errorType},"
-			+ "#{syncFlag}," + "#{shellLocation}," + "#{shellParam}," + "#{createUser}," + "#{updateUser}," + "now(),"
-			+ "now()" + " ) ")
+	// @formatter:off
+	@Insert("insert into node_shell" 
+			+ " (" 
+			+ " flow_id, " 
+			+ " node_id, " 
+			+ " timeout, " 
+			+ " timeout_type, "
+			+ " success_code, " 
+			+ " error_type, " 
+			+ " sync_flag, " 
+			+ " shell_location, " 
+			+ " shell_param, "
+			+ " create_user, " 
+			+ " update_user, " 
+			+ " create_time, " 
+			+ " update_time " 
+			+ " )" 
+			+ " values" 
+			+ " ("
+			+ "#{flowId}," 
+			+ "#{nodeId}," 
+			+ "#{timeout}," 
+			+ "#{timeoutType}," 
+			+ "#{successCode}," 
+			+ "#{errorType},"
+			+ "#{syncFlag}," 
+			+ "#{shellLocation}," 
+			+ "#{shellParam}," 
+			+ "#{createUser}," 
+			+ "#{updateUser}," 
+			+ "now(),"
+			+ "now()" 
+			+ " ) ")
+	// @formatter:on
 	public void save(NodeShellEntity entity);
 
-	@Update("update node_shell " + " set" + " flow_id=#{flowId}" + " ,node_id=#{nodeId}" + " ,timeout=#{timeout}"
-			+ " ,timeout_type=#{timeoutType}" + " ,success_code=#{successCode}" + " ,error_type=#{errorType}"
-			+ " ,sync_flag=#{syncFlag}" + " ,shell_location=#{shellLocation}" + " ,shell_param=#{shellParam}"
-			+ " ,update_user=#{updateUser}" + " ,update_time=now()" + " where" + " flow_id=#{flowId}"
+	// @formatter:off
+	@Update("update node_shell " 
+			+ " set" 
+			+ " flow_id=#{flowId}" 
+			+ " ,node_id=#{nodeId}" 
+			+ " ,timeout=#{timeout}"
+			+ " ,timeout_type=#{timeoutType}" 
+			+ " ,success_code=#{successCode}" 
+			+ " ,error_type=#{errorType}"
+			+ " ,sync_flag=#{syncFlag}" 
+			+ " ,shell_location=#{shellLocation}" 
+			+ " ,shell_param=#{shellParam}"
+			+ " ,update_user=#{updateUser}" 
+			+ " ,update_time=now()" 
+			+ " where" 
+			+ " flow_id=#{flowId}"
 			+ " and node_id=#{nodeId}")
+	// @formatter:on
 	public void update(NodeShellEntity entity);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Delete("delete FROM node_shell " + " WHERE" + " flow_id = #{param1}")
+	// @formatter:off
+	@Delete("delete FROM node_shell " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}")
+	// @formatter:on
 	public int deleteByFlowId(String flowId);
 
 }

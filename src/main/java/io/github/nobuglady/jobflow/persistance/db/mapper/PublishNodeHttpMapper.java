@@ -29,13 +29,23 @@ public interface PublishNodeHttpMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_node_http " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_node_http " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and node_id = #{param2}")
+	// @formatter:on
 	public PublishNodeHttpEntity selectByKey(String flowId, String nodeId);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Delete("DELETE FROM publish_node_http " + " WHERE" + " flow_id = #{param1}" + "")
+	// @formatter:off
+	@Delete("DELETE FROM publish_node_http " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ "")
+	// @formatter:on
 	public int deleteByFlowId(String flowId);
 
 }

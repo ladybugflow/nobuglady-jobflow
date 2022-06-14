@@ -31,21 +31,42 @@ public interface PublishNodeMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_node " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and node_id = #{param2}")
+	// @formatter:on
 	public PublishNodeEntity selectByKey(String flowId, String nodeId);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_node " + " WHERE" + " flow_id = #{param1}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}")
+	// @formatter:on
 	public List<PublishNodeEntity> selectByFlowId(String flowId);
 
-	@Select("SELECT * FROM publish_node " + " where flow_id = #{param1} " + " and node_type = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_node " 
+			+ " where flow_id = #{param1} " 
+			+ " and node_type = #{param2}")
+	// @formatter:on
 	public List<PublishNodeEntity> selectStartByFlowId(String flowIds, int nodeType);
 
-	@Select("SELECT * FROM publish_node " + " where start_type = #{param1}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_node " 
+			+ " where start_type = #{param1}")
+	// @formatter:on
 	public List<PublishNodeEntity> selectAllCronNode(int nodeStartType);
 
-	@Delete("DELETE FROM publish_node " + " WHERE" + " flow_id = #{param1}" + "")
+	// @formatter:off
+	@Delete("DELETE FROM publish_node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ "")
+	// @formatter:on
 	public int deleteByFlowId(String flowId);
 }

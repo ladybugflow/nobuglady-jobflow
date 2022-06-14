@@ -31,16 +31,30 @@ public interface PublishEdgeMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_edge " + " WHERE" + " flow_id = #{param1}" + " and edge_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_edge " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and edge_id = #{param2}")
+	// @formatter:on
 	public PublishEdgeEntity selectByKey(String flowId, String edgeId);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_edge " + " WHERE" + " flow_id = #{param1}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_edge " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}")
+	// @formatter:on
 	public List<PublishEdgeEntity> selectByFlowId(String flowId);
 
-	@Delete("DELETE FROM publish_edge " + " WHERE" + " flow_id = #{param1}" + "")
+	// @formatter:off
+	@Delete("DELETE FROM publish_edge " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ "")
+	// @formatter:on
 	public int deleteByFlowId(String flowId);
 
 }

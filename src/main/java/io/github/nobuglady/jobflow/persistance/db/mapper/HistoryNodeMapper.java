@@ -32,44 +32,96 @@ public interface HistoryNodeMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM history_node " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}"
+	// @formatter:off
+	@Select("SELECT * FROM history_node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and node_id = #{param2}"
 			+ " and history_id = #{param3}")
+	// @formatter:on
 	public HistoryNodeEntity selectByKey(String flowId, String nodeId, String historyId);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM history_node " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM history_node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and history_id = #{param2}")
+	// @formatter:on
 	public List<HistoryNodeEntity> selectByFlowHistoryId(String flowId, String historyId);
 
-	@Select("SELECT * FROM history_node " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}"
+	// @formatter:off
+	@Select("SELECT * FROM history_node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and history_id = #{param2}"
 			+ " and node_status = #{param3}")
+	// @formatter:on
 	public List<HistoryNodeEntity> selectNodeListByStatus(String flowId, String historyId, int status);
 
-	@Select("SELECT * FROM history_node " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}"
-			+ " and node_status = #{param3}" + " and node_status_detail = #{param4}")
+	// @formatter:off
+	@Select("SELECT * FROM history_node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and history_id = #{param2}"
+			+ " and node_status = #{param3}" 
+			+ " and node_status_detail = #{param4}")
+	// @formatter:on
 	public List<HistoryNodeEntity> selectNodeListByStatusDetail(String flowId, String historyId, int status,
 			int statusDetail);
 
-	@Update("update history_node " + "  set node_status = #{param1}, " + "  update_user = #{param4}, "
-			+ "  update_time = now() " + " where" + " flow_id = #{param2} " + " and history_id = #{param3}")
+	// @formatter:off
+	@Update("update history_node " 
+			+ "  set node_status = #{param1}, " 
+			+ "  update_user = #{param4}, "
+			+ "  update_time = now() " 
+			+ " where" 
+			+ " flow_id = #{param2} " 
+			+ " and history_id = #{param3}")
+	// @formatter:on
 	public void updateStatusByHistoryId(int status, String flowId, String historyId, String userId);
 
-	@Update("update history_node " + "  set node_status = #{param1}, " + "  update_user = #{param5}, "
-			+ "  update_time = now() " + " where" + " flow_id = #{param2} " + " and history_id = #{param3} "
+	// @formatter:off
+	@Update("update history_node " 
+			+ "  set node_status = #{param1}, " 
+			+ "  update_user = #{param5}, "
+			+ "  update_time = now() " 
+			+ " where" 
+			+ " flow_id = #{param2} " 
+			+ " and history_id = #{param3} "
 			+ " and node_id = #{param4} ")
+	// @formatter:on
 	public void updateStatusByNodeId(int status, String flowId, String historyId, String nodeId, String userId);
 
-	@Update("update history_node " + "  set node_status = #{param1}, " + "  node_status_detail = #{param2}, "
-			+ "  update_user = #{param6}, " + "  update_time = now() " + " where" + " flow_id = #{param3} "
-			+ " and history_id = #{param4} " + " and node_id = #{param5} ")
+	// @formatter:off
+	@Update("update history_node " 
+			+ "  set node_status = #{param1}, " 
+			+ "  node_status_detail = #{param2}, "
+			+ "  update_user = #{param6}, " 
+			+ "  update_time = now() " 
+			+ " where" 
+			+ " flow_id = #{param3} "
+			+ " and history_id = #{param4} " 
+			+ " and node_id = #{param5} ")
+	// @formatter:on
 	public void updateStatusDetailByNodeId(int status, int detailStatus, String flowId, String historyId, String nodeId,
 			String userId);
 
-	@Update("delete from history_node " + " where" + " node_id in "
+	// @formatter:off
+	@Update("delete from history_node " 
+			+ " where" 
+			+ " node_id in "
 			+ " ( select node_id from node where flow_id = #{param1})")
+	// @formatter:on
 	public void deleteByFlowId(String flowId);
 
-	@Delete("DELETE FROM history_node " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
+	// @formatter:off
+	@Delete("DELETE FROM history_node " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and history_id = #{param2}")
+	// @formatter:on
 	public int deleteByFlowHistoryId(String flowId, String historyId);
 }

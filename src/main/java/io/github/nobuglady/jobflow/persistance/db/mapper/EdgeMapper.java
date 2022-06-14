@@ -1,5 +1,4 @@
-/*
- * Copyright (c) 2021-present, NoBugLady-jobflow Contributors.
+/* Copyright (c) 2021-present, NoBugLady-jobflow Contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -33,31 +32,87 @@ public interface EdgeMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM edge " + " WHERE" + " flow_id = #{param1}" + " and edge_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM edge "
+			+ " WHERE"
+			+ " flow_id = #{param1}"
+			+ " and edge_id = #{param2}")
+	// @formatter:on
 	public EdgeEntity selectByKey(String flowId, String edgeId);
 
-	@Insert("insert into edge" + " (" + "flow_id," + "edge_id," + "from_node_id," + "to_node_id," + "edge_condition,"
-			+ "edge_exception_return_type," + "skip_flag," + "skip_value," + "disable_flag," + "create_user,"
-			+ "update_user," + "create_time," + "update_time" + " )" + " values" + " (" + "#{flowId}," + "#{edgeId},"
-			+ "#{fromNodeId}," + "#{toNodeId}," + "#{edgeCondition}," + "#{edgeExceptionReturnType}," + "#{skipFlag},"
-			+ "#{skipValue}," + "#{disableFlag}," + "#{createUser}," + "#{updateUser}," + "now()," + "now()" + " ) ")
+	// @formatter:off
+	@Insert("insert into edge" 
+			+ " (" 
+			+ "flow_id," 
+			+ "edge_id," 
+			+ "from_node_id," 
+			+ "to_node_id," 
+			+ "edge_condition,"
+			+ "edge_exception_return_type," 
+			+ "skip_flag," 
+			+ "skip_value," 
+			+ "disable_flag," 
+			+ "create_user,"
+			+ "update_user," 
+			+ "create_time," 
+			+ "update_time" 
+			+ " )" 
+			+ " values" 
+			+ " (" 
+			+ "#{flowId}," 
+			+ "#{edgeId},"
+			+ "#{fromNodeId}," 
+			+ "#{toNodeId}," 
+			+ "#{edgeCondition}," 
+			+ "#{edgeExceptionReturnType}," 
+			+ "#{skipFlag},"
+			+ "#{skipValue}," 
+			+ "#{disableFlag}," 
+			+ "#{createUser}," 
+			+ "#{updateUser}," 
+			+ "now()," 
+			+ "now()" 
+			+ " ) ")
+	// @formatter:on
 	public void save(EdgeEntity entity);
 
-	@Update("update edge " + " set" + " flow_id=#{flowId}" + " ,edge_id=#{edgeId}" + " ,from_node_id=#{fromNodeId}"
-			+ " ,to_node_id=#{toNodeId}" + " ,edge_condition=#{edgeCondition}"
-			+ " ,edge_exception_return_type=#{edgeExceptionReturnType}" + " ,skip_flag=#{skipFlag}"
-			+ " ,skip_value=#{skipValue}" + " ,disable_flag=#{disableFlag}" + " ,update_user=#{updateUser}"
-			+ " ,update_time=now()" + " where" + " flow_id=#{flowId}" + " and from_node_id=#{fromNodeId}"
+	// @formatter:off
+	@Update("update edge " 
+			+ " set" 
+			+ " flow_id=#{flowId}" 
+			+ " ,edge_id=#{edgeId}" 
+			+ " ,from_node_id=#{fromNodeId}"
+			+ " ,to_node_id=#{toNodeId}" 
+			+ " ,edge_condition=#{edgeCondition}"
+			+ " ,edge_exception_return_type=#{edgeExceptionReturnType}" 
+			+ " ,skip_flag=#{skipFlag}"
+			+ " ,skip_value=#{skipValue}" 
+			+ " ,disable_flag=#{disableFlag}" 
+			+ " ,update_user=#{updateUser}"
+			+ " ,update_time=now()" 
+			+ " where" 
+			+ " flow_id=#{flowId}" 
+			+ " and from_node_id=#{fromNodeId}"
 			+ " and to_node_id=#{toNodeId}")
+	// @formatter:on
 	public void update(EdgeEntity entity);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM edge " + " WHERE" + " flow_id = #{param1}")
+	// @formatter:off
+	@Select("SELECT * FROM edge " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}")
+	// @formatter:on
 	public List<EdgeEntity> selectByFlowId(String flowId);
 
-	@Delete("DELETE FROM edge " + " WHERE" + " flow_id = #{param1}" + "")
+	// @formatter:off
+	@Delete("DELETE FROM edge " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ "")
+	// @formatter:on
 	public int deleteByFlowId(String flowId);
 
 }

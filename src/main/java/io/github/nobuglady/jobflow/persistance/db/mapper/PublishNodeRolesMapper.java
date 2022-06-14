@@ -35,9 +35,19 @@ public interface PublishNodeRolesMapper {
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Select("SELECT * FROM publish_node_roles " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2}")
+	// @formatter:off
+	@Select("SELECT * FROM publish_node_roles " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and node_id = #{param2}")
+	// @formatter:on
 	public List<PublishNodeRolesEntity> selectList(String flowId, String nodeId);
 
-	@Delete("DELETE FROM publish_node_roles " + " WHERE" + " flow_id = #{param1}" + "")
+	// @formatter:off
+	@Delete("DELETE FROM publish_node_roles " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ "")
+	// @formatter:on
 	public int deleteByFlowId(String flowId);
 }

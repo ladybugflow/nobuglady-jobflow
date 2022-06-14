@@ -29,13 +29,23 @@ public interface HistoryNodeShellMapper {
 	//////////////////////////////////////
 	// Base
 	//////////////////////////////////////
-	@Select("SELECT * FROM history_node_shell " + " WHERE" + " flow_id = #{param1}" + " and node_id = #{param2} "
+	// @formatter:off
+	@Select("SELECT * FROM history_node_shell " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and node_id = #{param2} "
 			+ " and history_id = #{param3}")
+	// @formatter:on
 	public HistoryNodeShellEntity selectByKey(String flowId, String nodeId, String historyId);
 
 	//////////////////////////////////////
 	// Extends
 	//////////////////////////////////////
-	@Delete("DELETE FROM history_node_shell " + " WHERE" + " flow_id = #{param1}" + " and history_id = #{param2}")
+	// @formatter:off
+	@Delete("DELETE FROM history_node_shell " 
+			+ " WHERE" 
+			+ " flow_id = #{param1}" 
+			+ " and history_id = #{param2}")
+	// @formatter:on
 	public int deleteByFlowHistoryId(String flowId, String historyId);
 }
