@@ -17,4 +17,4 @@ mysql> source script.sql;
 $ java -jar build/libs/nobuglady-jobflow-0.0.1-SNAPSHOT.jar 
 ```
 ### Overview
-![](https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/1.jpg?raw=true)
+![](https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/2.gif?raw=true)
