@@ -1,8 +1,8 @@
 ## NobugLady-jobflow
-![](https://img.shields.io/badge/license-Apache-green)
-![](https://img.shields.io/badge/database-mysql-red)
-![](https://img.shields.io/badge/build-gradle-yellow)
-![](https://img.shields.io/badge/framework-springboot-blue)
+![](https://img.shields.io/badge/license-Apache2.0-yellow)
+![](https://img.shields.io/badge/database-Mysql10.4.13-red)
+![](https://img.shields.io/badge/build-Gradle7.4.1-green)
+![](https://img.shields.io/badge/framework-SpringBoot2.6.2-blue)
 ### Build
 ```
 $ gradlew build -x test 
