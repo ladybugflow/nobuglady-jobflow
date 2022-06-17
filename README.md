@@ -14,11 +14,18 @@
 1. For shell execution and http-based api calls, we provide a job-flow framework for calling according to the specified process.
 
    For example:
+   
    sequential execution
+   
+   <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/3.png?raw=true" alt="" width="400px"/>
 
    parallel execution
+   
+   <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/4.png?raw=true" alt="" width="250px"/>
 
    branch join
+   
+   <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/5.png?raw=true" alt="" width="350px"/>
 
 2. We provide scheduled tasks, you flow can start automatically at scheduled times.
 
