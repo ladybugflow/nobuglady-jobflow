@@ -29,19 +29,29 @@
 
 2. We provide scheduled tasks, you flow can start automatically at scheduled times.
 
+<img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/6.png?raw=true" alt="" width="400px"/>
+
 3. The processes of editing, published (service) and running (instance) are managed separately.
 
    Editing->(Publish)->Service->(Start)->Instance
 
 4. You can restart the specified process/node in a history versions.
 
+<img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/7.png?raw=true" alt="" width="400px"/>
+
 ### :blue_book: Usage
 
-1. Create a process
+1. Create a flow
 
-2. Release process
+<img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/8.png?raw=true" alt="" width="400px"/>
 
-3. Run the process
+2. Publish flow
+
+<img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/9.png?raw=true" alt="" width="400px"/>
+
+3. Run the flow
+
+<img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/10.png?raw=true" alt="" width="400px"/>
 
 ### :blue_book: Installation
 
