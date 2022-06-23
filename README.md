@@ -67,6 +67,8 @@
    ```
    
 #### 3. Download the code
+  
+   Dowload [last release](https://github.com/nobuglady/nobuglady-jobflow/tags) into you local.
 
 #### 4. Build
 
