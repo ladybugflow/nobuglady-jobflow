@@ -15,15 +15,15 @@
 
    For example:
    
-   sequential execution
+   #### Sequential execution
    
    <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/3.png?raw=true" alt="" width="400px"/>
 
-   parallel execution
+   #### Parallel execution
    
    <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/4.png?raw=true" alt="" width="250px"/>
 
-   branch join
+   #### Branch join
    
    <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/5.png?raw=true" alt="" width="350px"/>
 
@@ -41,41 +41,41 @@
 
 ### :blue_book: Usage
 
-1. Create a flow
+#### 1. Create a flow
 
 <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/8.png?raw=true" alt="" width="400px"/>
 
-2. Publish flow
+#### 2. Publish flow
 
 <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/9.png?raw=true" alt="" width="400px"/>
 
-3. Run the flow
+#### 3. Run the flow
 
 <img src="https://github.com/nobuglady/nobuglady-jobflow/blob/main/readme/10.png?raw=true" alt="" width="400px"/>
 
 ### :blue_book: Installation
 
-1. Install the database
+#### 1. Install the database
 
    we use mysql database, you can download from [https://www.mysql.com/]
 
-2. Import initial data
+#### 2. Import initial data
 
    Checkout [script.sql](https://github.com/nobuglady/nobuglady-jobflow-db/blob/main/script.sql) and connect your mysql server, run below command.
    ```
    mysql> source script.sql;
    ```
    
-3. Download the code
+#### 3. Download the code
 
-4. Build
+#### 4. Build
 
    ```
    $ gradlew build -x test 
    ```
-5. Run
+#### 5. Run
 
    ```
    $ java -jar build/libs/nobuglady-jobflow-0.0.1-SNAPSHOT.jar 
    ```
-   the default login account is admin/admin
+   The default login account is admin/admin
