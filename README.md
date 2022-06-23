@@ -61,7 +61,7 @@
 
 #### 2. Import initial data
 
-   Checkout [script.sql](https://github.com/nobuglady/nobuglady-jobflow-db/blob/main/script.sql) and connect your mysql server, run below command.
+   Checkout [script.sql](https://github.com/nobuglady/nobuglady-jobflow/blob/main/db/script.sql) and connect your mysql server, run below command.
    ```
    mysql> source script.sql;
    ```
