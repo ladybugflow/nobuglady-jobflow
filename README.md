@@ -61,12 +61,14 @@
 
 #### 2. Import initial data
 
-   Checkout [script.sql](https://github.com/nobuglady/nobuglady-jobflow-db/blob/main/script.sql) and connect your mysql server, run below command.
+   Checkout [script.sql](https://github.com/nobuglady/nobuglady-jobflow/blob/main/db/script.sql) and connect your mysql server, run below command.
    ```
    mysql> source script.sql;
    ```
    
 #### 3. Download the code
+  
+   Dowload [last release](https://github.com/nobuglady/nobuglady-jobflow/tags) into you local.
 
 #### 4. Build
 
